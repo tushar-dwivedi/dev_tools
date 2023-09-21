@@ -1,0 +1,149 @@
+src=$(sudo jq '.cdc_store_path' /var/lib/cockroachdb/rubrik_cdc/cdc_store_path | tr -d \"); echo $src; sudo /opt/rubrik/src/go/bin/cdc_restore_tool --source_directory $src/cdc_data --destination_directory $src/cdc_data/compressed --intermediate_directory $src/intermediate --distributed_dedup --peer_ips 10.0.37.160,10.0.37.127,10.0.33.168,10.0.38.175,10.0.32.73,10.0.38.85,10.0.32.170,10.0.34.117  --dedup_concurrency 10 --dryrun --restore
+
+src=$(sudo jq '.cdc_store_path' /var/lib/cockroachdb/rubrik_cdc/cdc_store_path | tr -d \"); echo $src; sudo /opt/rubrik/src/go/bin/cdc_restore_tool --source_directory $src/cdc_data --destination_directory $src/cdc_data/compressed --intermediate_directory $src/intermediate --distributed_dedup --peer_ips 10.0.37.160,10.0.37.127,10.0.33.168,10.0.38.175,10.0.32.73,10.0.38.85,10.0.32.170,10.0.34.117  --dedup_concurrency 10 --restore
+
+
+
+
+
+
+
+
+
+new 4 node brik:
+
+rkcockroach sql -e "DROP DATABASE sd_restore CASCADE"
+
+rkcl exec all 'sudo rm -rf /var/log/cockroach_backup_tool/ ' && rkcl exec all 'rm -rf /mnt/*/internal/cassandra_snapshots/intermediate/' && rkcl exec all 'rm -rf /mnt/wwn-*/internal/cassandra_snapshots/sharded/' && rkcl exec all 'mkdir -p /var/log/cockroach_backup_tool/cdc_restore_tool' 
+
+
+
+/var/log/cockroach_backup_tool/cockroach_backup_tool.log
+
+################################################################################################################
+
+fury command:
+
+time sudo /opt/rubrik/src/go/bin/cockroach_backup_tool restore --timestamp 1694045096 --restore_cdc_end_time 1694073898 --restore_cdc_data --perf high --tables_to_restore 
+
+
+################################################################################################################
+
+
+all
+
+rkcl exec all 'sudo rm -rf /var/log/cockroach_backup_tool/ ' && rkcl exec all 'rm -rf /mnt/*/internal/cassandra_snapshots/intermediate/' && rkcl exec all 'rm -rf /mnt/wwn-*/internal/cassandra_snapshots/compressed/' && rkcl exec all 'mkdir -p /var/log/cockroach_backup_tool/cdc_restore_tool'
+
+
+src=$(sudo jq '.cdc_store_path' /var/lib/cockroachdb/rubrik_cdc/cdc_store_path | tr -d \"); dest=$(sudo find /mnt/wwn-*/internal/cassandra_snapshots/ -type d -name "*BACK_UP_COCKROACH_GLOBAL-*" -print -quit); echo $src; sudo /opt/rubrik/src/go/bin/cdc_restore_tool --source_directory $src/cdc_data --destination_directory  $src/compressed --intermediate_directory $src/intermediate --restore_into_db sd_restore --low_watermark 1694044255000000000 --high_watermark 1694046897000000000 --peer_ips 10.0.39.237,10.0.38.104,10.0.38.72,10.0.34.94 --tables_to_restore files_perf_test_only,files_perf_test_only__static --perf low --debug
+
+
+#######################################################
+
+
+shard only
+
+
+src=$(sudo jq '.cdc_store_path' /var/lib/cockroachdb/rubrik_cdc/cdc_store_path | tr -d \"); dest=$(sudo find /mnt/wwn-*/internal/cassandra_snapshots/ -type d -name "*BACK_UP_COCKROACH_GLOBAL-*" -print -quit); echo $src; sudo /opt/rubrik/src/go/bin/cdc_restore_tool --source_directory $src/cdc_data --destination_directory  $src/compressed --intermediate_directory $src/intermediate --action shard --resource_usage ultra_low --restore_into_db sd_restore --low_watermark 1692558665000000000 --high_watermark 1692565299000000000 --peer_ips 10.0.37.52,10.0.35.131,10.0.32.238,10.0.34.227 --tables_to_restore files_perf_test_only,files_perf_test_only__static --debug
+
+
+#######################################################
+
+
+restore only
+ 
+rkcl exec all 'sudo rm -rf /var/log/cockroach_backup_tool/ ' && rkcl exec all 'rm -rf /mnt/*/internal/cassandra_snapshots/intermediate/' && rkcl exec all 'mkdir -p /var/log/cockroach_backup_tool/cdc_restore_tool'
+
+
+
+src=$(sudo jq '.cdc_store_path' /var/lib/cockroachdb/rubrik_cdc/cdc_store_path | tr -d \"); dest=$(sudo find /mnt/wwn-*/internal/cassandra_snapshots/ -type d -name "*BACK_UP_COCKROACH_GLOBAL-*" -print -quit); echo $src; sudo /opt/rubrik/src/go/bin/cdc_restore_tool --source_directory $src/cdc_data --destination_directory  $src/compressed --intermediate_directory $src/intermediate --action restore --resource_usage ultra_low --restore_into_db sd_restore --low_watermark 1692558665000000000 --high_watermark 1692565299000000000 --peer_ips 10.0.37.52,10.0.35.131,10.0.32.238,10.0.34.227 --tables_to_restore files_perf_test_only,files_perf_test_only__static --debug
+
+
+
+################################################################################################################
+
+
+
+
+
+zcat {} | grep IsDeleted | gojq -rc 'select(.Key and .Timestamp.WallTime) | { Key: .Key, Timestamp: .Timestamp.WallTime }' | gojq -sc 'unique | .[]' >>~/orig_cdc_files.json
+
+
+sudo find . -name "*_data.json.gz" -print0 | xargs -0 -I {} sh -c "sudo zcat {} | grep IsDeleted | gojq -rc 'select(.Key and .Timestamp.WallTime) | { Key: .Key, Timestamp: .Timestamp.WallTime }' | gojq -sc 'unique | .[]' >>~/orig_cdc_files_merged.json"
+
+
+
+
+
+
+
+
+420633
+
+
+
+rkcl exec all "sdservice.sh '*' stop"
+
+
+rkcockroach sql -e "DROP DATABASE sd_restore CASCADE"
+
+rkcl exec all 'sudo rm -rf /var/log/cockroach_backup_tool/ ' && rkcl exec all 'rm -rf /mnt/*/internal/cassandra_snapshots/intermediate/' && rkcl exec all 'rm -rf /mnt/wwn-*/internal/cassandra_snapshots/sharded/' && rkcl exec all 'mkdir -p /var/log/cockroach_backup_tool/cdc_restore_tool'
+
+
+rkcl exec all 'ls -ltrh /mnt/wwn-*/internal/cassandra_snapshots/cdc_data' &&  rkcl exec all 'ls -ltrh /mnt/wwn-*/internal/cassandra_snapshots/compressed/'
+
+
+
+
+ src=$(sudo jq '.cdc_store_path' /var/lib/cockroachdb/rubrik_cdc/cdc_store_path | tr -d \"); time sudo /opt/rubrik/src/go/bin/cdc_restore_tool --action restore --source_directory $src/cdc_data --destination_directory  $src/compressed --intermediate_directory $src/intermediate  --restore_into_db sd_restore --perf high --low_watermark 1693162523000000000 --high_watermark 1693205725000000000 --peer_ips 10.0.115.2,10.0.115.3,10.0.115.4,10.0.115.5,10.0.115.130,10.0.115.131,10.0.115.132,10.0.115.133 --tables_to_restore mssql_log_deletion_metadata,password_hash,smb_share,snappable_operations_metadata,thrift_auth,app_cloud_machine_image,archival_bucket_migration_map,configuration_entry,throttle,replication_location,snapmirror_cloud_objstore,udf_db_instance,vmware_datastore,aws_features,kvsnapshot_file_instance_metadata,mssql_availability_group_to_database,data_class_policy_job_metadata,host_audit_log_config,organization,precanned_report_index,storage_array,vmware_resource_pool,bandwidth_stats,host_share,mssql_recoverable_chain,user_session_3,cloud_instance_type,sap_hana_recoverable_range,semaphore,sharded_group_spill,tenant_network_config_ext,vmware_network,group,sharded_chain_blob_store_group_alt,sharded_chain_blob_store_group_alt__spills,snappable_recovery_spec,snmp_mib_entry,email_send_status,oracle_db,role,snappable,snappable_cloud_snapshots,archival_file_version,data_location,job_action_time_series,subscription_info,virtual_ip_assignment,vmware_tag_category,vmware_vcd,vmware_vcd_provider_vdc,custom_report_file,envoy_config,remote_cluster_job,held_snapshot,mssql_host_cleanup,network_throttle_spec,node_network,report_job_instance_alt,archived_job_instance_alt,authorization_org_by_auth_domain,dc_blob_store_group_alt,dc_blob_store_group_alt__spills,tenant_host_config_ext,tpr_principal,idempotent_operation_to_result,nutanix_cluster,pending_operation,sharded_chain_blob_store_group,sharded_chain_blob_store_group__spills,vmware_vcd_org,cdp_history_month,failover_cluster_app,historical_job_stats,vmware_virtual_app,replication_job_state,authorization_org,authorization_org_by_role,host_volume,operation_queue,oracle_host,replication_orchestrator,role_assignment,archival_file_checksum,cdc_data_publishing_jobs,diff_group_spill,vmware_virtual_machine_snapshot_index,oracle_snapshot_metadata,recovered_object_id_mapping,snapshot,archival_sharded_job_config,mongo_database,mssql_database_by_group_database_id,job_action_time_series_alt,kmip_server,mongo_log_snapshot,polaris_replicate_coordinator,sla_operation,absolute_path_translation,aws_rubrik_account,envoy_to_cdm_port_forwarding_rule,udf_db,vmware_datastore_cluster,hydrated_vmware_vm,hyperv_scvmm,orchestrator,test_detached_counter,udf_db_group,cdm_to_envoy_port_forwarding_rule,cloud_compute_image,dummy_sharded_group_metadata,traffic_flow_mgm_rule,vmware_virtual_disk,floating_ip_locker,node_cdc_data_chunks,object_gc_vault_entry,replication_sharded_job_config,archived_replication_sharded_job_config,auth_domain_by_natural_id_2,certificate_request,smb_sid_to_uid_gid,vmware_datacenter,vmware_mount,key_rotation,mssql_database_pre_41,sap_hana_database,storm_instance,archival_stale_file_entry,connector_catalog,health_check_status,job_monitoring_count,snapmirror_cloud_relationship,vmware_virtual_machine,deferred_ods_requests,exchange_dag,floating_ip_map_entry,test_counter_hist_new,user,vmware_vcd_vapp,volume_group_mount,host_failover_cluster,job_instance_alt,job_monitoring_info,hdfs_template,nutanix_node,tpr_requests,files_perf_test_only,files_perf_test_only__static,hydrated_snappable,vmware_vcd_org_vdc,smtp_instance,tesseract_cluster,windows_cluster_by_natural_id,snapshot_audit,syslog_server,tesseract_hierarchy_object,vmware_io_filter,mongo_shard_map,snappable_group,mssql_snappable_job_config,network_throttle,replication_recovery_info,tenant_quota,upload_group_state,custom_report_subscription,host_configuration_entry,mongo_collection_set,mssql_availability_group,notification_setting,traffic_flow_mgm_object,files,files__static,host,snapmirror_cloud_policy,user_audit_log_capture_config,volume_groups_by_host_id,aws_archival_location,file_download,read_write_lock,managed_volume,user_defined_tag,vmware_folder,host_rbs_management_info,tesseract_host,test_alt_counter,vmware_storage_policy,child_job_info,db_log_snapshot,sla_domain_to_snappable_per_node_cache,snapshot_indexing_metadata,tpr_action_groups,child_stats_job_data,db2_recoverable_range,mssql_secondary,snapshot_integrity1,test_counter_hist,leader_info,storage_array_volume_group,virtual_disk_cdp_handle,hyperv_cluster,malware_hunt_request,node,node__static,public_cloud_machine_image,azure_features,azure_rubrik_account,gps_authz_2,nas_volume,nutanix_virtual_machine,tracing_span,authorization_org_by_resource,cloud_native_virtual_disk,compact_object_protection_log,vmware_vcenter,vmware_compute_cluster,vmware_vcd_by_natural_id,node_to_sla_mv_ingest_map,oracle_log_snapshot,periodic_upgrade_prechecks,sla_holder_to_sla_info,failover_summary,managed_volume_export,remote_snapshot1,mongo_source,nas_share,shard_map,azure_rubrik_account_app,cdp_replication_stream_source_state_history,envoy_vm,cdp_virtual_machine,host_by_agent_id,windows_cluster,mongo_snapshot_collection_map,user_profile_2,job_status,mssql_availability_group_by_natural_id,nutanix_mount,hyperv_virtual_machine,rsa_mfa_server,auth_domain,configuration_history,hyperv_virtual_disk,hyperv_server,schema_version,storm_request,polaris_managed_object,report_data_source2,stream_log_chain,cloud_native_virtual_machine,glacier_archive_directory,mssql_instance_to_database,nas_namespace,public_cloud_machine_instance,rsc_service_account,test_hist_counter,vmware_hotadd_proxy,archived_job_monitoring,cloud_compute,dlc_job_instance,vmware_vcd_catalog,immutable_archives_file_version,saml_consumed_assertion,vmware_tag,csv_upload,dc_blob_store_group,dc_blob_store_group__spills,host_state,oracle_mount,upgrade,cdc_data_publishing_progress_reports,custom_report,ldap_user_to_groups_cache,azure_archival_location,fileset,serialized_metadata,snapshot_to_cloud_images,vmware_host,host_storage_array_volume,job_action_time_series_index,mssql_log_chain_page,user_by_natural_id,archival_migrate_group_state,sap_hana_system,tesseract_manifest,oracle_recoverable_chain,rsc_quota_enforcement,vmware_virtual_disk_by_uuid,aws_compute_settings,azure_compute_settings,mongo_collection,files_alt,hdfs,hyperv_mount,mssql_database,mssql_mount,data_class_policy_config,dc_blobstore_simhash,exclusion_pattern,vmware_snapshot,vmware_vcenter_by_natural_id,vmware_virtual_disk_snapshot_disk_index,node_to_mv_channel_map,smb_service,vcd_vim_server,resource_lambda_config,smb_domain,storage_array_volume,mssql_dag,mssql_log_backup,nas_system,tenant_network,throttling_setting,volume_group,blackout_window,blackout_window__static,stream_source_common,exchange_database,group_by_natural_id,parallelized_scr_metadata,saml_relay_state,tpr_request_details,archival_file_entry,aws_iam_user,cluster_timezone,unmanaged_ssf_client,replication_pending_events,health_monitor_policy,job_instance,job_instance__static,polaris_remote_sla_domain,exchange_server,fileset_template,stat,tesseract_snappable,user_by_name,archival_location_ownership_history,breakpoint,exchange_db_mount,cloud_native_source,cluster_events,live_mount_ip_config,mssql_database_batch,proxy_settings,azure_customer_account,bucket_map,certificate,vmware_network_by_host_id,sla_domain,archival_snappable_refresh_history,fileset_by_host_id,iscsi_target,mssql_instance,oracle_log_deletion_metadata,oracle_rac,role_authorization,stream_logs,app_blueprint,aws_customer_account,global_locks,distributed_barrier,snappable_stat,gps_authz_permission_2,job_auxiliary,malware_hunt_in_snapshot_updated,snapmirror_cloud,vmware_guest_credential,cdp_history_year,cluster_data_location,expiring_serialized_metadata,vmware_snapshot_disk --debug
+
+
+
+
+fury command:
+
+time sudo /opt/rubrik/src/go/bin/cockroach_backup_tool restore --timestamp 1694045096 --restore_cdc_end_time 1694073898 --restore_cdc_data --perf high --debug --tables_to_restore  sd.archived_replication_sharded_job_config,sd.test_alt_counter,sd.replication_job_state,sd.traffic_flow_mgm_rule,sd.floating_ip_map_entry,sd.archival_migrate_group_state,sd.email_send_status,sd.azure_archival_location,sd.exchange_server,sd.authorization_org,sd.polaris_replicate_coordinator,sd.envoy_vm,sd.mssql_secondary,sd.aws_rubrik_account,sd.snmp_mib_entry,sd.archived_job_monitoring,sd.snappable_group,sd.snapshot_integrity1,sd.snappable_stat,sd.fileset_template,sd.archival_bucket_migration_map,sd.host_configuration_entry,sd.malware_hunt_request,sd.key_rotation,sd.traffic_flow_mgm_object,sd.historical_job_stats,sd.udf_db,sd.resource_lambda_config,sd.aws_features,sd.smb_service,sd.virtual_disk_cdp_handle,sd.mssql_instance,sd.cloud_native_source,sd.data_location,sd.role,sd.stream_source_common,sd.mssql_snappable_job_config,sd.archival_sharded_job_config,sd.node,sd.vmware_tag,sd.stat,sd.fileset_by_host_id,sd.user_profile_2,sd.tesseract_hierarchy_object,sd.mssql_database_pre_41,sd.sla_domain,sd.exclusion_pattern,sd.mssql_instance_to_database,sd.kmip_server,sd.gps_authz_2,sd.mssql_log_backup,sd.diff_group_spill,sd.node_to_mv_channel_map,sd.oracle_snapshot_metadata,sd.authorization_org_by_auth_domain,sd.snapmirror_cloud_policy,sd.archival_file_entry,sd.hdfs,sd.mssql_dag,sd.app_cloud_machine_image,sd.cdm_to_envoy_port_forwarding_rule,sd.aws_customer_account,sd.udf_db_group,sd.stream_logs,sd.mssql_log_chain_page,sd.replication_location,sd.oracle_rac,sd.upgrade,sd.vmware_host,sd.azure_rubrik_account,sd.custom_report,sd.dc_blob_store_group,sd.job_status,sd.iscsi_target,sd.certificate,sd.throttling_setting,sd.nas_share,sd.host_failover_cluster,sd.snapshot_to_cloud_images,sd.mssql_mount,sd.vmware_datastore,sd.rsa_mfa_server,sd.snappable_recovery_spec,sd.held_snapshot,sd.nutanix_mount,sd.host_by_agent_id,sd.storage_array_volume,sd.tpr_request_details,sd.nas_namespace,sd.snapmirror_cloud_objstore,sd.malware_hunt_in_snapshot_updated,sd.global_locks,sd.cluster_timezone,sd.user_audit_log_capture_config,sd.mongo_source,sd.host_audit_log_config,sd.storage_array_volume_group,sd.managed_volume_export,sd.hyperv_virtual_machine,sd.hydrated_vmware_vm,sd.orchestrator,sd.nas_volume,sd.exchange_dag,sd.connector_catalog,sd.thrift_auth,sd.tesseract_manifest,sd.expiring_serialized_metadata,sd.vmware_vcenter_by_natural_id,sd.test_counter_hist_new,sd.notification_setting,sd.test_detached_counter,sd.snapmirror_cloud_relationship,sd.mssql_log_deletion_metadata,sd.group,sd.mssql_database,sd.cloud_instance_type,sd.user_by_natural_id,sd.job_action_time_series_index,sd.failover_cluster_app,sd.nutanix_node,sd.job_auxiliary,sd.dc_blobstore_simhash,sd.host_volume,sd.operation_queue,sd.app_blueprint,sd.vmware_vcd_vapp,sd.health_monitor_policy,sd.oracle_host,sd.node_network,sd.storm_instance,sd.virtual_ip_assignment,sd.mongo_log_snapshot,sd.job_instance,sd.data_class_policy_job_metadata,sd.exchange_database,sd.mongo_shard_map,sd.mongo_snapshot_collection_map,sd.udf_db_instance,sd.nas_system,sd.snapmirror_cloud,sd.sla_domain_to_snappable_per_node_cache,sd.fileset,sd.cdp_history_month,sd.failover_summary,sd.polaris_managed_object,sd.object_gc_vault_entry,sd.bandwidth_stats,sd.user_defined_tag,sd.aws_compute_settings,sd.child_stats_job_data,sd.saml_consumed_assertion,sd.auth_domain,sd.blackout_window,sd.archival_file_version,sd.stream_log_chain,sd.certificate_request,sd.hdfs_template,sd.file_download,sd.network_throttle_spec,sd.remote_cluster_job,sd.vmware_vcd_by_natural_id,sd.sla_holder_to_sla_info,sd.distributed_barrier,sd.tenant_quota,sd.vmware_vcenter,sd.job_instance_alt,sd.floating_ip_locker,sd.volume_group,sd.aws_iam_user,sd.oracle_log_snapshot,sd.tesseract_cluster,sd.tesseract_snappable,sd.mssql_database_by_group_database_id,sd.throttle,sd.job_monitoring_count,sd.vmware_datacenter,sd.absolute_path_translation,sd.nutanix_cluster,sd.hyperv_scvmm,sd.tenant_host_config_ext,sd.custom_report_file,sd.test_hist_counter,sd.vmware_guest_credential,sd.leader_info,sd.custom_report_subscription,sd.gps_authz_permission_2,sd.node_cdc_data_chunks,sd.vmware_compute_cluster,sd.cdp_replication_stream_source_state_history,sd.hyperv_server,sd.snapshot,sd.live_mount_ip_config,sd.storm_request,sd.vmware_network_by_host_id,sd.tenant_network_config_ext,sd.hyperv_cluster,sd.polaris_remote_sla_domain,sd.mongo_collection_set,sd.idempotent_operation_to_result,sd.vmware_virtual_app,sd.vmware_io_filter,sd.aws_archival_location,sd.role_authorization,sd.azure_compute_settings,sd.configuration_history,sd.sla_operation,sd.windows_cluster_by_natural_id,sd.volume_group_mount,sd.mssql_availability_group_to_database,sd.cloud_native_virtual_machine,sd.windows_cluster,sd.network_throttle,sd.smb_domain,sd.azure_customer_account,sd.host_share,sd.vmware_vcd_org_vdc,sd.replication_orchestrator,sd.vmware_virtual_disk_by_uuid,sd.dummy_sharded_group_metadata,sd.snapshot_indexing_metadata,sd.vmware_folder,sd.vmware_tag_category,sd.cloud_compute,sd.public_cloud_machine_instance,sd.authorization_org_by_role,sd.vmware_vcd_catalog,sd.job_action_time_series,sd.sharded_chain_blob_store_group,sd.azure_rubrik_account_app,sd.mssql_availability_group_by_natural_id,sd.job_monitoring_info,sd.password_hash,sd.replication_recovery_info,sd.tpr_requests,sd.deferred_ods_requests,sd.read_write_lock,sd.archival_location_ownership_history,sd.bucket_map,sd.vcd_vim_server,sd.mssql_recoverable_chain,sd.replication_sharded_job_config,sd.user_by_name,sd.saml_relay_state,sd.mssql_availability_group,sd.shard_map,sd.cloud_compute_image,sd.user_session_3,sd.semaphore,sd.public_cloud_machine_image,sd.vmware_virtual_disk_snapshot_disk_index,sd.host_rbs_management_info,sd.host_state,sd.smb_share,sd.remote_snapshot1,sd.glacier_archive_directory,sd.hydrated_snappable,sd.dlc_job_instance,sd.vmware_resource_pool,sd.parallelized_scr_metadata,sd.oracle_recoverable_chain,sd.envoy_config,sd.oracle_mount,sd.cdc_data_publishing_progress_reports,sd.sap_hana_recoverable_range,sd.csv_upload,sd.snapshot_audit,sd.precanned_report_index,sd.syslog_server,sd.cdc_data_publishing_jobs,sd.mssql_database_batch,sd.mssql_host_cleanup,sd.db2_recoverable_range,sd.smtp_instance,sd.user,sd.upload_group_state,sd.hyperv_virtual_disk,sd.snappable,sd.exchange_db_mount,sd.organization,sd.group_by_natural_id,sd.vmware_vcd,sd.periodic_upgrade_prechecks,sd.vmware_mount,sd.pending_operation,sd.tpr_action_groups,sd.db_log_snapshot,sd.sharded_group_spill,sd.cloud_native_virtual_disk,sd.oracle_log_deletion_metadata,sd.volume_groups_by_host_id,sd.health_check_status,sd.smb_sid_to_uid_gid,sd.vmware_storage_policy,sd.node_to_sla_mv_ingest_map,sd.immutable_archives_file_version,sd.report_data_source2,sd.nutanix_virtual_machine,sd.archival_stale_file_entry,sd.mongo_database,sd.host_storage_array_volume,sd.auth_domain_by_natural_id_2,sd.authorization_org_by_resource,sd.snappable_operations_metadata,sd.data_class_policy_config,sd.vmware_vcd_provider_vdc,sd.vmware_virtual_disk,sd.tracing_span,sd.vmware_snapshot,sd.role_assignment,sd.configuration_entry,sd.test_counter_hist,sd.schema_version,sd.vmware_virtual_machine,sd.vmware_hotadd_proxy,sd.azure_features,sd.mongo_collection,sd.proxy_settings,sd.storage_array,sd.hyperv_mount,sd.vmware_vcd_org,sd.host,sd.unmanaged_ssf_client,sd.serialized_metadata,sd.sap_hana_system,sd.vmware_network,sd.subscription_info,sd.envoy_to_cdm_port_forwarding_rule,sd.cdp_history_year,sd.breakpoint,sd.replication_pending_events,sd.child_job_info,sd.vmware_datastore_cluster,sd.archival_file_checksum,sd.recovered_object_id_mapping,sd.cluster_data_location,sd.tenant_network,sd.ldap_user_to_groups_cache,sd.compact_object_protection_log,sd.snappable_cloud_snapshots,sd.cluster_events,sd.sap_hana_database,sd.files,sd.kvsnapshot_file_instance_metadata,sd.tesseract_host,sd.oracle_db,sd.managed_volume,sd.vmware_snapshot_disk,sd.cdp_virtual_machine,sd.vmware_virtual_machine_snapshot_index;
+
+
+
+With sharded decompression, each node has 160 MB data (uncompressed), but there are ~3 copies of each entry, given CDC's replication factor of 3
+
+An average file has around 7000 entries, of which 2400 are unique keys
+
+
+After 2nd round of deduping while writing, the sie reduces to 50 MB uncompressed, and 408 KB compressed
+
+
+
+
+
+There is only 1 filter now, that applies to al nodes
+Pretty decent distribution across nodes:
+
+I230813 17:26:22.544833 30 callisto/cdc/dedup_compressor/cli/dedup/sink_grpc.go:178  sink done, distribution across nodes: [[1447 1403 1372 1360 1399 1357 1419 1423]]
+
+2-layers of deduping.
+1. First the existing deduping on the node, where the file is read.
+2. Deduping on the node, where all the events of the same key are going (reducing >=3 copies to 1)
+
+
+
+Possibilities:
+
+Now that we know for sure that all the events for a given key, are all on one node, and processed sequentially, we may switch to simpler queries, instead of transactions
+
+
+
+
+
+
+
+
+ sudo bash -c "src=$(sudo jq '.cdc_store_path' /var/lib/cockroachdb/rubrik_cdc/cdc_store_path | tr -d \"); scp -r -i /opt/rubrik/deployment/ssh_keys/ubuntu.pem ubuntu@10.0.86.200:/home/ubuntu/tushar/1693281801-BACK_UP_COCKROACH_GLOBAL-9908 $src/"
+
+
+
+
+
+
+

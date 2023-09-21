@@ -1,0 +1,185 @@
+Prepare bodega nodes:
+
+
+
+
+
+
+
+
+Can be run using exec all:
+
+rkcl exec all 'cd ~/ ; wget https://go.dev/dl/go1.17.8.linux-amd64.tar.gz ;'
+rkcl exec all 'cd ~/ ; sudo tar -C /usr/local -xzf go1.17.8.linux-amd64.tar.gz ;'
+rkcl exec all 'echo "export GOPATH=/home/ubuntu/go" >> /home/ubuntu/.bashrc ;'
+rkcl exec all 'echo "export PATH=$PATH:/usr/local/go/bin:/home/ubuntu/go/bin" >>  /home/ubuntu/.bashrc ; '
+rkcl exec all 'echo "alias c=\"clear\"" >>  /home/ubuntu/.bashrc ; '
+rkcl exec all 'echo "alias ls=\"ls -ltrh\"" >>  /home/ubuntu/.bashrc ; '
+rkcl exec all '/usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@latest ;'
+
+
+
+cd ~/ ; wget https://go.dev/dl/go1.17.8.linux-amd64.tar.gz 
+cd ~/ ; sudo tar -C /usr/local -xzf go1.17.8.linux-amd64.tar.gz ;
+
+
+
+
+Need to run on each node:
+
+
+
+Add "or True" to enable_cdc() check, to enable cdc in cockroach:
+
+/opt/rubrik/src/py/cockroachdb/start_cmd.py
+
+
+
+sudo su
+
+echo "0" > /proc/sys/kernel/yama/ptrace_scope
+
+
+
+
+
+
+
+Run e2e Jedi tests:
+
+python3 -m jedi.tools.sdt_runner --test_target //jedi/e2e/callisto/cdc:data_correctness_test --bodega_sid 6gmif5-sdqn2bk    # 3-nodes
+
+python3 -m jedi.tools.sdt_runner --test_target //jedi/e2e/callisto/cdc:data_correctness_test --bodega_sid 62camq-fvfigbo    # 5-nodes
+
+
+
+After copying binaries:
+
+
+rkcl exec all "sdservice.sh '*' stop"
+rkcl exec all 'sudo systemctl stop cqlproxy'
+rkcl exec all 'sudo systemctl stop cockroachdb'
+
+
+rkcl exec all 'sudo cp /home/ubuntu/tushar_bin/cockroach /usr/local/bin/cockroach'
+
+#sudo cp /home/ubuntu/tushar_bin/cockroach /usr/local/bin/cockroach
+rkcl exec all 'cksum /usr/local/bin/cockroach'
+
+rkcl exec all 'sudo systemctl start cockroachdb'
+rkcl exec all 'sudo systemctl start cqlproxy'
+
+rkcl exec all "sdservice.sh '*' start"
+
+
+
+
+Check feature flag
+
+rubrik_tool.py get_config featureToggle enableCDCDataPublisher
+rubrik_tool.py update_feature_toggle enableCDCDataPublisher true
+
+
+
+
+rkcl exec all 'sudo systemctl stop rk-cdc_data_publisher.service'
+rkcl exec all 'sudo rm -rf /var/log/cdc_data_publisher'
+rkcl exec all 'rm -rf /run/rubrik/cdc_publisher'
+
+rkcockroach sql -e "truncate sd.cdc_data_publishing_jobs;"; rkcockroach sql -e "truncate sd.cdc_data_publishing_progress_reports;"; rkcockroach sql -e "truncate sd.node_cdc_data_chunks;";
+rkcockroach sql -e "DROP DATABASE sd_restore cascade"
+
+
+
+Replace binary:
+
+rkcl exec all 'rm /opt/rubrik/src/go/bin/cdc_data_publisher'
+
+sudo cp /home/ubuntu/tushar_bin/cdc_data_publisher /opt/rubrik/src/go/bin/cdc_data_publisher
+
+sudo cp /home/ubuntu/tushar_bin/dedup_compressor /opt/rubrik/src/go/bin/dedup_compressor
+
+
+
+
+src=$(jq '.scannerCfg.source.address' /opt/rubrik/src/../conf/cdc_data_publisher/config.json | tr -d \"); sudo rm -rf "$src/processed/*"; sudo rm -rf "/tmp/cdc_dedup/"; sudo /home/ubuntu/tushar_bin/dedup_compressor -s $src -d "$src/processed/" --dryrun true -j 10
+
+
+src=$(jq '.scannerCfg.source.address' /opt/rubrik/src/../conf/cdc_data_publisher/config.json | tr -d \"); sudo rm -rf "/tmp/cdc_processed/"; sudo rm -rf /tmp/cdc_dedup/*; sudo rm -rf /tmp/processed/ ; sudo /home/ubuntu/tushar_bin/dedup_compressor -s $src -d "/tmp/cdc_processed/" -j 5 --debug
+
+rkcl exec all 'sudo cp /home/ubuntu/tushar_bin/cdc_data_publisher /opt/rubrik/src/go/bin/cdc_data_publisher'
+
+rkcl exec all 'sudo systemctl start rk-cdc_data_publisher.service'
+
+
+
+src=$(cat ~/tushar_bin/cdc_path_backup.txt); sudo rm -rf "/tmp/cdc_processed/"; sudo rm -rf /tmp/cdc_dedup/*; sudo rm -rf /tmp/processed/ ; sudo /home/ubuntu/tushar_bin/dedup_compressor -s $src -d "/tmp/cdc_processed/" -j 5 --debug
+
+
+
+
+Start Grafana on Devvm:
+ssh -i ~/Documents/projects/callisto/sdmain/deployment/ssh_keys/ubuntu.pem -L  30301:localhost:30301 10.0.115.2 -l ubuntu -p 22
+python ~/Documents/projects/callisto/sdmain/src/scripts/infra/grafana/deploy_local.py
+python launch_grafana.py --customer_debugging --internal_ip 10.0.115.2
+
+
+
+
+tail -F /var/log/cdc_data_publisher/current
+sudo systemctl restart rk-cdc_data_publisher.service
+sudo journalctl -u rk-cdc_data_publisher.service
+rksvstat
+
+
+
+vim /opt/rubrik/src/scripts/dev/cdc_data_publisher.sh          <--- can make changes to this script and restart service
+vim /opt/rubrik/conf/cdc_data_publisher/config.json            <--- can make changes to this config and restart service
+
+Less needed:
+vim /lib/systemd/system/data_publisher.service
+vim /etc/service/cdc_data_publisher/run
+ls /opt/rubrik/src/go/bin/cdc_data_publisher                 <--- the publisher service loads this binary. Can be changed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Script to update table in a loop:
+
+#!/usr/bin/env bash
+
+while :
+do
+    sudo -i cockroach sql -e "update sd.cdc_test_tbl set timestamp= current_timestamp() where id = 1;";
+    # Add more instructions here
+    sleep 5
+done
+
+
+ls -ltr /mnt/*/internal/cassandra_snapshots/cdc_data/
+sudo zless /mnt/*/internal/cassandra_snapshots/cdc_data/
+
+
+
+
+https://rubrik.atlassian.net/browse/CDM-356019
+
+
+
+Check goroutine count increase during runtime. (not specific to "changed columns code", but in general)
+
+
+
+
+
+
+

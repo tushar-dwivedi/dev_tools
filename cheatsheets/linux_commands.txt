@@ -1,0 +1,10 @@
+
+
+Go to any path given in a JSON file:
+
+cd $(jq '.scannerCfg.source.address' /opt/rubrik/src/../conf/cdc_data_publisher/config.json | tr -d \")
+
+
+
+
+

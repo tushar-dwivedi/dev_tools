@@ -1,0 +1,24 @@
+
+
+Squash n commits
+
+
+git reset --soft HEAD~n
+(this will move the head back, but keeping the changes in the files)
+git commit -m "" ( or just git commit)
+
+
+
+
+Append to previous commit:
+
+git commit --amend
+	OR
+git commit --amend -m ""
+
+
+
+Delete a remote branch:
+$ git push origin --delete feature/login
+
+

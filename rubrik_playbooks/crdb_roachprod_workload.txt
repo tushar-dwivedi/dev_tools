@@ -1,0 +1,41 @@
+
+rm -rf ./bin.docker_amd64/; make clean; ./build/builder.sh mkrelease linux-gnu; ./build/builder.sh mkrelease linux-gnu ./bin/roachprod;
+
+
+
+./bin.docker_amd64/roachprod create local-CDM-351868 -n 3 --clouds local
+
+./bin.docker_amd64/roachprod put local-CDM-351868 cockroach-linux-2.6.32-gnu-amd64 cockroach
+
+./bin.docker_amd64/roachprod start local-CDM-351868
+
+
+Workload:
+
+# Create the schema for a workload:
+$ cockroach workload init <workload> <flags> '<connection string>'
+
+# Run a workload:
+$ cockroach workload run <workload> <flags> '<connection string>'
+
+# View help:
+$ cockroach workload --help
+$ cockroach workload init --help
+$ cockroach workload init <workload> --help
+$ cockroach workload run --help
+$ cockroach workload run <workload> --help
+
+Workoload:
+https://github.com/cockroachdb/docs/blob/master/v2.1/cockroach-workload.md
+
+
+
+Roachtest:
+https://github.com/cockroachdb/cockroach/blob/master/pkg/cmd/roachtest/README.md
+
+
+https://phabricator.rubrik.com/D242950?vs=on&id=1063121&whitespace=ignore-most#toc
+
+
+
+(91287-66754)/6 = 4088

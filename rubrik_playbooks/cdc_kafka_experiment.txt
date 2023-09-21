@@ -1,0 +1,141 @@
+
+
+
+wget https://downloads.apache.org/kafka/2.8.0/kafka_2.13-2.8.0.tgz
+
+
+
+mkdir ~/tushar_upload
+#curl "https://downloads.apache.org/kafka/2.8.0/kafka_2.13-2.8.0.tgz" -o ~/tushar_upload/kafka.tgz
+cd ~/tushar_upload
+tar -xzf kafka_2.13-3.5.1.tgz
+cd kafka_2.13-3.5.1
+
+
+./bin/kafka-storage.sh random-uuid
+
+/opt/kafka/bin/kafka-storage.sh format --config /opt/kafka/config/kraft/server.properties --cluster-id 'GK6FXIMSQrmpC1j4q3AZTA' --ignore-formatted
+
+
+
+
+
+
+controller.quorum.voters=1@10.0.39.237:9093,2@10.0.38.72:9093,3@10.0.38.104:9093,4@10.0.34.94:9093
+
+
+
+
+
+
+
+
+Update log.dirs, listeners, node.id etc. according to your setup.
+Set unique broker.id for each node
+
+vim /opt/kafka/config/kraft/server.properties
+
+vim /opt/kafka/config/kraft/controller.properties
+
+
+Add the following to this file
+
+sudo vim /etc/systemd/system/kafka.service
+
+[Unit]
+Description=Apache Kafka Server
+Documentation=http://kafka.apache.org/documentation.html
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+ExecStart=/opt/kafka/bin/kafka-server-start.sh /home/ubuntu/kafka_server.properties
+ExecStop=/opt/kafka/bin/kafka-server-stop.sh
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+sudo systemctl daemon-reload
+
+sudo systemctl stop kafka
+sudo systemctl start kafka
+sudo systemctl enable kafka
+
+
+
+
+
+
+
+
+process.roles=broker,controller
+node.id=1
+controller.quorum.voters=1@10.0.39.237:9093,2@10.0.38.72:9093,3@10.0.38.104:9093,4@10.0.34.94:9093
+listeners=PLAINTEXT://10.0.39.237:9092,CONTROLLER://10.0.39.237:9093
+advertised.listeners=PLAINTEXT://10.0.39.237:9092
+listener.security.protocol.map=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL
+log.dirs=/var/log/kafka
+num.partitions=3
+delete.topic.enable=true
+
+
+
+
+process.roles=broker,controller
+node.id=2
+controller.quorum.voters=1@10.0.39.237:9093,2@10.0.38.72:9093,3@10.0.38.104:9093,4@10.0.34.94:9093
+listeners=PLAINTEXT://10.0.38.72:9092,CONTROLLER://10.0.38.72:9093
+advertised.listeners=PLAINTEXT://10.0.38.72:9092
+listener.security.protocol.map=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL
+log.dirs=/var/log/kafka
+num.partitions=3
+delete.topic.enable=true
+
+
+
+
+process.roles=broker,controller
+node.id=3
+controller.quorum.voters=1@10.0.39.237:9093,2@10.0.38.72:9093,3@10.0.38.104:9093,4@10.0.34.94:9093
+listeners=PLAINTEXT://10.0.38.104:9092,CONTROLLER://10.0.38.104:9093
+advertised.listeners=PLAINTEXT://10.0.38.104:9092
+listener.security.protocol.map=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL
+log.dirs=/var/log/kafka
+num.partitions=3
+delete.topic.enable=true
+
+
+
+
+process.roles=broker,controller
+node.id=4
+controller.quorum.voters=1@10.0.39.237:9093,2@10.0.38.72:9093,3@10.0.38.104:9093,4@10.0.34.94:9093
+listeners=PLAINTEXT://10.0.34.94:9092,CONTROLLER://10.0.34.94:9093
+advertised.listeners=PLAINTEXT://10.0.34.94:9092
+listener.security.protocol.map=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL
+log.dirs=/var/log/kafka
+num.partitions=3
+delete.topic.enable=true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

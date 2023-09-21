@@ -1,0 +1,463 @@
+
+
+vim /opt/rubrik/src/../conf/cdc_data_publisher/config.json
+
+    "tables": ["files_perf_test_only", "files_perf_test_only__static"],
+    "pubSubMessageSink": "RestoreSink",
+    "restoreToDatabase": "sd_restore",
+    "restoreMode": false
+
+
+
+
+
+BAZEL_USE_REMOTE_WORKERS=0 cdm/tools/builder.py --java --remote
+
+
+cdm/tools/builder.py --java --remote
+cdm/tools/builder.py --py --remote
+. ./skip_commit/common/bodega_order_details.sh
+inventory_path=`./lab/bin/bodega consume order $bodega_order_id | grep 'Filename' | grep ipv4 | awk -F": " '{print $2 }'`
+cdm/tools/deployer.py --inventory-path $inventory_path deploy --java --conf
+
+src/go/BUILD.py
+
+
+
+
+rkcockroach sql -e "ALTER DATABASE sd CONFIGURE ZONE USING gc.ttlseconds = 6000"
+rkcockroach sql -e "SHOW ZONE CONFIGURATION FROM database sd"
+
+
+
+sudo cp /home/ubuntu/tushar_bin/cockroach /usr/local/bin/cockroach
+
+
+
+We want to take a backup snapshot with CDC disabled.
+
+
+
+
+rubrik_tool.py get_config callisto validateCDCDataFrequency
+0
+rubrik_tool.py update_config callisto validateCDCDataFrequency 0
+
+rubrik_tool.py get_config callisto tablesForCDCDataValidation
+""
+rubrik_tool.py get_config callisto tablesForCDCDataValidation
+"sd.files_perf_test_only"
+
+rubrik_tool.py update_feature_toggle enableCDCDataPublisher false
+
+rubrik_tool.py get_feature_toggle enableCDCDataPublisher
+
+
+rkcl exec all 'sed -i "s/ or True:/:/" /opt/rubrik/src/py/cockroachdb/start_cmd.py'
+
+check:
+rkcl exec all 'grep "enable_cdc" /opt/rubrik/src/py/cockroachdb/start_cmd.py'
+
+
+rkcl exec all "sdservice.sh '*' stop"
+rkcl exec all 'sudo systemctl stop cqlproxy'
+rkcl exec all 'sudo systemctl stop cockroachdb'
+
+#rkcl exec all 'sudo systemctl restart cockroachdb.service'
+rkcl exec all 'ps -eaf | grep rangefeed'
+
+
+
+rkcl exec all 'ls -lh /mnt/wwn-f*/internal/cass*/cdc_data'
+rkcl exec all 'ls -lh /mnt/wwn-f*/internal/cass*/'
+
+rkcl exec all 'sudo rm -rf /mnt/wwn-*/internal/cass*/cdc_data'
+rkcl exec all 'sudo rm -rf /mnt/wwn-f*/internal/cass*/*BACK_UP_COCKROACH_GLOBAL*'
+
+
+rkcl exec all 'sudo systemctl start cockroachdb'
+rkcl exec all 'sudo systemctl start cqlproxy'
+rkcl exec all "sdservice.sh '*' start"
+
+
+rkcockroach sql -e "TRUNCATE sd.node_cdc_data_chunks"
+rkcockroach sql -e "TRUNCATE sd.cdc_data_publishing_jobs"
+rkcockroach sql -e "TRUNCATE sd.cdc_data_publishing_progress_reports"
+rkcockroach sql -e "TRUNCATE sd.files_perf_test_only CASCADE"
+rkcockroach sql -e "TRUNCATE sd.files_perf_test_only__static CASCADE"
+rkcockroach sql -e "DROP DATABASE sd_restore CASCADE"
+
+
+rubrik_tool.py get_job_instances BACK_UP_COCKROACH_GLOBAL
+sudo /opt/rubrik/src/scripts/debug/QuicksilverTool.sh -cmd runJobImmediately -jobInstanceId BACK_UP_COCKROACH_GLOBAL:::
+rubrik_tool.py get_job_instance BACK_UP_COCKROACH_GLOBAL:::
+
+
+Enable CDC:
+rkcl exec all 'sed -i "s/\(enable_cdc(.*)\)/\1 or True/" /opt/rubrik/src/py/cockroachdb/start_cmd.py'
+rkcl exec all 'cat /opt/rubrik/src/py/cockroachdb/start_cmd.py | grep "or True"'
+
+rkcl exec all 'sudo systemctl restart cockroachdb.service'
+rkcl exec all 'ps -eaf | grep rangefeed'
+
+
+
+Run this on devvm (not on bodega cluster)
+python3 -m jedi.tools.sdt_runner --bodega_sid <bodega_id> --test_target //jedi/e2e/callisto:crdb_load_test -- -k "test_perf_files" --crdb_load_duration 5m 
+python3 -m jedi.tools.sdt_runner --bodega_sid f2oym6-f2ewwve --test_target //jedi/e2e/callisto:crdb_load_test -- -k "test_perf_files" --crdb_load_duration 5m
+
+
+rkcl exec all 'ls -lh /mnt/wwn-f51d*/internal/cass*/cdc_data'
+
+
+Stop CDC:
+rkcl exec all 'sed -i s/" or True:"/":"/ /opt/rubrik/src/py/cockroachdb/start_cmd.py'
+
+
+check
+rkcl exec all 'grep "enable_cdc" /opt/rubrik/src/py/cockroachdb/start_cmd.py'
+
+rkcl exec all 'sudo systemctl restart cockroachdb.service'
+
+rkcl exec all 'ps -eaf | grep rangefeed'
+
+
+
+tail -F /var/log/job-fetcher/current | grep 'BACK_UP_COCKROACH_GLOBAL\|VALIDATE_CDC_DATA\|DROP DATABASE sd_restore'
+
+tail -F /var/log/job-fetcher/current /var/log/cdc_data_publisher/current
+
+
+
+Enable publisher flags, and start it:
+
+rubrik_tool.py get_feature_toggle enableCDCDataPublisher
+rubrik_tool.py update_feature_toggle enableCDCDataPublisher true
+rubrik_tool.py get_config callisto validateCDCDataFrequency
+rubrik_tool.py update_config callisto validateCDCDataFrequency 1
+
+rkcl exec all 'sudo systemctl start rk-cdc_data_publisher.service'
+
+
+rubrik_tool.py get_job_instances BACK_UP_COCKROACH_GLOBAL
+sudo /opt/rubrik/src/scripts/debug/QuicksilverTool.sh -cmd runJobImmediately -jobInstanceId BACK_UP_COCKROACH_GLOBAL:::
+rubrik_tool.py get_job_instance BACK_UP_COCKROACH_GLOBAL:::
+
+
+
+
+Check if job is running correctly
+tail -F /var/log/job-fetcher/current | grep 'BACK_UP_COCKROACH_GLOBAL\|VALIDATE_CDC_DATA'
+tail -F /var/log/job-fetcher/current /var/log/cdc_data_publisher/current
+
+
+
+
+
+
+
+Cleanup:
+
+rkcl exec all 'sudo systemctl stop rk-cdc_data_publisher.service'
+
+rubrik_tool.py get_config callisto validateCDCDataFrequency
+0
+rubrik_tool.py update_config callisto validateCDCDataFrequency 0
+
+rubrik_tool.py get_config callisto tablesForCDCDataValidation
+""
+rubrik_tool.py get_config callisto tablesForCDCDataValidation
+"sd.files_perf_test_only"
+
+rubrik_tool.py update_feature_toggle enableCDCDataPublisher false
+
+rubrik_tool.py get_feature_toggle enableCDCDataPublisher
+
+
+
+
+
+rkcockroach sql -e "select count(*) from sd.files_perf_test_only"
+rkcockroach sql -e "select count(*) from sd.files_perf_test_only__static"
+rkcockroach sql -e "select count(*) from sd_restore.files_perf_test_only"
+rkcockroach sql -e "select count(*) from sd_restore.files_perf_test_only__static"
+
+
+
+
+
+
+Questions:
+Which two backups are we comparing to validate restore:
+	1. 2 consequtive backups of sd DB, or
+	2. final sd backup and sd_restore backup
+
+
+
+LOCAL_WORKLOAD_PATH, self.name, "test", test_workload_name
+
+jedi/e2e/callisto/perf/crdb/workloads/files/test/
+
+
+state A -> some db changes
+enable CDC
+
+
+
+
+
+
+I230617 22:56:54.119423 1 cqlproxy/backup/pubsub_manager.go:53  pubSubManager: [&{lowWatermark:1687039384 highWatermark:1687042120 tables:"files_perf_test_only","files_perf_test_only__static" dstDatabase:sd_restore}]
+
+
+
+
+
+
+sudo /opt/rubrik/src/go/bin//cockroach_backup_tool restore --timestamp 1687212387 --restore_cdc_end_time 1687213450 --restore_cdc_data --tables_to_restore sd.files_perf_test_only
+
+
+select token__node_id, node_id, cast(cast(scan_timestamp/1000 as int) as timestamp), internal_timestamp, LENGTH(data_chunk_list), status from sd.node_cdc_data_chunks;
+
+select work_assignment_id, cast(cast(job_issue_timestamp/1000 as int) as timestamp), node_id, length(job_list), status from sd.cdc_data_publishing_jobs;
+
+select work_assignment_id, cast(cast(progress_report_timestamp/1000 as int) as timestamp), internal_timestamp, job_id_list, status from sd.cdc_data_publishing_progress_reports;
+
+
+
+
+
+
+find . -type f -name "*_metadata.json.gz" -exec sudo bash -c 'file="{}"; filename="${file##*/}"; filename="${filename%%.gz}"; zgrep 'files_perf_test_only' $file > filtered/$filename; gzip filtered/$filename' \;
+
+find . -type f -name "*_metadata.json.gz" -exec sudo bash -c 'file="{}"; filename="${file##*/}"; new_filename="${filename%%.gz}"; zgrep 'files_perf_test_only' $file > filtered/$new_filename; gzip filtered/$new_filename' \;
+
+
+
+
+
+
+
+
+
+Verify with CDC files
+
+./skip_commit/capture_cdc_data_from_all_nodes.sh
+
+
+ubuntu@tushar-dwivedi-l01:~/Documents/projects/callisto/sdmain/skip_commit/verify_cdc/result$ ls -ltr
+total 1152
+-rw-r--r-- 1 ubuntu ubuntu 267467 Jul 12 22:07 node_10.0.39.48.json
+-rw-r--r-- 1 ubuntu ubuntu  22755 Jul 12 22:33 node_10.0.34.225.json
+-rw-r--r-- 1 ubuntu ubuntu      0 Jul 12 22:33 node_10.0.36.134.json
+-rw-r--r-- 1 ubuntu ubuntu      0 Jul 12 22:34 node_10.0.35.20.json
+-rw-r--r-- 1 ubuntu ubuntu  62311 Jul 12 23:06 node_10.0.34.212.json
+-rw-r--r-- 1 ubuntu ubuntu 352533 Jul 12 23:06 final.json
+-rw-r--r-- 1 ubuntu ubuntu  52548 Jul 13 12:48 final_reduced.json
+-rw-r--r-- 1 ubuntu ubuntu 406216 Jul 13 12:49 final_cdc_diff_1.json
+ubuntu@tushar-dwivedi-l01:~/Documents/projects/callisto/sdmain/skip_commit/verify_cdc/result$ for $file in node_*.json; do cat $file | jq -s  '.[] | . + identify_db_operations' | jq -s 'analyze_entries' | jq -s 'sum_all_keys'; done;
+bash: `$file': not a valid identifier
+ubuntu@tushar-dwivedi-l01:~/Documents/projects/callisto/sdmain/skip_commit/verify_cdc/result$ for file in node_*.json; do cat $file | jq -s  '.[] | . + identify_db_operations' | jq -s 'analyze_entries' | jq -s 'sum_all_keys'; done;
+{
+  "delete_count": 19,
+  "insert_count": 24,
+  "update_count": 24
+}
+{
+  "delete_count": 7,
+  "insert_count": 10,
+  "update_count": 9
+}
+jq: error (at <stdin>:0): Cannot iterate over null (null)
+jq: error (at <stdin>:0): Cannot iterate over null (null)
+{
+  "delete_count": 0,
+  "insert_count": 0,
+  "update_count": 154
+}
+
+
+From log files:
+less ./skip_commit/verify_cdc/log_result/rejected_data_events.json  | jq '.[] | .event' | jq -s 'map(select(.IsDeleted == true)) | length'
+
+
+
+
+
+
+
+
+bash ./skip_commit/run_on_bodega_cluster.sh
+
+bash ./skip_commit/verify_cdc/diff_from_db.sh
+
+
+
+
+
+
+@4000000064b2d632104e85bc.s:{"level": "WARN", "instant": {"epochSecond": 1689441831, "nanoOfSecond": 692511107}, "parentSpanId": "${ctx:parentSpanId}", "spanId": "${ctx:spanId}", "tracerId": "${ctx:tracerId}", "ndc": "${ctx:ndc}", "loggerName": "callisto/cdc/publisher/publisher/data_publisher.go:457", "threadId": 102, "message": "[component=[PUBLISHER],event={\"IsDeleted\":true,\"Key\":\"f67b94fd391c9b8909c12bcd1270683639797562524657327068363979750001fc058a42d05e18b588\",\"Row\":{\"birth_time\":null,\"child_map\":null,\"directory_spec\":null,\"lock\":null,\"open_heartbeat_time\":null,\"parent_uuid_hint\":null,\"stripe_id\":1559394451855541,\"stripe_metadata\":null,\"symlink_target\":null,\"token__uuid\":4115335172386270157,\"uuid\":\"ph69yubRFW2ph69yu\"},\"ChangedCols\":[],\"TableName\":\"files_perf_test_only\",\"Timestamp\":{\"Logical\":0,\"WallTime\":1689438212094195494}},filters=[{\"ParentJobPtr\":{\"JobID\":0,\"DataChunk\":{\"StartTS\":{\"Logical\":0,\"WallTime\":1689182552000000000},\"ResolvedTS\":{\"Logical\":0,\"WallTime\":1689190533000000000},\"Span\":{\"Key\":\"f67b91fd1002d827894ef29112327872733637694841683278727336376948410001fd1e098cd1d65a9f3f\",\"EndKey\":\"f67b92fd0fef281cc97bde4812327872733637695136683278727336376951360001fd446dcfb144de233e\"},\"TableName\":\"files_perf_test_only\",\"FileName\":\"/mnt/wwn-f51d914d-d481-457a-b9c6-363385e7b451/internal/cassandra_snapshots/cdc_data/1689435026_2_1_metadata.json.gz\"}},\"StartTS\":{\"Logical\":0,\"WallTime\":1689182552000000000},\"ResolvedTS\":{\"Logical\":0,\"WallTime\":1689190533000000000},\"Span\":{\"Key\":\"f67b91fd1002d827894ef29112327872733637694841683278727336376948410001fd1e098cd1d65a9f3f\",\"EndKey\":\"f67b92fd0fef281cc97bde4812327872733637695136683278727336376951360001fd446dcfb144de233e\"}}]] processEvent: found no matching filter for tableName:[files_perf_test_only], 1 filters"}
+
+
+Filter:
+StartTS: 1689182552000000000, 1689190533000000000
+
+
+
+1689438212094195494
+
+
+
+Delete event is actually getting passed through filter.
+It's even reaching the buffer, and even becoming a delete query:
+
+
+DELETE FROM sd_restore.files_perf_test_only WHERE "token__uuid" = '4115335172386270157' and "stripe_id" = '1559394451855541' and "uuid" = 'ph69yubRFW2ph69yu' and "cdc_event_timestamp_d984f2ededb" < 1689438212094195494;
+
+
+Now the theory is that this DB query isn't deleting anything, because of mismatches in extra column's timestamp
+
+
+
+Timestamp in query is 1689438212094195494
+
+
+delete event's timestamp according to CDC file:        1689438212094195500 
+
+ubuntu@vm-machine-e8g3vn-mvdt6pg:~$ zcat /mnt/wwn-f5*/internal/cassandra_snapshots/cdc_data//compressed/* | jq -s 'map(select(.TableName == "files_perf_test_only" and .Row.token__uuid == 4115335172386270157 and .Row.uuid == "ph69yubRFW2ph69yu" and .Row.stripe_id == 1559394451855541))'
+[
+  {
+    "ChangedCols": [],
+    "IsDeleted": true,
+    "Key": "f67b94fd391c9b8909c12bcd1270683639797562524657327068363979750001fc058a42d05e18b588",
+    "Row": {
+      "birth_time": null,
+      "child_map": null,
+      "directory_spec": null,
+      "lock": null,
+      "open_heartbeat_time": null,
+      "parent_uuid_hint": null,
+      "stripe_id": 1559394451855541,
+      "stripe_metadata": null,
+      "symlink_target": null,
+      "token__uuid": 4115335172386270000,
+      "uuid": "ph69yubRFW2ph69yu"
+    },
+    "TableName": "files_perf_test_only",
+    "Timestamp": {
+      "Logical": 0,
+      "WallTime": 1689438212094195500
+    }
+  }
+]
+
+Why is token__uuid 4115335172386270157 is rounded to 4115335172386270000 & WallTime 1689438212094195494 rounded to 1689438212094195500
+Fine, it's a jq bug: https://github.com/jqlang/jq/issues/1959
+
+
+
+
+
+
+
+
+After change:
+DELETE FROM sd_restore.files_perf_test_only WHERE ("cdc_event_timestamp_d984f2ededb" < 1689438212094195494 or "cdc_event_timestamp_d984f2ededb" = NULL) and "token__uuid" = '4115335172386270157' and "stripe_id" = '1559394451855541' and "uuid" = 'ph69yubRFW2ph69yu';
+
+
+
+
+
+Select * FROM sd_restore.files_perf_test_only WHERE ("cdc_event_timestamp_d984f2ededb" < 1689438212094195494 or "cdc_event_timestamp_d984f2ededb" is NULL) and "token__uuid" = '4115335172386270157' and "stripe_id" = '1559394451855541' and "uuid" = 'ph69yubRFW2ph69yu';
+
+Select * FROM sd_restore.files_perf_test_only WHERE "token__uuid" = '4115335172386270157' and "stripe_id" = '1559394451855541' and "uuid" = 'ph69yubRFW2ph69yu';
+
+
+
+
+
+
+
+U1, D1
+
+
+job0 D1         tushar-dwivedi-l01--> 
+
+NULL < t1
+job1 U1         t0
+
+
+I1 U11 U12 D1 I2 U21 U22 
+
+D1 
+
+
+NULL -> false, true
+
+
+
+
+Difference of 42 extra rows in restored DB
+
+
+Sample 1: And entry that didn't get updated by CDC publisher (cdc_event_timestamp_d984f2ededb: NULL)
+{
+    "token__uuid": "3209217538908681627",
+    "uuid": "2ph69vlbRFW2ph69vl",
+    "stripe_id": "8658514195588515706",
+    "birth_time": "7724285821008225028",
+    "child_map": "\\x000000020000001a73586179647658764a795373586179647658764a79537358617900000011584a6645526939637451584a664552693900000016684f6d6256457343667632684f6d6256457343667632000000125a55734b4c7243674a4f485a55734b4c7243",
+    "directory_spec": "NULL",
+    "lock": "",
+    "open_heartbeat_time": "NULL",
+    "parent_uuid_hint": "pIpVQw4Wi7pIpVQw4W",
+    "stripe_metadata": "dnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7",
+    "symlink_target": "NULL",
+    "cdc_event_timestamp_d984f2ededb": "NULL"
+  }
+
+
+low watermark: 1689435809000000000
+high watermark: 1689438991000000000
+
+
+
+zcat /mnt/wwn-f5*/internal/cassandra_snapshots/1689435809-*/*files_perf_test_only.csv.gz | grep 3209217538908681627 | grep 2ph69vlbRFW2ph69vl | grep 8658514195588515706
+
+3209217538908681627,2ph69vlbRFW2ph69vl,8658514195588515706,7724285821008225028,\x000000020000001a73586179647658764a795373586179647658764a79537358617900000011584a6645526939637451584a664552693900000016684f6d6256457343667632684f6d6256457343667632000000125a55734b4c7243674a4f485a55734b4c7243,null_gXp98cddagft___do_not_use,,null_gXp98cddagft___do_not_use,pIpVQw4Wi7pIpVQw4W,dnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7,null_gXp98cddagft___do_not_use
+
+(the restored DB state is the same as that in snapshot backup)
+
+
+zcat /mnt/wwn-f5*/internal/cassandra_snapshots/intermediate_cdc_data/cdc_orig/*json.gz | grep 3209217538908681627 | grep 2ph69vlbRFW2ph69vl | grep 8658514195588515706
+
+{"ChangedCols": ["token__uuid", "uuid", "stripe_id", "birth_time", "child_map", "directory_spec", "lock", "open_heartbeat_time", "parent_uuid_hint", "stripe_metadata", "symlink_target"], "IsDeleted": false, "Key": "f67b92fd2c896e59359af59b123270683639766c625246573270683639766c0001fd782938c93ebb077a88", "Row": {"birth_time": 7724285821008225028, "child_map": null, "directory_spec": null, "lock": "", "open_heartbeat_time": null, "parent_uuid_hint": "pIpVQw4Wi7pIpVQw4W", "stripe_id": 8658514195588515706, "stripe_metadata": "dnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7", "symlink_target": null, "token__uuid": 3209217538908681627, "uuid": "2ph69vlbRFW2ph69vl"}, "TableName": "files_perf_test_only", "Timestamp": {"Logical": 0, "WallTime": 1689372406197758833}}
+{"ChangedCols": ["token__uuid", "uuid", "stripe_id", "birth_time", "child_map", "directory_spec", "lock", "open_heartbeat_time", "parent_uuid_hint", "stripe_metadata", "symlink_target"], "IsDeleted": false, "Key": "f67b92fd2c896e59359af59b123270683639766c625246573270683639766c0001fd782938c93ebb077a88", "Row": {"birth_time": 7724285821008225028, "child_map": null, "directory_spec": null, "lock": "", "open_heartbeat_time": null, "parent_uuid_hint": "pIpVQw4Wi7pIpVQw4W", "stripe_id": 8658514195588515706, "stripe_metadata": "dnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7", "symlink_target": null, "token__uuid": 3209217538908681627, "uuid": "2ph69vlbRFW2ph69vl"}, "TableName": "files_perf_test_only", "Timestamp": {"Logical": 0, "WallTime": 1689372406197758833}}
+{"ChangedCols": ["child_map"], "IsDeleted": false, "Key": "f67b92fd2c896e59359af59b123270683639766c625246573270683639766c0001fd782938c93ebb077a88", "Row": {"birth_time": 7724285821008225028, "child_map": "\\x000000020000001a73586179647658764a795373586179647658764a79537358617900000011584a6645526939637451584a664552693900000016684f6d6256457343667632684f6d6256457343667632000000125a55734b4c7243674a4f485a55734b4c7243", "directory_spec": null, "lock": "", "open_heartbeat_time": null, "parent_uuid_hint": "pIpVQw4Wi7pIpVQw4W", "stripe_id": 8658514195588515706, "stripe_metadata": "dnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7", "symlink_target": null, "token__uuid": 3209217538908681627, "uuid": "2ph69vlbRFW2ph69vl"}, "TableName": "files_perf_test_only", "Timestamp": {"Logical": 0, "WallTime": 1689372417694734031}}
+{"ChangedCols": [], "IsDeleted": true, "Key": "f67b94fd2c896e59359af59b123270683639766c625246573270683639766c0001fd782938c93ebb077a88", "Row": {"birth_time": null, "child_map": null, "directory_spec": null, "lock": null, "open_heartbeat_time": null, "parent_uuid_hint": null, "stripe_id": 8658514195588515706, "stripe_metadata": null, "symlink_target": null, "token__uuid": 3209217538908681627, "uuid": "2ph69vlbRFW2ph69vl"}, "TableName": "files_perf_test_only", "Timestamp": {"Logical": 0, "WallTime": 1689438845500148908}}
+
+
+zcat /mnt/wwn-f5*/internal/cassandra_snapshots/cdc_data/compressed/* | grep 3209217538908681627 | grep 2ph69vlbRFW2ph69vl | grep 8658514195588515706
+
+{"ChangedCols": ["child_map"], "IsDeleted": false, "Key": "f67b92fd2c896e59359af59b123270683639766c625246573270683639766c0001fd782938c93ebb077a88", "Row": {"birth_time": 7724285821008225028, "child_map": "\\x000000020000001a73586179647658764a795373586179647658764a79537358617900000011584a6645526939637451584a664552693900000016684f6d6256457343667632684f6d6256457343667632000000125a55734b4c7243674a4f485a55734b4c7243", "directory_spec": null, "lock": "", "open_heartbeat_time": null, "parent_uuid_hint": "pIpVQw4Wi7pIpVQw4W", "stripe_id": 8658514195588515706, "stripe_metadata": "dnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7evdnuicuba7", "symlink_target": null, "token__uuid": 3209217538908681627, "uuid": "2ph69vlbRFW2ph69vl"}, "TableName": "files_perf_test_only", "Timestamp": {"Logical": 0, "WallTime": 1689372417694734031}}
+
+{"ChangedCols": [], "IsDeleted": true, "Key": "f67b94fd2c896e59359af59b123270683639766c625246573270683639766c0001fd782938c93ebb077a88", "Row": {"birth_time": null, "child_map": null, "directory_spec": null, "lock": null, "open_heartbeat_time": null, "parent_uuid_hint": null, "stripe_id": 8658514195588515706, "stripe_metadata": null, "symlink_target": null, "token__uuid": 3209217538908681627, "uuid": "2ph69vlbRFW2ph69vl"}, "TableName": "files_perf_test_only", "Timestamp": {"Logical": 0, "WallTime": 1689438845500148908}}
+
+
+There is one update and one delete event in CDC. None of them got applied (both are less than high watermark)
+The event is present in both original and deduped files
+
+
+
+
+
+
+
+
+
+autoFlushInterval
+
+
+
+
+

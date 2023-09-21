@@ -1,0 +1,110 @@
+
+
+Take a Snapshot backup:
+
+
+
+https://docs.google.com/document/d/1wTmWSpso-HFlAILRWBMLhvn-ZZ9koevPE99PDnZc_eI/edit
+
+https://rubrik.atlassian.net/browse/CDM-363461
+
+
+Backup:
+
+rubrik_tool.py get_job_instances BACK_UP_COCKROACH_GLOBAL
+
+sudo /opt/rubrik/src/scripts/debug/QuicksilverTool.sh -cmd runJobImmediately -jobInstanceId <jobID:::instanceID>
+
+
+
+
+
+Restore:
+
+
+x=`date`; sudo ./cockroach_backup_tool restore --timestamp 1676624998 --restore_cdc_end_time 1676639402 --restore_cdc_data --tables_to_restore sd.archived_replication_sharded_job_config,sd.test_alt_counter,sd.replication_job_state,sd.traffic_flow_mgm_rule,sd.floating_ip_map_entry,sd.archival_migrate_group_state,sd.email_send_status,sd.azure_archival_location,sd.exchange_server,sd.authorization_org,sd.polaris_replicate_coordinator,sd.envoy_vm,sd.mssql_secondary,sd.aws_rubrik_account,sd.snmp_mib_entry,sd.archived_job_monitoring,sd.snappable_group,sd.snapshot_integrity1,sd.snappable_stat,sd.fileset_template,sd.archival_bucket_migration_map,sd.host_configuration_entry,sd.malware_hunt_request,sd.key_rotation,sd.traffic_flow_mgm_object,sd.historical_job_stats,sd.udf_db,sd.resource_lambda_config,sd.aws_features,sd.smb_service,sd.virtual_disk_cdp_handle,sd.mssql_instance,sd.cloud_native_source,sd.data_location,sd.role,sd.stream_source_common,sd.mssql_snappable_job_config,sd.archival_sharded_job_config,sd.node,sd.vmware_tag,sd.stat,sd.fileset_by_host_id,sd.user_profile_2,sd.tesseract_hierarchy_object,sd.mssql_database_pre_41,sd.sla_domain,sd.exclusion_pattern,sd.mssql_instance_to_database,sd.kmip_server,sd.gps_authz_2,sd.mssql_log_backup,sd.diff_group_spill,sd.node_to_mv_channel_map,sd.oracle_snapshot_metadata,sd.authorization_org_by_auth_domain,sd.snapmirror_cloud_policy,sd.archival_file_entry,sd.hdfs,sd.mssql_dag,sd.app_cloud_machine_image,sd.cdm_to_envoy_port_forwarding_rule,sd.aws_customer_account,sd.udf_db_group,sd.stream_logs,sd.mssql_log_chain_page,sd.replication_location,sd.oracle_rac,sd.upgrade,sd.vmware_host,sd.azure_rubrik_account,sd.custom_report,sd.dc_blob_store_group,sd.job_status,sd.iscsi_target,sd.certificate,sd.throttling_setting,sd.nas_share,sd.host_failover_cluster,sd.snapshot_to_cloud_images,sd.mssql_mount,sd.vmware_datastore,sd.rsa_mfa_server,sd.snappable_recovery_spec,sd.held_snapshot,sd.nutanix_mount,sd.host_by_agent_id,sd.storage_array_volume,sd.tpr_request_details,sd.nas_namespace,sd.snapmirror_cloud_objstore,sd.malware_hunt_in_snapshot_updated,sd.global_locks,sd.cluster_timezone,sd.user_audit_log_capture_config,sd.mongo_source,sd.host_audit_log_config,sd.storage_array_volume_group,sd.managed_volume_export,sd.hyperv_virtual_machine,sd.hydrated_vmware_vm,sd.orchestrator,sd.nas_volume,sd.exchange_dag,sd.connector_catalog,sd.thrift_auth,sd.tesseract_manifest,sd.expiring_serialized_metadata,sd.vmware_vcenter_by_natural_id,sd.test_counter_hist_new,sd.notification_setting,sd.test_detached_counter,sd.snapmirror_cloud_relationship,sd.mssql_log_deletion_metadata,sd.group,sd.mssql_database,sd.cloud_instance_type,sd.user_by_natural_id,sd.job_action_time_series_index,sd.failover_cluster_app,sd.nutanix_node,sd.job_auxiliary,sd.dc_blobstore_simhash,sd.host_volume,sd.operation_queue,sd.app_blueprint,sd.vmware_vcd_vapp,sd.health_monitor_policy,sd.oracle_host,sd.node_network,sd.storm_instance,sd.virtual_ip_assignment,sd.mongo_log_snapshot,sd.job_instance,sd.data_class_policy_job_metadata,sd.exchange_database,sd.mongo_shard_map,sd.mongo_snapshot_collection_map,sd.udf_db_instance,sd.nas_system,sd.rsc_service_account,sd.snapmirror_cloud,sd.sla_domain_to_snappable_per_node_cache,sd.fileset,sd.cdp_history_month,sd.failover_summary,sd.polaris_managed_object,sd.object_gc_vault_entry,sd.bandwidth_stats,sd.user_defined_tag,sd.aws_compute_settings,sd.child_stats_job_data,sd.saml_consumed_assertion,sd.auth_domain,sd.blackout_window,sd.archival_file_version,sd.stream_log_chain,sd.certificate_request,sd.hdfs_template,sd.file_download,sd.network_throttle_spec,sd.remote_cluster_job,sd.vmware_vcd_by_natural_id,sd.sla_holder_to_sla_info,sd.distributed_barrier,sd.tenant_quota,sd.vmware_vcenter,sd.job_instance_alt,sd.floating_ip_locker,sd.volume_group,sd.aws_iam_user,sd.oracle_log_snapshot,sd.tesseract_cluster,sd.tesseract_snappable,sd.mssql_database_by_group_database_id,sd.throttle,sd.job_monitoring_count,sd.vmware_datacenter,sd.absolute_path_translation,sd.nutanix_cluster,sd.hyperv_scvmm,sd.tenant_host_config_ext,sd.custom_report_file,sd.test_hist_counter,sd.vmware_guest_credential,sd.leader_info,sd.custom_report_subscription,sd.gps_authz_permission_2,sd.node_cdc_data_chunks,sd.vmware_compute_cluster,sd.cdp_replication_stream_source_state_history,sd.k8s_cluster,sd.hyperv_server,sd.snapshot,sd.live_mount_ip_config,sd.storm_request,sd.vmware_network_by_host_id,sd.tenant_network_config_ext,sd.hyperv_cluster,sd.polaris_remote_sla_domain,sd.mongo_collection_set,sd.idempotent_operation_to_result,sd.vmware_virtual_app,sd.vmware_io_filter,sd.aws_archival_location,sd.role_authorization,sd.azure_compute_settings,sd.configuration_history,sd.sla_operation,sd.windows_cluster_by_natural_id,sd.volume_group_mount,sd.mssql_availability_group_to_database,sd.cloud_native_virtual_machine,sd.windows_cluster,sd.network_throttle,sd.smb_domain,sd.azure_customer_account,sd.host_share,sd.vmware_vcd_org_vdc,sd.replication_orchestrator,sd.vmware_virtual_disk_by_uuid,sd.dummy_sharded_group_metadata,sd.snapshot_indexing_metadata,sd.vmware_folder,sd.vmware_tag_category,sd.cloud_compute,sd.public_cloud_machine_instance,sd.authorization_org_by_role,sd.vmware_vcd_catalog,sd.job_action_time_series,sd.sharded_chain_blob_store_group,sd.azure_rubrik_account_app,sd.mssql_availability_group_by_natural_id,sd.job_monitoring_info,sd.password_hash,sd.replication_recovery_info,sd.tpr_requests,sd.deferred_ods_requests,sd.read_write_lock,sd.archival_location_ownership_history,sd.bucket_map,sd.vcd_vim_server,sd.mssql_recoverable_chain,sd.replication_sharded_job_config,sd.user_by_name,sd.saml_relay_state,sd.mssql_availability_group,sd.shard_map,sd.cloud_compute_image,sd.user_session_3,sd.semaphore,sd.public_cloud_machine_image,sd.vmware_virtual_disk_snapshot_disk_index,sd.host_rbs_management_info,sd.host_state,sd.smb_share,sd.remote_snapshot1,sd.glacier_archive_directory,sd.hydrated_snappable,sd.dlc_job_instance,sd.vmware_resource_pool,sd.parallelized_scr_metadata,sd.oracle_recoverable_chain,sd.envoy_config,sd.oracle_mount,sd.cdc_data_publishing_progress_reports,sd.sap_hana_recoverable_range,sd.csv_upload,sd.snapshot_audit,sd.precanned_report_index,sd.syslog_server,sd.cdc_data_publishing_jobs,sd.mssql_database_batch,sd.mssql_host_cleanup,sd.db2_recoverable_range,sd.smtp_instance,sd.user,sd.upload_group_state,sd.hyperv_virtual_disk,sd.snappable,sd.exchange_db_mount,sd.organization,sd.group_by_natural_id,sd.vmware_vcd,sd.periodic_upgrade_prechecks,sd.vmware_mount,sd.pending_operation,sd.tpr_action_groups,sd.db_log_snapshot,sd.sharded_group_spill,sd.cloud_native_virtual_disk,sd.oracle_log_deletion_metadata,sd.volume_groups_by_host_id,sd.health_check_status,sd.smb_sid_to_uid_gid,sd.vmware_storage_policy,sd.node_to_sla_mv_ingest_map,sd.immutable_archives_file_version,sd.report_data_source2,sd.nutanix_virtual_machine,sd.archival_stale_file_entry,sd.mongo_database,sd.host_storage_array_volume,sd.auth_domain_by_natural_id_2,sd.authorization_org_by_resource,sd.snappable_operations_metadata,sd.data_class_policy_config,sd.vmware_vcd_provider_vdc,sd.vmware_virtual_disk,sd.tracing_span,sd.vmware_snapshot,sd.role_assignment,sd.configuration_entry,sd.active_directory_domain,sd.test_counter_hist,sd.schema_version,sd.vmware_virtual_machine,sd.vmware_hotadd_proxy,sd.azure_features,sd.mongo_collection,sd.proxy_settings,sd.storage_array,sd.hyperv_mount,sd.vmware_vcd_org,sd.host,sd.unmanaged_ssf_client,sd.serialized_metadata,sd.sap_hana_system,sd.vmware_network,sd.subscription_info,sd.envoy_to_cdm_port_forwarding_rule,sd.cdp_history_year,sd.breakpoint,sd.replication_pending_events,sd.child_job_info,sd.vmware_datastore_cluster,sd.archival_file_checksum,sd.recovered_object_id_mapping,sd.cluster_data_location,sd.tenant_network,sd.ldap_user_to_groups_cache,sd.compact_object_protection_log,sd.snappable_cloud_snapshots,sd.cluster_events,sd.sap_hana_database,sd.files,sd.kvsnapshot_file_instance_metadata,sd.tesseract_host,sd.oracle_db,sd.managed_volume,sd.vmware_snapshot_disk,sd.cdp_virtual_machine,sd.mongo_recoverable_range,sd.vmware_virtual_machine_snapshot_index; y=`date`; echo $x; echo $y
+
+
+
+x=`date`; sudo ./cockroach_backup_tool restore --timestamp 1676624998 --restore_cdc_end_time 1676639402 --restore_cdc_data --tables_to_restore sd.archived_replication_sharded_job_config,sd.test_alt_counter,sd.replication_job_state,sd.traffic_flow_mgm_rule,sd.floating_ip_map_entry,sd.archival_migrate_group_state,sd.email_send_status,sd.azure_archival_location,sd.exchange_server,sd.authorization_org,sd.polaris_replicate_coordinator,sd.envoy_vm,sd.mssql_secondary,sd.aws_rubrik_account,sd.snmp_mib_entry,sd.archived_job_monitoring,sd.snappable_group,sd.snapshot_integrity1,sd.snappable_stat,sd.fileset_template,sd.archival_bucket_migration_map,sd.host_configuration_entry,sd.malware_hunt_request,sd.key_rotation,sd.traffic_flow_mgm_object,sd.historical_job_stats,sd.udf_db,sd.resource_lambda_config,sd.aws_features,sd.smb_service,sd.virtual_disk_cdp_handle,sd.mssql_instance,sd.cloud_native_source,sd.data_location,sd.role,sd.stream_source_common,sd.mssql_snappable_job_config,sd.archival_sharded_job_config,sd.node,sd.vmware_tag,sd.stat,sd.fileset_by_host_id,sd.user_profile_2,sd.tesseract_hierarchy_object,sd.mssql_database_pre_41,sd.sla_domain,sd.exclusion_pattern,sd.mssql_instance_to_database,sd.kmip_server,sd.gps_authz_2,sd.mssql_log_backup,sd.diff_group_spill,sd.node_to_mv_channel_map,sd.oracle_snapshot_metadata,sd.authorization_org_by_auth_domain,sd.snapmirror_cloud_policy,sd.archival_file_entry,sd.hdfs,sd.mssql_dag,sd.app_cloud_machine_image,sd.cdm_to_envoy_port_forwarding_rule,sd.aws_customer_account,sd.udf_db_group,sd.stream_logs,sd.mssql_log_chain_page,sd.replication_location,sd.oracle_rac,sd.upgrade,sd.vmware_host,sd.azure_rubrik_account,sd.custom_report,sd.dc_blob_store_group,sd.job_status,sd.iscsi_target,sd.certificate,sd.throttling_setting,sd.nas_share,sd.host_failover_cluster,sd.snapshot_to_cloud_images,sd.mssql_mount,sd.vmware_datastore,sd.rsa_mfa_server,sd.snappable_recovery_spec,sd.held_snapshot,sd.nutanix_mount,sd.host_by_agent_id,sd.storage_array_volume,sd.tpr_request_details,sd.nas_namespace,sd.snapmirror_cloud_objstore,sd.malware_hunt_in_snapshot_updated,sd.global_locks,sd.cluster_timezone,sd.user_audit_log_capture_config,sd.mongo_source,sd.host_audit_log_config,sd.storage_array_volume_group,sd.managed_volume_export,sd.hyperv_virtual_machine,sd.hydrated_vmware_vm,sd.orchestrator,sd.nas_volume,sd.exchange_dag,sd.connector_catalog,sd.thrift_auth,sd.tesseract_manifest,sd.expiring_serialized_metadata,sd.vmware_vcenter_by_natural_id,sd.test_counter_hist_new,sd.notification_setting,sd.test_detached_counter,sd.snapmirror_cloud_relationship,sd.mssql_log_deletion_metadata,sd.group,sd.mssql_database,sd.cloud_instance_type,sd.user_by_natural_id,sd.job_action_time_series_index,sd.failover_cluster_app,sd.nutanix_node,sd.job_auxiliary,sd.dc_blobstore_simhash,sd.host_volume,sd.operation_queue,sd.app_blueprint,sd.vmware_vcd_vapp,sd.health_monitor_policy,sd.oracle_host,sd.node_network,sd.storm_instance,sd.virtual_ip_assignment,sd.mongo_log_snapshot,sd.job_instance,sd.data_class_policy_job_metadata,sd.exchange_database,sd.mongo_shard_map,sd.mongo_snapshot_collection_map,sd.udf_db_instance,sd.nas_system,sd.snapmirror_cloud,sd.sla_domain_to_snappable_per_node_cache,sd.fileset,sd.cdp_history_month,sd.failover_summary,sd.polaris_managed_object,sd.object_gc_vault_entry,sd.bandwidth_stats,sd.user_defined_tag,sd.aws_compute_settings,sd.child_stats_job_data,sd.saml_consumed_assertion,sd.auth_domain,sd.blackout_window,sd.archival_file_version,sd.stream_log_chain,sd.certificate_request,sd.hdfs_template,sd.file_download,sd.network_throttle_spec,sd.remote_cluster_job,sd.vmware_vcd_by_natural_id,sd.sla_holder_to_sla_info,sd.distributed_barrier,sd.tenant_quota,sd.vmware_vcenter,sd.job_instance_alt,sd.floating_ip_locker,sd.volume_group,sd.aws_iam_user,sd.oracle_log_snapshot,sd.tesseract_cluster,sd.tesseract_snappable,sd.mssql_database_by_group_database_id,sd.throttle,sd.job_monitoring_count,sd.vmware_datacenter,sd.absolute_path_translation,sd.nutanix_cluster,sd.hyperv_scvmm,sd.tenant_host_config_ext,sd.custom_report_file,sd.test_hist_counter,sd.vmware_guest_credential,sd.leader_info,sd.custom_report_subscription,sd.gps_authz_permission_2,sd.node_cdc_data_chunks,sd.vmware_compute_cluster,sd.cdp_replication_stream_source_state_history,sd.hyperv_server,sd.snapshot,sd.live_mount_ip_config,sd.storm_request,sd.vmware_network_by_host_id,sd.tenant_network_config_ext,sd.hyperv_cluster,sd.polaris_remote_sla_domain,sd.mongo_collection_set,sd.idempotent_operation_to_result,sd.vmware_virtual_app,sd.vmware_io_filter,sd.aws_archival_location,sd.role_authorization,sd.azure_compute_settings,sd.configuration_history,sd.sla_operation,sd.windows_cluster_by_natural_id,sd.volume_group_mount,sd.mssql_availability_group_to_database,sd.cloud_native_virtual_machine,sd.windows_cluster,sd.network_throttle,sd.smb_domain,sd.azure_customer_account,sd.host_share,sd.vmware_vcd_org_vdc,sd.replication_orchestrator,sd.vmware_virtual_disk_by_uuid,sd.dummy_sharded_group_metadata,sd.snapshot_indexing_metadata,sd.vmware_folder,sd.vmware_tag_category,sd.cloud_compute,sd.public_cloud_machine_instance,sd.authorization_org_by_role,sd.vmware_vcd_catalog,sd.job_action_time_series,sd.sharded_chain_blob_store_group,sd.azure_rubrik_account_app,sd.mssql_availability_group_by_natural_id,sd.job_monitoring_info,sd.password_hash,sd.replication_recovery_info,sd.tpr_requests,sd.deferred_ods_requests,sd.read_write_lock,sd.archival_location_ownership_history,sd.bucket_map,sd.vcd_vim_server,sd.mssql_recoverable_chain,sd.replication_sharded_job_config,sd.user_by_name,sd.saml_relay_state,sd.mssql_availability_group,sd.shard_map,sd.cloud_compute_image,sd.user_session_3,sd.semaphore,sd.public_cloud_machine_image,sd.vmware_virtual_disk_snapshot_disk_index,sd.host_rbs_management_info,sd.host_state,sd.smb_share,sd.remote_snapshot1,sd.glacier_archive_directory,sd.hydrated_snappable,sd.dlc_job_instance,sd.vmware_resource_pool,sd.parallelized_scr_metadata,sd.oracle_recoverable_chain,sd.envoy_config,sd.oracle_mount,sd.cdc_data_publishing_progress_reports,sd.sap_hana_recoverable_range,sd.csv_upload,sd.snapshot_audit,sd.precanned_report_index,sd.syslog_server,sd.cdc_data_publishing_jobs,sd.mssql_database_batch,sd.mssql_host_cleanup,sd.db2_recoverable_range,sd.smtp_instance,sd.user,sd.upload_group_state,sd.hyperv_virtual_disk,sd.snappable,sd.exchange_db_mount,sd.organization,sd.group_by_natural_id,sd.vmware_vcd,sd.periodic_upgrade_prechecks,sd.vmware_mount,sd.pending_operation,sd.tpr_action_groups,sd.db_log_snapshot,sd.sharded_group_spill,sd.cloud_native_virtual_disk,sd.oracle_log_deletion_metadata,sd.volume_groups_by_host_id,sd.health_check_status,sd.smb_sid_to_uid_gid,sd.vmware_storage_policy,sd.node_to_sla_mv_ingest_map,sd.immutable_archives_file_version,sd.report_data_source2,sd.nutanix_virtual_machine,sd.archival_stale_file_entry,sd.mongo_database,sd.host_storage_array_volume,sd.auth_domain_by_natural_id_2,sd.authorization_org_by_resource,sd.snappable_operations_metadata,sd.data_class_policy_config,sd.vmware_vcd_provider_vdc,sd.vmware_virtual_disk,sd.tracing_span,sd.vmware_snapshot,sd.role_assignment,sd.configuration_entry,sd.test_counter_hist,sd.schema_version,sd.vmware_virtual_machine,sd.vmware_hotadd_proxy,sd.azure_features,sd.mongo_collection,sd.proxy_settings,sd.storage_array,sd.hyperv_mount,sd.vmware_vcd_org,sd.host,sd.unmanaged_ssf_client,sd.serialized_metadata,sd.sap_hana_system,sd.vmware_network,sd.subscription_info,sd.envoy_to_cdm_port_forwarding_rule,sd.cdp_history_year,sd.breakpoint,sd.replication_pending_events,sd.child_job_info,sd.vmware_datastore_cluster,sd.archival_file_checksum,sd.recovered_object_id_mapping,sd.cluster_data_location,sd.tenant_network,sd.ldap_user_to_groups_cache,sd.compact_object_protection_log,sd.snappable_cloud_snapshots,sd.cluster_events,sd.sap_hana_database,sd.files,sd.kvsnapshot_file_instance_metadata,sd.tesseract_host,sd.oracle_db,sd.managed_volume,sd.vmware_snapshot_disk,sd.cdp_virtual_machine,sd.vmware_virtual_machine_snapshot_index; y=`date`; echo $x; echo $y
+
+
+x=`date`; sudo /home/ubuntu/cockroach_backup_tool restore --timestamp 1676624998 --restore_cdc_end_time 1676639402 --restore_cdc_data --tables_to_restore sd.files,sd.job_instance,sd.throttle; y=`date`; echo $x; echo $y
+
+
+
+
+
+
+Old epic:
+https://rubrik.atlassian.net/browse/CDM-341028
+
+New epic:
+https://rubrik.atlassian.net/browse/CDM-364578
+
+
+
+
+
+common_metrics "rubrik/callisto/cdc/publisher/common/metrics"
+
+
+
+
+
+
+Successful progress of coordinator:
+
+Found %d completed tasks in this cycle
+
+
+Leases expired:
+
+Coordinator: Failed to complete any task in required time. Should retry
+
+One set of Assign() done.
+"Coordinator: All assignments completed"
+
+
+
+
+
+Read progress:
+
+
+Scanner: ReadAll completed. New ckpt
+
+Scanner: Read from checkpoint completed. New ckpt
+
+
+
+
+Cause of delay:
+
+Coordinator waits for at least 8 files:
+Waiting, found data only from 
+
+
+
+
+
+
+
+
+Compression started:	05:55:53.577032
+
+
+
+
+
+
+
+
+
+
+
+
+Tuesday 28 March 2023  09:13:26 +0000 (0:00:00.266)       0:00:01.082 *********
+
+
+

@@ -1,0 +1,122 @@
+Integration test suites:
+
+
+
+Views of test suites:
+
+Galaxy: http://galaxy.colo.rubrik.com/#/home
+
+Results for a single pipeline
+
+
+Atlantis: http://atlantis.rubrik.com/
+Results for multiple runs
+
+
+
+All suites are available on both dashboards
+
+
+Where are test suites in the code?`
+
+"sdmain/deployment/ansible/roles/jenkins_master/vars" contains yaml files, that have deails for each suite, and the test files of that suite
+
+
+
+Actual test files are in:
+
+
+1. Clytemnestra:
+
+Covers Cqlproxy, Kronos, and few cockroach tests.
+
+
+
+2. rktest(old)			:	//src/scripts/tests/rktest (Python)
+
+			(has only one test suite, sdmain/src/scripts/tests/cqlproxy_test.py)
+
+				test_correctness_main ()
+				test_feature_java_driver (tests cassandra drivers, with cqlproxy)
+				test_zzzbench_stress_validator_main (deletes and recreates sd schema for stress test, "zzz" is added to make it run last, alphabetically, to avoid impacting other tests)
+				test_batch_stmts (tests batch statements)
+ 
+
+
+
+
+3. rk_pytest (new)		:	//src/py/rk_pytest/cockroachdb, //src/py/rk_pytest/callisto, etc
+
+https://rubrik.atlassian.net/wiki/spaces/EN/pages/86164344/rk+pytest
+		
+		rk_pytest framework has fixtures for CDM cluster(via bodega), VMs and other resources,
+		Even has a failure service (to inject failures like crash, filled HDD/SSD, clock skew) which can be plugged in using annotations 
+
+
+	//src/py/rk_pytest/callisto,
+	Has only one job for backup & restore
+
+
+	//src/py/rk_pytest/cockroachdb
+	Has all other cockroach tests, that run on cockroach DB cluster, that has no other CDM services installed. There are tests for:
+		1. cockroach upgrade
+		2. kronos
+		3. ntp
+		4. load test (https://rubrik.atlassian.net/wiki/spaces/EN/pages/145326293)
+		5. 
+
+
+
+4. cassandraentitymanagertest	//src/java/sd/src/test/java/com/rubrik/apps/metadatastore
+		These are scala tests, that aren't kept as part of build, pipeline, or sail process, as they are flaky. Ran manually by using "bazel test ..." in the above folder.
+		Uses an in-memory mock of cockroach metadatastore
+
+
+
+5. testserver: (somewhere between unit tests & integration tests)
+		Starts cockroach db sngle node on random node, and runs tests on it.
+		Can run using "src/go/BUILD.py --test --tags testserver"
+
+ 
+
+6. Unit tests
+
+	Most of these run with "arc sail"
+	Post-op UTs not run with sail
+
+
+
+7. Cockroach build
+
+	2 jenkins jobs:
+		1. to build a diff: Build_Cockroach
+		to build tip of a branch:
+
+
+8. roachtests
+
+Tests that come wit cochroachdb
+
+https://rubrik.atlassian.net/wiki/spaces/EN/pages/322306351
+
+Jenkins Job: Roachtest_Suite
+
+
+
+Pipelines:
+
+
+
+
+
+
+Test results:
+Published to stats.rubrik.com
+
+
+
+
+
+
+
+
