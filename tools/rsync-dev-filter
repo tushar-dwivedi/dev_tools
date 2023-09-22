@@ -1,0 +1,55 @@
+- sdmain/.cache/
+- sdmain/build/linux/
+- sdmain/build/windows/
+- sdmain/.pants.d/
+
++ sdmain/src/cpp/build/debug/
+- sdmain/src/cpp/build/*
++ sdmain/src/cpp/build/debug/thrift/
+- sdmain/src/cpp/build/debug/*
+- sdmain/src/cpp/.sconsign.dblite
+- sdmain/src/cpp/schema_manager.py.log.txt
+
++ sdmain/src/java/*/target/*.jar
+- sdmain/src/java/*/target/classes/
+- sdmain/src/java/*/target/surefire/
+- sdmain/src/java/*/target/surefire-reports/
+- sdmain/src/java/*/target/test-classes/
+
++ sdmain/src/py/build/thrift/
+- sdmain/src/py/build/*
+
+- sdmain/src/web/.sass-cache/
+- sdmain/src/web/.tscache/
+- sdmain/src/web/bin/
+- sdmain/src/web/build/
+- sdmain/src/web/coverage/
+- sdmain/src/web/node_modules/
+- sdmain/src/web/vendor/
+
+- spragger/target/classes/
+- spragger/target/surefire/
+- spragger/target/surefire-reports/
+- spragger/target/test-classes/
+
+- .DS_Store
+- ._.DS_Store
+
+- .git/
+
+- .idea/
+- *.iml
+
+- *.log.txt
+
+- *.a
+- *.class
+- *.deb
+- *.exe
+- *.gz
+- *.jar
+- *.o
+- *.pex
+- *.pyc
+- *.so
+- *.so.*
