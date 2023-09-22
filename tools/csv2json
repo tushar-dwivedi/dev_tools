@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+
+import argparse
+import csv
+import json
+import sys
+
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Csv->Json args')
+    parser.add_argument(
+        '--delim',
+        dest='delim',
+        default=",",
+        help='Delimiter')
+    parser.add_argument(
+        '--quote',
+        dest='quote',
+        default='"',
+        help='Quote char')
+    parser.add_argument(
+        '--esc',
+        dest='escape',
+        default='"',
+        help='Quote escape char')
+    parser.add_argument('filename', nargs='?', default="-")
+    args = parser.parse_args(sys.argv[1:])
+    if args.filename == "-":
+        csvfile = sys.stdin
+    else:
+        csvfile = open(args.filename)
+    csv.register_dialect(
+        'tmp',
+        delimiter=args.delim,
+        doublequote=(args.escape == '"'),
+        escapechar=None if (args.escape == '"') else args.escape)
+    rdr = csv.reader(
+        csvfile,
+        'tmp',
+        delimiter=args.delim,
+        quotechar=args.quote)
+    for row in rdr:
+        j = json.dumps(row)
+        print(j)

@@ -1,0 +1,140 @@
+#!/bin/bash
+
+# converts crdb --format=records output to json
+
+#sudo zcat 1687213200_2_1_data.json.gz  | jq -r 'select(.TableName == "files_perf_test_only" and has("IsDeleted")) | {Key: .Key, Timestamp: .Timestamp.WallTime, TableName: .TableName}' > /tmp/data_entries.json
+#sudo zcat 1687213200_2_1_data.json.gz  | jq -r 'select(.TableName == "files_perf_test_only" and (has("IsDeleted") | not)) | {StartKey: .Span.Key, EndKey: .Span.EndKey, StartTS: .StartTS.WallTime, ResolvedTS: .ResolvedTS.WallTime, TableName: .TableName}' > /tmp/checkpoint_entries.json
+
+combined_entries_file="/tmp/combined_entries.json"
+
+sudo zcat "$1" | jq --slurp 'map(select(.TableName == "files_perf_test_only")) | map(if has("IsDeleted") then {Key: .Key, Timestamp: .Timestamp.WallTime, TableName: .TableName, EntryType: "data"} else {StartKey: .Span.Key, EndKey: .Span.EndKey, StartTS: .StartTS.WallTime, ResolvedTS: .ResolvedTS.WallTime, TableName: .TableName, EntryType: "checkpoint"} end)' > "$combined_entries_file"
+
+
+
+check_timestamp_range() {
+  local start_ts="$1"
+  local resolved_ts="$2"
+  local check_ts="$3"
+
+  if (( start_ts <= check_ts && check_ts < resolved_ts )); then
+    #echo "The check timestamp falls between the start and resolved timestamps."
+    return 0
+  else
+    #echo "The check timestamp is outside the range. $check_ts -> ($start_ts, $resolved_ts]"
+    return 1
+  fi
+}
+
+# Example usage
+#check_timestamp_range "$start_ts" "$resolved_ts" "$check_ts"
+#check_timestamp_range "1687213201345162500" "1687213201359442400" "1687213201345162505"
+
+check_key_range() {
+  local start_key="$1"
+  local end_key="$2"
+  local check_key="$3"
+
+  local max_length=$(( ${#start_key} > ${#end_key} ? ${#start_key} : ${#end_key} ))
+  local check_key_prefix="${check_key:0:max_length}"
+
+  # Convert hexadecimal keys to decimal values
+  local start_key_decimal=$(printf "%d" "0x$start_key")
+  local end_key_decimal=$(printf "%d" "0x$end_key")
+  local check_key_decimal=$(printf "%d" "0x$check_key_prefix")
+
+  # Check if the check key falls within the range
+  if (( start_key_decimal <= check_key_decimal && check_key_decimal < end_key_decimal )); then
+    #echo "The check key falls within the range."
+    return 0
+  else
+    #echo "The check key is outside the range. $start_key -> ($start_key, $end_key]"
+    return 1
+  fi
+}
+
+# Example usage
+#check_key_range "$start_key" "$end_key" "$check_key"
+#check_key_range "f68e" "f68f" "f68e8e80e114bc4c39df98d112573270683639796562524657327068363979650001fd52bf27f22d2ef82088"
+
+# Example usage
+#checkpoint_end_key="f68f"
+
+#process_entries "$combined_entries_file"
+
+declare -A checkpoints
+
+process_entries_new() {
+  file="$1"
+  delimiter="-"
+  # Read the combined entries JSON file
+  # mapfile -t entries < "$file"
+  echo "processing $file"
+  #entries=$(jq -c '.[]' "$file")
+  entries=$(jq '.' < "$file" )
+  echo "entries: ${#entries}"
+
+#  for entry in "${entries[@]}"; do
+  jq -c '.[]' "$file" | while IFS= read -r entry; do
+    #echo "entry ---> $entry"
+    entry_type=$(echo "$entry" | jq -r '.EntryType')
+    table_name=$(echo "$entry" | jq -r '.TableName')
+
+    #echo "entry_type: $entry_type, table_name: $table_name"
+
+    if [[ "$entry_type" == "checkpoint" ]]; then
+      # Add checkpoint entry to the checkpoints map
+      #if [[ -z "${checkpoints[$table_name]}" ]]; then
+      #  #checkpoints["$table_name"]=()
+	#checkpoints["$table_name"]="$delimiter"
+      #fi
+      #checkpoints["$table_name"]+=("$entry")
+      #checkpoints["$table_name"]+="${delimiter}${entry}"
+      current_value="${checkpoints["$table_name"]}"
+
+      # Check if the current value is empty
+      if [[ -n "$current_value" ]]; then
+        # Append the delimiter before the new value
+        updated_value="${current_value}${delimiter}${entry}"
+      else
+        # If the current value is empty, assign the new value directly
+        updated_value="$entry"
+      fi
+
+      # Assign the updated value back to the associative array member
+      checkpoints["$table_name"]="$updated_value"
+
+      #echo "checkpoints -----> ${checkpoints["$table_name"]}"
+    elif [[ "$entry_type" == "data" ]]; then
+      # Check if the data entry matches any of the checkpoints
+      key=$(echo "$entry" | jq -r '.Key')
+      timestamp=$(echo "$entry" | jq -r '.Timestamp')
+
+      #echo "$entry"
+
+      IFS="$delimiter" read -ra checkpoint_values <<< "${checkpoints["$table_name"]}"
+
+      #echo "checkpoints count-----> ${#checkpoint_values}"
+      for checkpoint in "${checkpoint_values[@]}"; do
+	#echo "checkpoint ----> $checkpoint"
+        start_key=$(echo "$checkpoint" | jq -r '.StartKey')
+        end_key=$(echo "$checkpoint" | jq -r '.EndKey')
+        start_ts=$(echo "$checkpoint" | jq -r '.StartTS')
+        resolved_ts=$(echo "$checkpoint" | jq -r '.ResolvedTS')
+
+        if check_key_range "$start_key" "$end_key" "$key" && check_timestamp_range "$start_ts" "$resolved_ts" "$timestamp"; then
+          echo "Data entry matches checkpoint:"
+          echo "Data entry: $entry"
+          echo "Checkpoint: $checkpoint"
+          echo
+	  continue
+        fi
+      done
+      #echo "no match found for $entry"
+    fi
+  done
+
+}
+
+
+#process_entries_new()
+process_entries_new "$combined_entries_file"
