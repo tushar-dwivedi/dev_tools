@@ -1,0 +1,63 @@
+alias c='clear'
+export devvm_ip='10.0.8.193'
+export dev_user="ubuntu@$devvm_ip"
+alias devvm="et dev_vm"
+alias devvm_karthik="ssh ubuntu@10.0.153.245"
+alias mosh_dev_vm="mosh $dev_user"
+alias sync_git_master="~/sync_git $dev_user:/home/ubuntu/Documents/projects/callisto/sdmain"
+alias get_deps_master="rsync -av $dev_user:/home/ubuntu/Documents/projects/callisto/sdmain/src/java/sd/target/ src/java/sd/target/"
+#alias sync_git_guru="~/sync_git $dev_user:~/workspace/guru/sdmain"
+#alias dev_vm="mosh $dev_user"
+alias masterDepsFetch="cd /Users/tushar.dwivedi/Documents/projects/callisto/sdmain && /Users/tushar.dwivedi/Documents/projects/callisto/sdmain/tools/syncer/syncer.py --remote $dev_user:/home/ubuntu/Documents/projects/callisto/sdmain fetch-intellij-deps"
+alias crdb="cd /Users/tushar.dwivedi/go/src/github.com/cockroachdb/cockroach"
+alias ssh_cluster='ssh -i ~/cdm_ssh_certs/ubuntu.pem'
+alias scp_cluster='scp -i ~/cdm_ssh_certs/ubuntu.pem'
+alias tunnel_cluster='ssh -i ~/cdm_ssh_certs/ubuntu.pem -L 6001:127.0.0.1:27577'
+alias tunnel_bodega='ssh -i ~/cdm_ssh_certs/ubuntu.pem -L 8080:127.0.0.1:26258'
+alias polaris_init='cd ~/Documents/projects/polaris/sdmain/; source ~/Documents/projects/polaris/sdmain/polaris/.buildenv/bin/activate'
+#alias dev_init='~/Documents/projects/callisto/sdmain/lab/sd_dev_box/sd_dev_box --sdmain_repo /Users/tushar.dwivedi/Documents/projects/callisto/sdmain'
+alias dev_create='~/Documents/projects/callisto/sdmain//lab/sd_dev_box/sd_dev_box --sdmain_repo ~/Documents/projects/callisto/sdmain/'
+alias dev_init='cd ~/Documents/projects/callisto/sdmain/.devbox && docker-compose run --rm dev-box'
+
+alias portal='~/Downloads/portal_client/portal_client'
+alias unzip_dir='sh ~/tools/unzip_dir.sh'
+
+forward_crdb() {
+	#Set the values
+ 	clusterId=$1
+	local_port=${2:-27017}
+	echo $clusterId
+	echo $local_port
+	port_forward $local_port 26258 $clusterId
+}
+
+port_forward() {
+	local_port=$1
+	remote_port=$2
+	clusterId=$3
+	portal forward --local-port $local_port --node-port $remote_port --cluster-uuid $clusterId
+}
+
+
+local_sdmain="/Users/tushar.dwivedi/Documents/projects/callisto/sdmain/"
+remote_sdmain="/home/ubuntu/Documents/projects/callisto/sdmain/"
+
+spull() {
+	subpath=$1
+	rsync -avz ubuntu@dev_vm:$remote_sdmain/$subpath $local_sdmain/$(dirname "$subpath")/
+}
+
+spush() {
+	subpath=$1
+	rsync -avz $local_sdmain/$subpath ubuntu@dev_vm:$remote_sdmain/$(dirname "$subpath")/
+}
+
+gopull() {
+        subpath=$1
+	spull src/go/src/rubrik/$subpath
+}
+
+gopush() {
+        subpath=$1
+	spush src/go/src/rubrik/$subpath
+}

@@ -1,0 +1,19 @@
+[user]
+	email = tushar.dwivedi@rubrik.com
+	name = tushar-dwivedi
+[credential]
+	helper = 
+	helper = /usr/local/share/gcm-core/git-credential-manager-core
+[credential "https://dev.azure.com"]
+	useHttpPath = true
+[scalar]
+	repo = /Users/tushar.dwivedi/Documents/projects/common/sdmain
+[maintenance]
+	repo = /Users/tushar.dwivedi/Documents/projects/common/sdmain
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

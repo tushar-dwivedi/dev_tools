@@ -1,0 +1,20 @@
+export PATH=$PATH:/usr/local/go/bin:/Users/tushar.dwivedi/go/bin
+export GOPATH=~/go/
+export GOROOT=/usr/local/go
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_201`
+export PATH="$(brew --prefix)/opt/make/libexec/gnubin:$PATH"
+export PATH="/Users/tushar.dwivedi/Documents/projects/foss/arcanist/bin:$PATH"
+export PATH="/usr/local/opt/node@16/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/node@16/lib"
+export CPPFLAGS="-I/usr/local/opt/node@16/include"
+
+ulimit -n 8096
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

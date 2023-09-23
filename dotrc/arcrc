@@ -1,0 +1,7 @@
+{
+  "hosts": {
+    "https://phabricator.rubrik.com/api/": {
+      "token": "cli-waspn3timibqxa6f76l6dhifdplc"
+    }
+  }
+}
