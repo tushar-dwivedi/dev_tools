@@ -9,8 +9,8 @@ Prepare bodega nodes:
 
 Can be run using exec all:
 
-rkcl exec all 'cd ~/ ; wget https://go.dev/dl/go1.17.8.linux-amd64.tar.gz ;'
-rkcl exec all 'cd ~/ ; sudo tar -C /usr/local -xzf go1.17.8.linux-amd64.tar.gz ;'
+rkcl exec all 'cd ~/ ; wget https://go.dev/dl/go1.20.4.linux-amd64.tar.gz ;'
+rkcl exec all 'cd ~/ ; sudo tar -C /usr/local -xzf go1.20.4.linux-amd64.tar.gz ;'
 rkcl exec all 'echo "export GOPATH=/home/ubuntu/go" >> /home/ubuntu/.bashrc ;'
 rkcl exec all 'echo "export PATH=$PATH:/usr/local/go/bin:/home/ubuntu/go/bin" >>  /home/ubuntu/.bashrc ; '
 rkcl exec all 'echo "alias c=\"clear\"" >>  /home/ubuntu/.bashrc ; '
@@ -19,8 +19,8 @@ rkcl exec all '/usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@la
 
 
 
-cd ~/ ; wget https://go.dev/dl/go1.17.8.linux-amd64.tar.gz 
-cd ~/ ; sudo tar -C /usr/local -xzf go1.17.8.linux-amd64.tar.gz ;
+cd ~/ ; wget https://go.dev/dl/go1.20.4.linux-amd64.tar.gz 
+cd ~/ ; sudo tar -C /usr/local -xzf go1.20.4.linux-amd64.tar.gz ;
 
 
 
