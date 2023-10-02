@@ -96,7 +96,7 @@ tell application "iTerm2"
                                 set server_ip to (item 3 of cmds)
 				write text "devvm"
 				delay 3
-                                write text my prepareSshAddKeyCmd(server_ip)
+				write text my prepareSshAddKeyCmd(server_ip)
 				write text my prepareSshCmd(server_ip)
 				delay 1
 				write text "clear"
@@ -107,10 +107,10 @@ tell application "iTerm2"
 
 		if n > 3 then
 			tell fourth session of current tab of current window
-                                set server_ip to (item 4 of cmds)
+				set server_ip to (item 4 of cmds)
 				write text "devvm"
 				delay 3
-                                write text my prepareSshAddKeyCmd(server_ip)
+				write text my prepareSshAddKeyCmd(server_ip)
 				write text my prepareSshCmd(server_ip)
 				delay 1
 				write text "clear"
