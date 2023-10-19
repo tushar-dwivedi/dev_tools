@@ -51,7 +51,7 @@ After=network.target
 Type=simple
 User=ubuntu
 Group=ubuntu
-ExecStart=/opt/kafka/bin/kafka-server-start.sh /home/ubuntu/kafka_server.properties
+ExecStart=/opt/kafka/bin/kafka-server-start.sh /home/ubuntu/kafka_cfg/kafka_server.properties
 ExecStop=/opt/kafka/bin/kafka-server-stop.sh
 Restart=on-abnormal
 
@@ -128,6 +128,67 @@ delete.topic.enable=true
 
 
 
+Setup Kafka UI, for better testing:
+
+https://github.com/provectus/kafka-ui
+
+
+Run on devvm:
+
+docker run -it -p 8085:8080 -e DYNAMIC_CONFIG_ENABLED=true provectuslabs/kafka-ui
+
+
+tunnel devvm's port to local:
+ssh -i ~/cdm_ssh_certs/ubuntu.pem -L 8085:127.0.0.1:8085
+
+
+
+
+
+SELECT column_name FROM information_schema.table_constraints WHERE table_name = 'mix_load_3_test_only_1p' AND constraint_type = 'PRIMARY KEY';
+
+
+cursor='-10m',
+
+
+
+
+CREATE CHANGEFEED FOR TABLE sd.files_perf_test_only INTO 'kafka://10.0.35.231:9092,10.0.35.198:9092,10.0.32.141:9092,10.0.34.235:9092?topic_name=files_perf_test_only' WITH updated, key_in_value, envelope=wrapped, kafka_sink_config = '{"Compression": "GZIP"}';
+
+
+CREATE CHANGEFEED FOR TABLE sd.mix_load_1_test_only INTO 'kafka://10.0.35.231:9092,10.0.35.198:9092,10.0.32.141:9092,10.0.34.235:9092?topic_name=mix_load_1_test_only' WITH updated, key_in_value, envelope=wrapped, kafka_sink_config = '{"Compression": "GZIP"}';
+
+
+CREATE CHANGEFEED FOR TABLE sd.mix_load_3_test_only INTO 'kafka://10.0.35.231:9092,10.0.35.198:9092,10.0.32.141:9092,10.0.34.235:9092?topic_name=mix_load_3_test_only' WITH updated, key_in_value, envelope=wrapped, kafka_sink_config = '{"Compression": "GZIP"}';
+
+
+
+export bootstrap_servers="kafka://10.0.33.39:9092,10.0.37.247:9092,10.0.35.159:9092,10.0.34.176:9092"
+
+/opt/kafka/bin/kafka-topics.sh --list --bootstrap-server $bootstrap_servers 
+
+/opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server $bootstrap_servers --topic files_perf_test_only --from-beginning --group debug_consumer_group
+
+
+
+Cleanup:
+
+cancel job <changefeed_job_id>
+
+truncate sd.mix_load_3_test_only_1p;
+
+rkcl exec all 'sudo rm -rf /mnt/*/internal/cassandra_snapshots/cdc_data/* '
+
+/opt/kafka/bin/kafka-topics.sh --delete --topic mix_load_3_test_only --bootstrap-server $bootstrap_servers
+
+
+python3 -m jedi.tools.sdt_runner --test_target //jedi/e2e/callisto:crdb_load_test --bodega_sid ${bodega_order_id} -- -k "test_custom_perf" --crdb_populate_rows 100000 --crdb_load_duration 60m --crdb_load_name mix_load --crdb_load_type cockroach
+
+
+sudo /opt/rubrik/src/go/bin/kafka_cdc_converter --tablename mix_load_3_test_only --topicname mix_load_3_test_only_1p
+
+
+The above command will create a single sorted zipped file "all_cdc.sorted.gz"
 
 
 
@@ -136,6 +197,58 @@ delete.topic.enable=true
 
 
 
+Original entries
+
+root@localhost:26257/defaultdb> select count(*) from sd.files_perf_test_only;
+   count
+-----------
+  2411202
 
 
+
+After CDC restore: (34 missing rows in restored DB)
+
+root@localhost:26257/defaultdb> select count(*) from sd_restore.files_perf_test_only;
+   count
+-----------
+  2411168
+
+
+
+
+Run the following after test_restore.sh :
+
+
+low_watermark="1697554912"
+high_watermark="1697561699"
+first_node_ip="10.0.35.231"
+
+path="/mnt/wwn-f51d1645-d303-4ebe-b441-451b1302771d/internal/cassandra_snapshots/kafka_cdc_data/files_perf_test_only"
+
+
+rm -rf $path
+
+sudo /opt/rubrik/src/go/bin/kafka_cdc_converter --tablename files_perf_test_only --topicname files_perf_test_only --workdir /mnt/wwn-f51d1645-d303-4ebe-b441-451b1302771d/internal/cassandra_snapshots/kafka_cdc_data
+
+
+
+time sudo /opt/rubrik/src/go/bin/cockroach_backup_tool restore --dst_database sd_restore_kafka --timestamp $low_watermark --restore_cdc_end_time $high_watermark --tables_to_restore sd.files_perf_test_only
+
+
+
+sudo /opt/rubrik/src/go/bin/cdc_restore_tool --source_directory $path/cdc_data --shards_directory $path/sharded --intermediate_directory $path/intermediate --restore_into_db sd_restore_kafka --low_watermark ${low_watermark}000000000 --high_watermark ${high_watermark}000000000 --peer_ips $first_node_ip --perf high --tables_to_restore files_perf_test_only,files_perf_test_only__static
+
+
+
+
+
+
+
+
+To rerun restore:
+
+low_watermark="1697554912"
+high_watermark="1697561699"
+
+sudo /opt/rubrik/src/go/bin/cockroach_backup_tool restore --dst_database sd_restore --timestamp $low_watermark --restore_cdc_end_time $high_watermark --tables_to_restore sd.files_perf_test_only --restore_cdc_data
 

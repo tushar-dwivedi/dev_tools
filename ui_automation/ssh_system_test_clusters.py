@@ -7,11 +7,11 @@ import pyautogui
 # set cmdList to {{"10.0.35.156", "10.0.33.152", "10.0.32.218", "10.0.32.124"}, {"10.0.38.12", "10.0.38.104", "10.0.38.198"}}
 # set cmdList to {{"bluemoon.rubrik-lab.com"}}
 # set cmdList to {{"nebula.rubrik-lab.com"}}
-# set cmdList to {{"uptime.rubrik-lab.com"}}
+ip_addresses = [["thanos.rubrik-lab.com"]]
 # set cmdList to {{"b-100144-lb.rubrik-lab.com"}}
-ip_addresses = [["10.0.100.4", "10.0.100.5", "10.0.100.6", "10.0.100.7"]]
+# ip_addresses = [["10.0.100.4", "10.0.100.5", "10.0.100.6", "10.0.100.7"]]
 
-tunnel_port = "8081"
+tunnel_port = "8082"
 
 
 # Function to prepare the SSH command
@@ -84,7 +84,10 @@ for tab_id, ip_address_per_tab in enumerate(ip_addresses):
         time.sleep(1)
 
 # Connect to other servers in tabs (customize as needed)
-# pyautogui.hotkey('ctrl', 'shift', 't')
+pyautogui.hotkey('ctrl', 'shift', 't')
+pyautogui.typewrite("devvm")
+pyautogui.press('enter')
+time.sleep(3)
 pyautogui.typewrite(prepare_tunnel_cmd(ip_addresses[0][0], tunnel_port))
 pyautogui.press('enter')
 time.sleep(1)
@@ -99,5 +102,5 @@ pyautogui.press('enter')
 time.sleep(2)
 
 pyautogui.hotkey('ctrl', 'shift', 't')
-pyautogui.typewrite("google-chrome https://127.0.0.1:8081/")
+pyautogui.typewrite("google-chrome https://127.0.0.1:{}/".format(tunnel_port))
 pyautogui.press('enter')
