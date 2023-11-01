@@ -65,6 +65,10 @@ time.sleep(2)
 for tab_id, ip_address_per_tab in enumerate(ip_addresses):
     span_per_tab = len(ip_address_per_tab)
 
+    pyautogui.hotkey('shift', 'ctrl', 'i')
+    pyautogui.typewrite("ssh to {} nodes, tab ID: {}".format(span_per_tab, tab_id))
+    pyautogui.press('enter')
+
     # Split horizontally and vertically as needed
     if span_per_tab > 1:
         # Create new terminal on the right
@@ -105,11 +109,21 @@ for tab_id, ip_address_per_tab in enumerate(ip_addresses):
 
 # Connect to other servers in tabs (customize as needed)
 pyautogui.hotkey('ctrl', 'shift', 't')
+
+pyautogui.hotkey('shift', 'ctrl', 'i')
+pyautogui.typewrite("tunnel to {}".format(ip_addresses[0][0]))
+pyautogui.press('enter')
+
 pyautogui.typewrite(prepare_tunnel_cmd(ip_addresses[0][0]))
 pyautogui.press('enter')
 time.sleep(1)
 
 pyautogui.hotkey('ctrl', 'shift', 't')
+
+pyautogui.hotkey('shift', 'ctrl', 'i')
+pyautogui.typewrite("ssh to {}".format(ip_addresses[0][0]))
+pyautogui.press('enter')
+
 pyautogui.typewrite(prepare_ssh_cmd(ip_addresses[0][0]))
 pyautogui.press('enter')
 time.sleep(1)

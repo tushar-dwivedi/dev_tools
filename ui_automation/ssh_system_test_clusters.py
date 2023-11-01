@@ -1,4 +1,5 @@
 import subprocess
+import sys
 import time
 
 import pyautogui
@@ -12,6 +13,13 @@ ip_addresses = [["thanos.rubrik-lab.com"]]
 # ip_addresses = [["10.0.100.4", "10.0.100.5", "10.0.100.6", "10.0.100.7"]]
 
 tunnel_port = "8082"
+
+if len(sys.argv) > 1:
+    host = sys.argv[1]
+    ip_addresses = [["{}.rubrik-lab.com".format(host)]]
+
+if len(sys.argv) > 2:
+    tunnel_port = sys.argv[2]
 
 
 # Function to prepare the SSH command
@@ -35,10 +43,13 @@ def prepare_ssh_add_key_cmd(ip_address):
 subprocess.run("tilix --maximize -w ~", shell=True)
 
 # Wait for Tilix to open
-time.sleep(2)
+time.sleep(1)
 
 for tab_id, ip_address_per_tab in enumerate(ip_addresses):
     span_per_tab = len(ip_address_per_tab)
+    pyautogui.hotkey('shift', 'ctrl', 'i')
+    pyautogui.typewrite("ssh to {}, tab ID: {}".format(str(ip_addresses[0][0]), tab_id))
+    pyautogui.press('enter')
 
     # Split horizontally and vertically as needed
     if span_per_tab > 1:
@@ -67,16 +78,15 @@ for tab_id, ip_address_per_tab in enumerate(ip_addresses):
         pyautogui.typewrite("devvm")
         pyautogui.press('enter')
         time.sleep(3)
-
         pyautogui.typewrite(prepare_ssh_add_key_cmd(server_ip))
         pyautogui.press('enter')
-        time.sleep(1)
+        time.sleep(2)
         pyautogui.typewrite(prepare_ssh_cmd(server_ip))
         pyautogui.press('enter')
         time.sleep(2)
-        pyautogui.typewrite("clear")
-        pyautogui.press('enter')
-        time.sleep(2)
+        # pyautogui.typewrite("clear")
+        # pyautogui.press('enter')
+        # time.sleep(2)
 
     # create a new tab
     if tab_id < len(ip_address_per_tab) - 1:
@@ -85,22 +95,41 @@ for tab_id, ip_address_per_tab in enumerate(ip_addresses):
 
 # Connect to other servers in tabs (customize as needed)
 pyautogui.hotkey('ctrl', 'shift', 't')
-pyautogui.typewrite("devvm")
-pyautogui.press('enter')
-time.sleep(3)
-pyautogui.typewrite(prepare_tunnel_cmd(ip_addresses[0][0], tunnel_port))
-pyautogui.press('enter')
 time.sleep(1)
 
+pyautogui.hotkey('shift', 'ctrl', 'i')
+pyautogui.typewrite("tunnel to {}".format(str(ip_addresses[0][0])))
+pyautogui.press('enter')
+
+pyautogui.typewrite("devvm")
+pyautogui.press('enter')
+time.sleep(4)
+pyautogui.typewrite(prepare_tunnel_cmd(ip_addresses[0][0], tunnel_port))
+time.sleep(2)
+pyautogui.press('enter')
+time.sleep(3)
+
 pyautogui.hotkey('ctrl', 'shift', 't')
+time.sleep(1)
+
+pyautogui.hotkey('shift', 'ctrl', 'i')
+pyautogui.typewrite("tunnel to devvm's port {}".format(tunnel_port))
+pyautogui.press('enter')
+
 pyautogui.typewrite(
     "ssh -i ~/cdm_ssh_certs/ubuntu.pem -L {}:127.0.0.1:{} ubuntu@dev_vm".format(tunnel_port, tunnel_port))
 pyautogui.press('enter')
-time.sleep(1)
+time.sleep(3)
 pyautogui.typewrite(prepare_ssh_cmd(ip_addresses[0][0]))
 pyautogui.press('enter')
 time.sleep(2)
 
 pyautogui.hotkey('ctrl', 'shift', 't')
-pyautogui.typewrite("google-chrome https://127.0.0.1:{}/".format(tunnel_port))
+time.sleep(1)
+
+pyautogui.hotkey('shift', 'ctrl', 'i')
+pyautogui.typewrite("open browser, 127.0.0.1:{}".format(tunnel_port))
+pyautogui.press('enter')
+
+pyautogui.typewrite("xdg-open https://127.0.0.1:{}/".format(tunnel_port))
 pyautogui.press('enter')
