@@ -11,6 +11,7 @@ import pyautogui
 #     ["10.0.115.130", "10.0.115.131", "10.0.115.132", "10.0.115.133"]
 # ]
 
+pem_file = "~/Documents/projects/sdmain/deployment/ssh_keys/ubuntu.pem"
 
 def split_into_subarrays(input_array):
     subarrays = []
@@ -41,13 +42,13 @@ print(ip_addresses)
 
 # Function to prepare the SSH command
 def prepare_ssh_cmd(ip_address):
-    cmd = "ssh -i ~/cdm_ssh_certs/ubuntu.pem ubuntu@{}".format(ip_address)
+    cmd = "ssh -i {} ubuntu@{}".format(pem_file, ip_address)
     return cmd
 
 
 # Function to prepare the tunnel command
 def prepare_tunnel_cmd(ip_address):
-    cmd = "ssh -i ~/cdm_ssh_certs/ubuntu.pem ubuntu@{} -L 8080:127.0.0.1:26258".format(ip_address)
+    cmd = "ssh -i {} ubuntu@{} -L 8080:127.0.0.1:26258".format(pem_file, ip_address)
     return cmd
 
 

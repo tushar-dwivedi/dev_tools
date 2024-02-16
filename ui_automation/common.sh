@@ -4,7 +4,7 @@ function get_bodega_details() {
     local choice
     local bodega_id
 
-    list_orders_cmd="docker exec -it $sd_dev_container_id /home/ubuntu/Documents/projects/sdmain/lab/bin/bodega list orders"
+    list_orders_cmd="docker exec -it $sd_dev_container_id /home/tushar/Documents/projects/sdmain/lab/bin/bodega list orders"
     # Your command to get the output (replace with your actual command)
 #    echo "list_orders_cmd: $list_orders_cmd" > /dev/stderr
     bodega_orders_details=$($list_orders_cmd)
@@ -21,7 +21,6 @@ function get_bodega_details() {
         # Get the selected "sid" value based on the user's choice
         # bodega_id=$($list_orders_cmd | awk -v choice="$choice" 'NR==choice+2 {print $1}')
         bodega_id=$(cat <<< "$bodega_orders_details" | awk -v choice="$choice" 'NR==choice+2 {print $1}')
-#        echo "bodega_id: $bodega_id" > /dev/stderr
 
         # Return the selected "sid"
         echo "$bodega_id"
@@ -43,8 +42,15 @@ else
   echo "bodega_order_id set passed in cmd-line as $bodega_order_id, using it."
 fi
 
+if [[ "$bodega_order_id" == "stress" ]]; then
+        #export bodega_ips='10.0.115.130,10.0.115.131,10.0.115.132,10.0.115.133'        # stress cluster
+        export bodega_ips='10.0.211.238,10.0.211.239,10.0.211.240,10.0.211.241,10.0.211.143,10.0.211.144,10.0.211.145,10.0.211.146'     # stress cluster (8 nodes)
+	echo "bodega_ips: $bodega_ips"
+	return
+fi
+
 echo "bodega_order_id: $bodega_order_id"
-docker exec -it "$sd_dev_container_id" bash -c "/home/ubuntu/Documents/projects/sdmain/lab/bin/bodega consume order $bodega_order_id"  | grep -i 'ipv4:' | awk -F': ' '{print $2 }' > $HOME/ips.txt
+docker exec -it "$sd_dev_container_id" bash -c "/home/tushar/Documents/projects/sdmain/lab/bin/bodega consume order $bodega_order_id"  | grep -i 'ipv4:' | awk -F': ' '{print $2 }' > $HOME/ips.txt
 #list_ips_cmd="docker exec -it $sd_dev_container_id bash -c \"/home/ubuntu/Documents/projects/sdmain/lab/bin/bodega consume order $bodega_order_id\"  | grep -i 'ipv4:' | awk -F': ' '{print $2 }' > $HOME/ips.txt"
 #echo "list_ips_cmd: $list_ips_cmd" > /dev/stderr
 #"$list_ips_cmd"
