@@ -21,7 +21,7 @@ alias dev_init='cd ~/Documents/projects/callisto/sdmain/.devbox && docker-compos
 
 alias portal='~/Downloads/portal_client/portal_client'
 alias unzip_dir='sh ~/tools/unzip_dir.sh'
-
+vpn_r='sudo dpkg -P globalprotect; sudo dpkg -i ~/Downloads/PanGPLinux-6.0.4-c25/GlobalProtect_UI_deb-6.0.4.1-28.deb'
 forward_crdb() {
 	#Set the values
  	clusterId=$1
