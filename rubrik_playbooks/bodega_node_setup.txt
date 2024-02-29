@@ -68,7 +68,6 @@ rkcl exec all 'cksum /usr/local/bin/cockroach'
 
 rkcl exec all 'sudo systemctl start cockroachdb'
 rkcl exec all 'sudo systemctl start cqlproxy'
-
 rkcl exec all "sdservice.sh '*' start"
 
 
