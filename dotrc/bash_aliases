@@ -1,27 +1,35 @@
 alias c='clear'
 export devvm_ip='10.0.8.193'
 export dev_user="ubuntu@$devvm_ip"
-alias devvm="et dev_vm"
+alias devvm='et dev_vm'
 alias devvm_karthik="ssh ubuntu@10.0.153.245"
-alias mosh_dev_vm="mosh $dev_user"
-alias sync_git_master="~/sync_git $dev_user:/home/ubuntu/Documents/projects/callisto/sdmain"
-alias get_deps_master="rsync -av $dev_user:/home/ubuntu/Documents/projects/callisto/sdmain/src/java/sd/target/ src/java/sd/target/"
+#alias mosh_dev_vm="mosh $dev_user"
+alias sync_git_master="~/sync_git $dev_user:/home/ubuntu/Documents/projects/sdmain"
+alias get_deps_master="rsync -av $dev_user:/home/ubuntu/Documents/projects/sdmain/src/java/sd/target/ src/java/sd/target/"
 #alias sync_git_guru="~/sync_git $dev_user:~/workspace/guru/sdmain"
-#alias dev_vm="mosh $dev_user"
-alias masterDepsFetch="cd /Users/tushar.dwivedi/Documents/projects/callisto/sdmain && /Users/tushar.dwivedi/Documents/projects/callisto/sdmain/tools/syncer/syncer.py --remote $dev_user:/home/ubuntu/Documents/projects/callisto/sdmain fetch-intellij-deps"
-alias crdb="cd /Users/tushar.dwivedi/go/src/github.com/cockroachdb/cockroach"
+alias masterDepsFetch="cd /Users/tushar/Documents/projects/sdmain && /Users/tushar/Documents/projects/sdmain/tools/syncer/syncer.py --remote $dev_user:/home/ubuntu/Documents/projects/callisto/sdmain fetch-intellij-deps"
+alias crdb_old="cd ~/Documents/projects/sdmain/cockroach"
+alias crdb='cd ~/Documents/projects/sdmain/cockroach; ./dev builder'
 alias ssh_cluster='ssh -i ~/cdm_ssh_certs/ubuntu.pem'
 alias scp_cluster='scp -i ~/cdm_ssh_certs/ubuntu.pem'
 alias tunnel_cluster='ssh -i ~/cdm_ssh_certs/ubuntu.pem -L 6001:127.0.0.1:27577'
 alias tunnel_bodega='ssh -i ~/cdm_ssh_certs/ubuntu.pem -L 8080:127.0.0.1:26258'
 alias polaris_init='cd ~/Documents/projects/polaris/sdmain/; source ~/Documents/projects/polaris/sdmain/polaris/.buildenv/bin/activate'
-#alias dev_init='~/Documents/projects/callisto/sdmain/lab/sd_dev_box/sd_dev_box --sdmain_repo /Users/tushar.dwivedi/Documents/projects/callisto/sdmain'
-alias dev_create='~/Documents/projects/callisto/sdmain//lab/sd_dev_box/sd_dev_box --sdmain_repo ~/Documents/projects/callisto/sdmain/'
-alias dev_init='cd ~/Documents/projects/callisto/sdmain/.devbox && docker-compose run --rm dev-box'
+#alias dev_init='~/Documents/projects/sdmain/lab/sd_dev_box/sd_dev_box --sdmain_repo /Users/tushar/Documents/projects/sdmain'
+alias dev_create='~/Documents/projects/sdmain//lab/sd_dev_box/sd_dev_box --sdmain_repo ~/Documents/projects/sdmain/'
+alias dev_init='cd ~/Documents/projects/sdmain/.devbox && docker-compose run --rm dev-box'
 
-alias portal='~/Downloads/portal_client/portal_client'
+alias portal='~/tools/portal_client'
 alias unzip_dir='sh ~/tools/unzip_dir.sh'
-alias vpn_r='sudo dpkg -P globalprotect; sudo dpkg -i ~/Downloads/PanGPLinux-6.0.4-c25/GlobalProtect_UI_deb-6.0.4.1-28.deb'
+alias resolve='sudo cp /etc/resolv.conf.mod /etc/resolv.conf'
+alias resolve_disable='sudo systemctl disable systemd-resolved.service'
+alias resolve_enable='sudo systemctl enable systemd-resolved.service'
+alias cb='bash ~/Documents/projects/dev_tools/ui_automation/ssh_bodega_cluster.sh'
+alias stc='python3 ~/Documents/projects/dev_tools/ui_automation/ssh_system_test_clusters.py'
+alias pc='python3 ~/Documents/projects/dev_tools/ui_automation/ssh_prod_clusters.py'
+alias dev='python3 ~/Documents/projects/dev_tools/ui_automation/start_dev.py'
+alias crdb_alerts='python3 src/py/cockroachdb/tools/alerts/crdb_alerts.py'
+
 forward_crdb() {
 	#Set the values
  	clusterId=$1
@@ -38,8 +46,20 @@ port_forward() {
 	portal forward --local-port $local_port --node-port $remote_port --cluster-uuid $clusterId
 }
 
+tunnel_devvm(){
+	remote_port=$1
+	local_port=${2:-$remote_port}
+	ssh -L $local_port:127.0.0.1:$remote_port dev_vm
+}
 
-local_sdmain="/Users/tushar.dwivedi/Documents/projects/callisto/sdmain/"
+vpn_r(){
+	sudo apt-get remove globalprotect;
+	sudo dpkg -P globalprotect;
+	sudo dpkg -i '~/Downloads/GlobalProtect_UI_deb-6.0.1.1-6.deb';
+	systemctl --user daemon-reload;
+}
+
+local_sdmain="~/Documents/projects/sdmain/"
 remote_sdmain="/home/ubuntu/Documents/projects/callisto/sdmain/"
 
 spull() {
