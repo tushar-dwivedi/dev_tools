@@ -166,8 +166,7 @@ rubrik_tool.py update_config callisto validateCDCDataFrequency 0
 
 rubrik_tool.py get_config callisto tablesForCDCDataValidation
 ""
-rubrik_tool.py get_config callisto tablesForCDCDataValidation
-"sd.files_perf_test_only"
+rubrik_tool.py update_config callisto tablesForCDCDataValidation "sd.files"
 
 rubrik_tool.py update_feature_toggle enableCDCDataPublisher false
 

@@ -219,16 +219,16 @@ root@localhost:26257/defaultdb> select count(*) from sd_restore.files_perf_test_
 Run the following after test_restore.sh :
 
 
-low_watermark="1697554912"
-high_watermark="1697561699"
-first_node_ip="10.0.35.231"
+low_watermark="1699578184"
+high_watermark="1699588903"
+first_node_ip="10.0.39.228"
 
-path="/mnt/wwn-f51d1645-d303-4ebe-b441-451b1302771d/internal/cassandra_snapshots/kafka_cdc_data/files_perf_test_only"
+path="/mnt/wwn-f51d0b02-7fd9-4986-88d6-63560ab3cc81/internal/cassandra_snapshots/kafka_cdc_data"
 
 
-rm -rf $path
+sudo rm -rf $path
 
-sudo /opt/rubrik/src/go/bin/kafka_cdc_converter --tablename files_perf_test_only --topicname files_perf_test_only --workdir /mnt/wwn-f51d1645-d303-4ebe-b441-451b1302771d/internal/cassandra_snapshots/kafka_cdc_data
+sudo /opt/rubrik/src/go/bin/kafka_cdc_converter --tablename files_perf_test_only --topicname files_perf_test_only --workdir $path
 
 
 
@@ -236,7 +236,7 @@ time sudo /opt/rubrik/src/go/bin/cockroach_backup_tool restore --dst_database sd
 
 
 
-sudo /opt/rubrik/src/go/bin/cdc_restore_tool --source_directory $path/cdc_data --shards_directory $path/sharded --intermediate_directory $path/intermediate --restore_into_db sd_restore_kafka --low_watermark ${low_watermark}000000000 --high_watermark ${high_watermark}000000000 --peer_ips $first_node_ip --perf high --tables_to_restore files_perf_test_only,files_perf_test_only__static
+sudo /opt/rubrik/src/go/bin/cdc_restore_tool --source_directory $path/files_perf_test_only/cdc_data --shards_directory $path/files_perf_test_only/sharded --intermediate_directory $path/files_perf_test_only/intermediate --restore_into_db sd_restore_kafka --low_watermark ${low_watermark}000000000 --high_watermark ${high_watermark}000000000 --peer_ips $first_node_ip --perf high --tables_to_restore files_perf_test_only,files_perf_test_only__static
 
 
 
@@ -247,8 +247,12 @@ sudo /opt/rubrik/src/go/bin/cdc_restore_tool --source_directory $path/cdc_data -
 
 To rerun restore:
 
-low_watermark="1697554912"
-high_watermark="1697561699"
+
+low_watermark="1697886749"
+high_watermark="1697896678"
+
+rkcl exec all 'sudo rm -rf /var/log/cockroach_backup_tool/ ' && rkcl exec all 'rm -rf /mnt/*/internal/cassandra_snapshots/intermediate/' && rkcl exec all 'rm -rf /mnt/wwn-*/internal/cassandra_snapshots/sharded/' && rkcl exec all 'mkdir -p /var/log/cockroach_backup_tool/cdc_restore_tool'
+
 
 sudo /opt/rubrik/src/go/bin/cockroach_backup_tool restore --dst_database sd_restore --timestamp $low_watermark --restore_cdc_end_time $high_watermark --tables_to_restore sd.files_perf_test_only --restore_cdc_data
 

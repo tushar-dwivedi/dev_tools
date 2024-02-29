@@ -4,13 +4,6 @@ import time
 
 import pyautogui
 
-
-# Set up the list of IP addresses
-# ip_addresses = [
-#     ["10.0.115.2", "10.0.115.3", "10.0.115.4", "10.0.115.5"],
-#     ["10.0.115.130", "10.0.115.131", "10.0.115.132", "10.0.115.133"]
-# ]
-
 pem_file = "~/Documents/projects/sdmain/deployment/ssh_keys/ubuntu.pem"
 
 def split_into_subarrays(input_array):
@@ -70,6 +63,7 @@ for tab_id, ip_address_per_tab in enumerate(ip_addresses):
     pyautogui.typewrite("ssh to {} nodes, tab ID: {}".format(span_per_tab, tab_id))
     pyautogui.press('enter')
 
+    time.sleep(2)
     # Split horizontally and vertically as needed
     if span_per_tab > 1:
         # Create new terminal on the right
