@@ -1,0 +1,25 @@
+Restore tool missing files
+
+Build tarball having files
+
+
+
+Tarball content:
+master : http://phab-jenkins-beta.rubrik-lab.com/job/Build_SDmain/132904/artifact/tarball_contents.txt
+b8.1.3 : http://phab-jenkins-beta.rubrik-lab.com/job/Build_SDmain/132905/artifact/tarball_contents.txt
+b9.0.1 : http://phab-jenkins-beta.rubrik-lab.com/job/Build_SDmain/132907/artifact/tarball_contents.txt
+b9.0 : http://phab-jenkins-beta.rubrik-lab.com/job/Build_SDmain/132906/artifact/tarball_contents.txt
+
+
+Files							master				b8.1.3				b9.0.1				b9.0
+cdc_restore_tool binary			yes					yes					yes					yes
+config.json						yes					yes					yes					yes
+gojq (cache/gojq,gojq.yml)		yes					yes					yes					yes
+
+
+Bodega orders:
+
+master 	: gwz6ua-ain7vcs
+b8.1.3 	: 8zzdbd-wyhfvte
+b9.1.0 	: igxqca-2fsvxp4
+b9.0   	: acb5qo-xvjqcse

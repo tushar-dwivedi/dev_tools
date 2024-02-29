@@ -1,26 +1,22 @@
 import subprocess
-import sys
 import time
 
 import pyautogui
 
-if len(sys.argv) < 2:
-    print("Usage: python script.py cluster_uuid")
-    sys.exit(1)
+# if len(sys.argv) < 2:
+#     print("Usage: python script.py cluster_uuid")
+#     sys.exit(1)
 
-local_tunnel_port = 27017
-cluster_uuid = sys.argv[1]
-jira_ticket_id = sys.argv[2]
+# local_tunnel_port = 27017
+# cluster_uuid = sys.argv[1]
+# jira_ticket_id = sys.argv[2]
 
-if len(sys.argv) > 3:
-    local_tunnel_port = sys.argv[3]
-
-JIRA_BASE_URL="https://rubrik.atlassian.net/browse"
 
 cmd_map = {
-    "connect to a cluster node": ["portal connect", "sleep 5", "portal access gain --jira {}/{} --cluster-uuid {}".format(JIRA_BASE_URL, jira_ticket_id, cluster_uuid), "portal connect --cluster-uuid {}".format(cluster_uuid)],  # tab 1
-    "port forward to cluster": ["forward_crdb {} {}".format(cluster_uuid, local_tunnel_port)],  # tab 2
-    "open browser": ["xdg-open https://127.0.0.1:{}".format(local_tunnel_port)],  # tab 3
+    "CrDB@local": ["clear", "crdb"],  # tab 1
+    "Sdmain@local": ["clear", "dev_init"],  # tab 2
+    "CrDB@devvm": ["clear", "devvm", "crdb"],  # tab 3
+    "Sdmain@devvm": ["clear", "devvm", "dev_init"],  # tab 4
 }
 
 
@@ -61,7 +57,7 @@ current_tab = 0
 for tab_name, cmd_chain in cmd_map.items():
 
     pyautogui.hotkey('shift', 'ctrl', 'i')
-    pyautogui.typewrite("{}: {}".format(cluster_uuid, tab_name))
+    pyautogui.typewrite(tab_name)
     pyautogui.press('enter')
 
     for cmd in cmd_chain:

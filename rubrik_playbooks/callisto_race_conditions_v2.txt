@@ -1,0 +1,1137 @@
+--- FAIL: TestInsertCkptInFileView (0.00s)
+    cdc_file_reader_test.go:126: Test 0: expected FileView &{test_file [{10 100 R1 R2 test_table}]}, but got &{test_file [{0 100 R1 R2 test_table}]}
+    cdc_file_reader_test.go:126: Test 1: expected FileView &{test_file [{10 100 R1 R2 test_table}]}, but got &{test_file [{10 110 R1 R2 test_table}]}
+    cdc_file_reader_test.go:126: Test 2: expected FileView &{test_file [{10 100 R1 R2 test_table}]}, but got &{test_file [{0 110 R1 R2 test_table}]}
+    cdc_file_reader_test.go:126: Test 4: expected FileView &{test_file []}, but got &{test_file [{0 5 R1 R2 test_table}]}
+    cdc_file_reader_test.go:126: Test 5: expected FileView &{test_file []}, but got &{test_file [{110 120 R1 R2 test_table}]}
+{"level": "ERROR", "instant": {"epochSecond": 1701652717, "nanoOfSecond": 319373095}, "parentSpanId": "${ctx:parentSpanId}", "spanId": "${ctx:spanId}", "tracerId": "${ctx:tracerId}", "ndc": "${ctx:ndc}", "loggerName": "callisto/cdc/publisher/common/datarecord/data_record_reader.go:150", "threadId": 103, "message": "[error=close /tmp/test_0873ba0a-6764-4f04-9b2f-e4a32a1523b2/cdc_data/1701652716_0_1_primary_data.json.gz: file already closed] failed to close data source for closing CDCFileReader: error close /tmp/test_0873ba0a-6764-4f04-9b2f-e4a32a1523b2/cdc_data/1701652716_0_1_primary_data.json.gz: file already closed"}
+{"level": "ERROR", "instant": {"epochSecond": 1701652718, "nanoOfSecond": 378166121}, "parentSpanId": "${ctx:parentSpanId}", "spanId": "${ctx:spanId}", "tracerId": "${ctx:tracerId}", "ndc": "${ctx:ndc}", "loggerName": "callisto/cdc/publisher/common/datarecord/data_record_reader.go:150", "threadId": 108, "message": "[error=close /tmp/test_bab55a28-312e-4c8a-956d-1cd5b6b6d384/cdc_data/1701652717_0_1_primary_data.json.gz: file already closed] failed to close data source for closing CDCFileReader: error close /tmp/test_bab55a28-312e-4c8a-956d-1cd5b6b6d384/cdc_data/1701652717_0_1_primary_data.json.gz: file already closed"}
+{"level": "ERROR", "instant": {"epochSecond": 1701652718, "nanoOfSecond": 449667732}, "parentSpanId": "${ctx:parentSpanId}", "spanId": "${ctx:spanId}", "tracerId": "${ctx:tracerId}", "ndc": "${ctx:ndc}", "loggerName": "callisto/cdc/publisher/common/datarecord/data_record_reader.go:150", "threadId": 15, "message": "[error=close /tmp/test_f37b55e7-6ece-4679-af91-89fa5c879325/cdc_data/1701652818_0_1_primary_data.json.gz: file already closed] failed to close data source for closing CDCFileReader: error close /tmp/test_f37b55e7-6ece-4679-af91-89fa5c879325/cdc_data/1701652818_0_1_primary_data.json.gz: file already closed"}
+rangeLTS:&{m:{state:0 sema:0} TsMap:map[{Start:0 End:ffff}:[0xc000554240 0xc0005542a0]]}
+rangeLTS:&{m:{state:0 sema:0} TsMap:map[{Start:0 End:ffff}:[0xc000554240]]}
+{"level": "ERROR", "instant": {"epochSecond": 1701652721, "nanoOfSecond": 717165513}, "parentSpanId": "${ctx:parentSpanId}", "spanId": "${ctx:spanId}", "tracerId": "${ctx:tracerId}", "ndc": "${ctx:ndc}", "loggerName": "callisto/cdc/publisher/scanner/cdc_metadata_scanner.go:74", "threadId": 179, "message": "unable to load scanner checkpoint, err:[missing label]"}
+==================
+WARNING: DATA RACE
+Read at 0x00c0000460a8 by goroutine 132:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1.3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:381 +0x39
+  rubrik/callisto/cdc/publisher/scanner.TimedWaitForFnForTest()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/test_utils.go:100 +0x183
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:380 +0x1166
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c0000460a8 by goroutine 135:
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:146 +0x112
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1.2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:358 +0x1c4
+
+Goroutine 132 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:289 +0x17cf
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Goroutine 135 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:357 +0x1115
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c0005400f0 by goroutine 132:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:391 +0x1211
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c0005400f0 by goroutine 135:
+  runtime.mapassign_faststr()
+      /usr/local/go/src/runtime/map_faststr.go:203 +0x0
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).GetTimeline()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:197 +0x1cc
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:143 +0x17e
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1.2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:358 +0x1c4
+
+Goroutine 132 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:289 +0x17cf
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Goroutine 135 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:357 +0x1115
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c0002959c0 by goroutine 132:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:394 +0x15be
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c0002959c0 by goroutine 135:
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).GetTimeline()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:197 +0x1db
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:143 +0x17e
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1.2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:358 +0x1c4
+
+Goroutine 132 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:289 +0x17cf
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Goroutine 135 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:357 +0x1115
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c0002f0368 by goroutine 132:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:396 +0x15e7
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c0002f0368 by goroutine 135:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:72 +0x72a
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:145 +0x19b
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1.2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:358 +0x1c4
+
+Goroutine 132 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:289 +0x17cf
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Goroutine 135 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:357 +0x1115
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Write at 0x00c0001f0d10 by goroutine 132:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:397 +0x1697
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c0001f0d10 by goroutine 135:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:37 +0x19a
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:145 +0x19b
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1.2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:358 +0x1c4
+
+Goroutine 132 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:289 +0x17cf
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Goroutine 135 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:357 +0x1115
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c000298e18 by goroutine 132:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:396 +0x1665
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c000298e18 by goroutine 135:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:72 +0x6e4
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:145 +0x19b
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1.2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:358 +0x1c4
+
+Goroutine 132 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:289 +0x17cf
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Goroutine 135 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:357 +0x1115
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c0001f0cd0 by goroutine 132:
+  reflect.Value.Int()
+      /usr/local/go/src/reflect/value.go:1459 +0x5f7
+  reflect.deepValueEqual()
+      /usr/local/go/src/reflect/deepequal.go:160 +0x575
+  reflect.deepValueEqual()
+      /usr/local/go/src/reflect/deepequal.go:130 +0x1e48
+  reflect.deepValueEqual()
+      /usr/local/go/src/reflect/deepequal.go:127 +0x16c4
+  reflect.deepValueEqual()
+      /usr/local/go/src/reflect/deepequal.go:113 +0x1f5e
+  reflect.DeepEqual()
+      /usr/local/go/src/reflect/deepequal.go:237 +0x49c
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:402 +0x140a
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c0001f0cd0 by goroutine 135:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:37 +0x19a
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:145 +0x19b
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1.2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:358 +0x1c4
+
+Goroutine 132 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:289 +0x17cf
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Goroutine 135 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:357 +0x1115
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c0001f0ce0 by goroutine 132:
+  reflect.Value.String()
+      /usr/local/go/src/reflect/value.go:2565 +0x1bc4
+  reflect.deepValueEqual()
+      /usr/local/go/src/reflect/deepequal.go:164 +0x1c2c
+  reflect.deepValueEqual()
+      /usr/local/go/src/reflect/deepequal.go:130 +0x1e48
+  reflect.deepValueEqual()
+      /usr/local/go/src/reflect/deepequal.go:127 +0x16c4
+  reflect.deepValueEqual()
+      /usr/local/go/src/reflect/deepequal.go:113 +0x1f5e
+  reflect.DeepEqual()
+      /usr/local/go/src/reflect/deepequal.go:237 +0x49c
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:402 +0x140a
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c0001f0ce0 by goroutine 135:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:37 +0x19a
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:145 +0x19b
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1.2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:358 +0x1c4
+
+Goroutine 132 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:289 +0x17cf
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Goroutine 135 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:357 +0x1115
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+{"level": "ERROR", "instant": {"epochSecond": 1701652721, "nanoOfSecond": 781366867}, "parentSpanId": "${ctx:parentSpanId}", "spanId": "${ctx:spanId}", "tracerId": "${ctx:tracerId}", "ndc": "${ctx:ndc}", "loggerName": "callisto/cdc/publisher/common/datarecord/data_record_reader.go:150", "threadId": 156, "message": "[error=close /tmp/test_18aa8b47-1c87-4edf-b5da-b350eef1f205/cdc_data/1701652721_0_1_secondary_metadata.json.gz: file already closed] failed to close data source for closing CDCFileReader: error close /tmp/test_18aa8b47-1c87-4edf-b5da-b350eef1f205/cdc_data/1701652721_0_1_secondary_metadata.json.gz: file already closed"}
+==================
+WARNING: DATA RACE
+Read at 0x00c0002f0208 by goroutine 138:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:396 +0x15e7
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c0002f0208 by goroutine 141:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:50 +0x33b
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:145 +0x19b
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1.2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:358 +0x1c4
+
+Goroutine 138 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:289 +0x17cf
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Goroutine 141 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:357 +0x1115
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c000014050 by goroutine 138:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:396 +0x1665
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c000014050 by goroutine 141:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:50 +0x2f5
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:145 +0x19b
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1.2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:358 +0x1c4
+
+Goroutine 138 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:289 +0x17cf
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Goroutine 141 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestStreamFromExistingSecondaryFiles.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:357 +0x1115
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+--- FAIL: TestStreamFromExistingSecondaryFiles (0.11s)
+    --- FAIL: TestStreamFromExistingSecondaryFiles/two_files_without_scanner_checkpoint (0.05s)
+        testing.go:1446: race detected during execution of test
+    --- FAIL: TestStreamFromExistingSecondaryFiles/two_files_with_scanner_checkpoint_on_start_of_second_file (0.06s)
+        testing.go:1446: race detected during execution of test
+    testing.go:1446: race detected during execution of test
+==================
+WARNING: DATA RACE
+Read at 0x00c0001361f8 by goroutine 144:
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:508 +0x30
+  rubrik/callisto/cdc/publisher/scanner.TimedWaitForFnForTest()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/test_utils.go:100 +0x183
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:507 +0xf7e
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c0001361f8 by goroutine 150:
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:146 +0x112
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead.func2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:485 +0x2b8
+
+Goroutine 144 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  testing.runTests.func1()
+      /usr/local/go/src/testing/testing.go:2036 +0x8d
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.runTests()
+      /usr/local/go/src/testing/testing.go:2034 +0x87c
+  testing.(*M).Run()
+      /usr/local/go/src/testing/testing.go:1906 +0xb44
+  main.main()
+      _testmain.go:97 +0x2e9
+
+Goroutine 150 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:484 +0xf49
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c00062e210 by goroutine 144:
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:517 +0xfd1
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c00062e210 by goroutine 150:
+  runtime.mapassign_faststr()
+      /usr/local/go/src/runtime/map_faststr.go:203 +0x0
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).GetTimeline()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:197 +0x1cc
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:143 +0x17e
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead.func2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:485 +0x2b8
+
+Goroutine 144 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  testing.runTests.func1()
+      /usr/local/go/src/testing/testing.go:2036 +0x8d
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.runTests()
+      /usr/local/go/src/testing/testing.go:2034 +0x87c
+  testing.(*M).Run()
+      /usr/local/go/src/testing/testing.go:1906 +0xb44
+  main.main()
+      _testmain.go:97 +0x2e9
+
+Goroutine 150 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:484 +0xf49
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c0001af5a8 by goroutine 144:
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:519 +0x12f1
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c0001af5a8 by goroutine 150:
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).GetTimeline()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:197 +0x1db
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:143 +0x17e
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead.func2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:485 +0x2b8
+
+Goroutine 144 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  testing.runTests.func1()
+      /usr/local/go/src/testing/testing.go:2036 +0x8d
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.runTests()
+      /usr/local/go/src/testing/testing.go:2034 +0x87c
+  testing.(*M).Run()
+      /usr/local/go/src/testing/testing.go:1906 +0xb44
+  main.main()
+      _testmain.go:97 +0x2e9
+
+Goroutine 150 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:484 +0xf49
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c000632248 by goroutine 144:
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:520 +0x131a
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c000632248 by goroutine 150:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:50 +0x33b
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:145 +0x19b
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead.func2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:485 +0x2b8
+
+Goroutine 144 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  testing.runTests.func1()
+      /usr/local/go/src/testing/testing.go:2036 +0x8d
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.runTests()
+      /usr/local/go/src/testing/testing.go:2034 +0x87c
+  testing.(*M).Run()
+      /usr/local/go/src/testing/testing.go:1906 +0xb44
+  main.main()
+      _testmain.go:97 +0x2e9
+
+Goroutine 150 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:484 +0xf49
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c000014068 by goroutine 144:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).ToString()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:113 +0xd1
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:521 +0x1330
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c000014068 by goroutine 150:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:50 +0x2f5
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:145 +0x19b
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead.func2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:485 +0x2b8
+
+Goroutine 144 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  testing.runTests.func1()
+      /usr/local/go/src/testing/testing.go:2036 +0x8d
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.runTests()
+      /usr/local/go/src/testing/testing.go:2034 +0x87c
+  testing.(*M).Run()
+      /usr/local/go/src/testing/testing.go:1906 +0xb44
+  main.main()
+      _testmain.go:97 +0x2e9
+
+Goroutine 150 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:484 +0xf49
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c0000c2730 by goroutine 144:
+  reflect.typedmemmove()
+      /usr/local/go/src/runtime/mbarrier.go:178 +0x0
+  reflect.packEface()
+      /usr/local/go/src/reflect/value.go:125 +0xaf
+  reflect.valueInterface()
+      /usr/local/go/src/reflect/value.go:1510 +0x18b
+  reflect.Value.Interface()
+      /usr/local/go/src/reflect/value.go:1480 +0xc9
+  fmt.(*pp).printValue()
+      /usr/local/go/src/fmt/print.go:769 +0xca
+  fmt.(*pp).printValue()
+      /usr/local/go/src/fmt/print.go:923 +0x12da
+  fmt.(*pp).printArg()
+      /usr/local/go/src/fmt/print.go:759 +0xe44
+  fmt.(*pp).doPrintf()
+      /usr/local/go/src/fmt/print.go:1077 +0x599
+  fmt.Sprintf()
+      /usr/local/go/src/fmt/print.go:239 +0x67
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).ToString()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:114 +0x114
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:521 +0x1330
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c0000c2730 by goroutine 150:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:37 +0x19a
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:145 +0x19b
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead.func2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:485 +0x2b8
+
+Goroutine 144 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  testing.runTests.func1()
+      /usr/local/go/src/testing/testing.go:2036 +0x8d
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.runTests()
+      /usr/local/go/src/testing/testing.go:2034 +0x87c
+  testing.(*M).Run()
+      /usr/local/go/src/testing/testing.go:1906 +0xb44
+  main.main()
+      _testmain.go:97 +0x2e9
+
+Goroutine 150 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:484 +0xf49
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c0000c2738 by goroutine 144:
+  reflect.typedmemmove()
+      /usr/local/go/src/runtime/mbarrier.go:178 +0x0
+  reflect.packEface()
+      /usr/local/go/src/reflect/value.go:125 +0xaf
+  reflect.valueInterface()
+      /usr/local/go/src/reflect/value.go:1510 +0x18b
+  reflect.Value.Interface()
+      /usr/local/go/src/reflect/value.go:1480 +0xc9
+  fmt.(*pp).printValue()
+      /usr/local/go/src/fmt/print.go:769 +0xca
+  fmt.(*pp).printValue()
+      /usr/local/go/src/fmt/print.go:853 +0x1d25
+  fmt.(*pp).printValue()
+      /usr/local/go/src/fmt/print.go:923 +0x12da
+  fmt.(*pp).printArg()
+      /usr/local/go/src/fmt/print.go:759 +0xe44
+  fmt.(*pp).doPrintf()
+      /usr/local/go/src/fmt/print.go:1077 +0x599
+  fmt.Sprintf()
+      /usr/local/go/src/fmt/print.go:239 +0x67
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).ToString()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:114 +0x114
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:521 +0x1330
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c0000c2738 by goroutine 150:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:37 +0x19a
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:145 +0x19b
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead.func2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:485 +0x2b8
+
+Goroutine 144 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  testing.runTests.func1()
+      /usr/local/go/src/testing/testing.go:2036 +0x8d
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.runTests()
+      /usr/local/go/src/testing/testing.go:2034 +0x87c
+  testing.(*M).Run()
+      /usr/local/go/src/testing/testing.go:1906 +0xb44
+  main.main()
+      _testmain.go:97 +0x2e9
+
+Goroutine 150 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestOnlySecondaryCPFilesRead()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:484 +0xf49
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+--- FAIL: TestOnlySecondaryCPFilesRead (0.05s)
+    testing.go:1446: race detected during execution of test
+==================
+WARNING: DATA RACE
+Read at 0x00c000136158 by goroutine 153:
+  rubrik/callisto/cdc/publisher/scanner.TestScannerCheckpoint.func2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:579 +0x30
+  rubrik/callisto/cdc/publisher/scanner.TimedWaitForFnForTest()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/test_utils.go:100 +0x183
+  rubrik/callisto/cdc/publisher/scanner.TestScannerCheckpoint()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:578 +0x9ee
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c000136158 by goroutine 156:
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:146 +0x112
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestScannerCheckpoint.func1()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:556 +0x267
+
+Goroutine 153 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  testing.runTests.func1()
+      /usr/local/go/src/testing/testing.go:2036 +0x8d
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.runTests()
+      /usr/local/go/src/testing/testing.go:2034 +0x87c
+  testing.(*M).Run()
+      /usr/local/go/src/testing/testing.go:1906 +0xb44
+  main.main()
+      _testmain.go:97 +0x2e9
+
+Goroutine 156 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestScannerCheckpoint()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:555 +0x9b9
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+--- FAIL: TestScannerCheckpoint (0.03s)
+    testing.go:1446: race detected during execution of test
+==================
+WARNING: DATA RACE
+Write at 0x00c000046228 by goroutine 162:
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:146 +0x112
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation.func2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:632 +0x2b8
+
+Previous read at 0x00c000046228 by goroutine 159:
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:662 +0x30
+  rubrik/callisto/cdc/publisher/scanner.TimedWaitForFnForTest()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/test_utils.go:100 +0x183
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:661 +0xa9e
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Goroutine 162 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:631 +0x985
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Goroutine 159 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  testing.runTests.func1()
+      /usr/local/go/src/testing/testing.go:2036 +0x8d
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.runTests()
+      /usr/local/go/src/testing/testing.go:2034 +0x87c
+  testing.(*M).Run()
+      /usr/local/go/src/testing/testing.go:1906 +0xb44
+  main.main()
+      _testmain.go:97 +0x2e9
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c000046228 by goroutine 159:
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation.func4()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:702 +0x30
+  rubrik/callisto/cdc/publisher/scanner.TimedWaitForFnForTest()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/test_utils.go:100 +0x183
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:701 +0xf9e
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c000046228 by goroutine 162:
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:146 +0x112
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation.func2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:632 +0x2b8
+
+Goroutine 159 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  testing.runTests.func1()
+      /usr/local/go/src/testing/testing.go:2036 +0x8d
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.runTests()
+      /usr/local/go/src/testing/testing.go:2034 +0x87c
+  testing.(*M).Run()
+      /usr/local/go/src/testing/testing.go:1906 +0xb44
+  main.main()
+      _testmain.go:97 +0x2e9
+
+Goroutine 162 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:631 +0x985
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c000154508 by goroutine 159:
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:711 +0x125a
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c000154508 by goroutine 162:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:72 +0x72a
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:145 +0x19b
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation.func2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:632 +0x2b8
+
+Goroutine 159 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  testing.runTests.func1()
+      /usr/local/go/src/testing/testing.go:2036 +0x8d
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.runTests()
+      /usr/local/go/src/testing/testing.go:2034 +0x87c
+  testing.(*M).Run()
+      /usr/local/go/src/testing/testing.go:1906 +0xb44
+  main.main()
+      _testmain.go:97 +0x2e9
+
+Goroutine 162 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:631 +0x985
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c00019c148 by goroutine 159:
+  reflect.typedmemmove()
+      /usr/local/go/src/runtime/mbarrier.go:178 +0x0
+  reflect.packEface()
+      /usr/local/go/src/reflect/value.go:125 +0xaf
+  reflect.valueInterface()
+      /usr/local/go/src/reflect/value.go:1510 +0x18b
+  reflect.Value.Interface()
+      /usr/local/go/src/reflect/value.go:1480 +0xc9
+  fmt.(*pp).printValue()
+      /usr/local/go/src/fmt/print.go:769 +0xca
+  fmt.(*pp).printValue()
+      /usr/local/go/src/fmt/print.go:923 +0x12da
+  fmt.(*pp).printArg()
+      /usr/local/go/src/fmt/print.go:759 +0xe44
+  fmt.(*pp).doPrintf()
+      /usr/local/go/src/fmt/print.go:1077 +0x599
+  fmt.Sprintf()
+      /usr/local/go/src/fmt/print.go:239 +0x67
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).ToString()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:114 +0x114
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:712 +0x1270
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+
+Previous write at 0x00c00019c148 by goroutine 162:
+  rubrik/callisto/cdc/publisher/scanner.(*Timeline).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:65 +0xa73
+  rubrik/callisto/cdc/publisher/scanner.(*TimelinesMap).Add()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/timeline.go:145 +0x19b
+  rubrik/callisto/cdc/publisher/scanner.consumeRecord()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:262 +0x4ca
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner.func3()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:138 +0xee
+  rubrik/callisto/cdc/publisher/scanner.ReadStreamLoop()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/live_stream_read_utils.go:170 +0x1024
+  rubrik/callisto/cdc/publisher/scanner.startSecondaryStreamScanner()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner.go:116 +0x253
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation.func2()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:632 +0x2b8
+
+Goroutine 159 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:1629 +0x805
+  testing.runTests.func1()
+      /usr/local/go/src/testing/testing.go:2036 +0x8d
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.runTests()
+      /usr/local/go/src/testing/testing.go:2034 +0x87c
+  testing.(*M).Run()
+      /usr/local/go/src/testing/testing.go:1906 +0xb44
+  main.main()
+      _testmain.go:97 +0x2e9
+
+Goroutine 162 (running) created at:
+  rubrik/callisto/cdc/publisher/scanner.TestSecondaryFileRotation()
+      /home/ubuntu/Documents/projects/sdmain/src/go/src/rubrik/callisto/cdc/publisher/scanner/cdc_secondary_stream_scanner_test.go:631 +0x985
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1576 +0x216
+  testing.(*T).Run.func1()
+      /usr/local/go/src/testing/testing.go:1629 +0x47
+==================
+--- FAIL: TestSecondaryFileRotation (1.51s)
+    testing.go:1446: race detected during execution of test
+{"level": "ERROR", "instant": {"epochSecond": 1701652723, "nanoOfSecond": 417480095}, "parentSpanId": "${ctx:parentSpanId}", "spanId": "${ctx:spanId}", "tracerId": "${ctx:tracerId}", "ndc": "${ctx:ndc}", "loggerName": "callisto/cdc/publisher/common/datarecord/data_record_reader.go:150", "threadId": 86, "message": "[error=close /tmp/test_5ac8d4c7-0323-4ef7-9c12-dee87f8f84bb/cdc_data/1701652721_0_1_secondary_metadata.json.gz: file already closed] failed to close data source for closing CDCFileReader: error close /tmp/test_5ac8d4c7-0323-4ef7-9c12-dee87f8f84bb/cdc_data/1701652721_0_1_secondary_metadata.json.gz: file already closed"}
+FAIL
+FAIL  rubrik/callisto/cdc/publisher/scanner 13.812s
+ok    rubrik/callisto/cdc/publisher/scanner/deletes (cached)
+ok    rubrik/callisto/cdc/publisher/store (cached)
+ok    rubrik/callisto/cdc/publisher/store/models  (cached)
+ok    rubrik/callisto/cdc/publisher/store/repositories  (cached)
+ok    rubrik/callisto/cdc/publisher/utils (cached)
+ok    rubrik/callisto/cockroachconstructs (cached)
+ok    rubrik/callisto/common/utils/errorutils (cached)
+ok    rubrik/callisto/common/utils/stringutils  (cached)
+ok    rubrik/callisto/election  (cached)
+ok    rubrik/callisto/election/consensus  (cached)
+FAIL
