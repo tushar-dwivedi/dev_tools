@@ -1,0 +1,32 @@
+
+
+
+Make sure to have the following set in env variables (and in IDE):
+
+export CGO_CFLAGS='-I/usr/lib/jvm/java-11-openjdk-amd64/include -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux'
+
+
+
+
+Run these tests from "src/go/src/rubrik"
+
+cd src/go/src/rubrik
+
+/usr/local/go/bin/go test -tags publisher_integration_tests -v -timeout 120m ./callisto/cdc/publisher/integration_tests/...
+
+/usr/local/go/bin/go test -tags publisher_correctness -v -timeout 120m ./callisto/cdc/publisher/integration_tests/...
+
+
+
+
+Specific test:
+
+/usr/local/go/bin/go test -tags publisher_integration_tests -run TestParityBetweenMDSAndReplayStreamData -v -timeout 120m ./callisto/cdc/publisher/integration_tests/...
+
+
+
+
+
+Normal UT with race and count:
+
+/usr/local/go/bin/go test -race -count=5000 -run TestQuorumGroup_TransitionState -v -timeout 120m ./callisto/election/consensus/...

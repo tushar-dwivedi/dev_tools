@@ -6,6 +6,7 @@ import pyautogui
 
 pem_file = "~/Documents/projects/sdmain/deployment/ssh_keys/ubuntu.pem"
 
+
 def split_into_subarrays(input_array):
     subarrays = []
     for i in range(0, len(input_array), 4):

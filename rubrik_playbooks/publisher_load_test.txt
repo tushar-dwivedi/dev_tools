@@ -1,0 +1,74 @@
+
+
+
+Stop services on the cluster:
+
+rkcl exec all "sdservice.sh '*' stop"
+rkcl exec all 'sudo systemctl stop cqlproxy'
+rkcl exec all 'sudo systemctl stop cockroachdb'
+
+
+
+In devbox:
+
+export bodega_order_id=gqes2u-3qs3bze
+./devvm_scripts/scp_publisher.sh
+
+
+
+Start services on the cluster:
+
+rkcl exec all 'sudo systemctl start cockroachdb'
+rkcl exec all 'sudo systemctl start cqlproxy'
+rkcl exec all "sdservice.sh '*' start"
+
+
+
+
+
+
+On the first node, where scripts are copied, copy the backups's sd.json file:
+
+
+ls -ltrh /mnt/*/internal/cassandra_snapshots/
+
+sudo cp /mnt/*/internal/cassandra_snapshots/*-BACK_UP_COCKROACH_GLOBAL-0/sd.json /home/ubuntu/publisher_load_test/
+
+
+sudo chown ubuntu:ubuntu /home/ubuntu/publisher_load_test/sd.json
+
+
+
+Run load test
+
+cd /home/ubuntu/publisher_load_test/
+
+Run only live stream load:
+python3 main.py start_processes --working_dir $(pwd)/cdc_test_data --profile_path $(pwd)/cdc_events_profile.json --datagen_tool_path cdc_data_gen --cqlproxy_schema_file $(pwd)/sd.json
+
+
+
+Run live, full-replay and inc-replay load:
+python3 main.py start_processes --working_dir $(pwd)/cdc_test_data --profile_path $(pwd)/cdc_events_profile.json --datagen_tool_path cdc_data_gen --cqlproxy_schema_file $(pwd)/sd.json --start_replay_streams true --start_inc_replay_streams true
+
+
+
+
+Tail the metrics:
+tail -F /home/ubuntu/publisher_load_test/cdc_test_data/profile_result
+
+
+
+Aggregate results:
+python3 main.py aggregate_results --working_dir $(pwd)/cdc_test_data
+
+
+
+Stop load test:
+python3 main.py stop --working_dir $(pwd)/cdc_test_data
+
+
+
+
+
+

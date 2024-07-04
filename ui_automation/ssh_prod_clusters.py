@@ -15,12 +15,26 @@ jira_ticket_id = sys.argv[2]
 if len(sys.argv) > 3:
     local_tunnel_port = sys.argv[3]
 
-JIRA_BASE_URL="https://rubrik.atlassian.net/browse"
+JIRA_BASE_URL = "https://rubrik.atlassian.net/browse"
 
 cmd_map = {
-    "connect to a cluster node": ["portal connect", "sleep 5", "portal access gain --jira {}/{} --cluster-uuid {}".format(JIRA_BASE_URL, jira_ticket_id, cluster_uuid), "portal connect --cluster-uuid {}".format(cluster_uuid)],  # tab 1
-    "port forward to cluster": ["forward_crdb {} {}".format(cluster_uuid, local_tunnel_port)],  # tab 2
-    "open browser": ["xdg-open https://127.0.0.1:{}".format(local_tunnel_port)],  # tab 3
+    "connect to a cluster node": [
+        "clear",
+        "portal connect",
+        "sleep 5",
+        "portal access gain --jira {}/{} --cluster-uuid {}".format(JIRA_BASE_URL, jira_ticket_id, cluster_uuid),
+        "portal connect --cluster-uuid {}".format(cluster_uuid),
+        jira_ticket_id,
+    ],  # tab 1
+    "port forward to cluster": [
+        "clear",
+        "forward_crdb {} {}".format(cluster_uuid, local_tunnel_port),
+        jira_ticket_id,
+    ],  # tab 2
+    "open browser": [
+        "clear",
+        "xdg-open https://127.0.0.1:{}".format(local_tunnel_port),
+    ],  # tab 3
 }
 
 

@@ -1,0 +1,3480 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [
+            "callisto"
+          ],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1717735514989,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 12,
+      "panels": [],
+      "title": "Environment",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Number of time CDC Publisher service is restarted in the given time span.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      },
+      "id": 32,
+      "links": [],
+      "maxDataPoints": 10000,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refId": "A",
+          "target": "groupByNodes(nonNegativeDerivative(clusters.$Cluster.$Node.Diamond.service.CDCDataPublisher.Run.count),\"sum\",1)",
+          "textEditor": true
+        }
+      ],
+      "title": "Publisher Service Restarts",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "0YA9wNESk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 16,
+        "x": 4,
+        "y": 1
+      },
+      "id": 38,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "refId": "A",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.coordinator.active_coordinator.value, 0, 3)"
+        }
+      ],
+      "title": "Who is the coordinator?",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Number of times Coordinator component loop was run.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 7
+      },
+      "id": 35,
+      "links": [],
+      "maxDataPoints": 10000,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum",
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refId": "A",
+          "target": "groupByNodes(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.coordinator.coordinator_component_restart_count.count), 'sum', 1)",
+          "textEditor": true
+        }
+      ],
+      "title": "Coordinator Restarts",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Number of times Publisher component loop was run.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 7
+      },
+      "id": 36,
+      "links": [],
+      "maxDataPoints": 10000,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum",
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refId": "A",
+          "target": "groupByNodes(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.publisher.publisher_component_restart_count.count), 'sum', 1)",
+          "textEditor": true
+        }
+      ],
+      "title": "Publisher Restarts",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Number of times Live Stream component loop was run.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 7
+      },
+      "id": 34,
+      "links": [],
+      "maxDataPoints": 10000,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum",
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refId": "A",
+          "target": "groupByNodes(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.live_stream_scanner.live_stream_scanner_restarts.count), 'sum', 1)",
+          "textEditor": false
+        }
+      ],
+      "title": "Live Scanner Restarts",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Number of times Secondary Scanner component loop was run.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 12,
+        "y": 7
+      },
+      "id": 59,
+      "links": [],
+      "maxDataPoints": 10000,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum",
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refId": "A",
+          "target": "groupByNodes(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.secondary_stream_scanner.secondary_stream_scanner_restarts.count), 'sum', 1)",
+          "textEditor": false
+        }
+      ],
+      "title": "Secondary Scanner Restarts",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Number of times Delete Scanner component loop was run.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 16,
+        "y": 7
+      },
+      "id": 60,
+      "links": [],
+      "maxDataPoints": 10000,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum",
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refId": "A",
+          "target": "groupByNodes(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.delete_scanner.delete_scanner_restarts.count), 'sum', 1)",
+          "textEditor": false
+        }
+      ],
+      "title": "Delete Scanner Restarts",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 4,
+      "panels": [],
+      "title": "Live Stream",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "End to End latencies of live events published via CDC Publisher",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 13
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.e2e.live_events_e2e_delay_in_secs.99-percentile, 0, 3, 4)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.e2e.live_events_e2e_delay_in_secs.75-percentile, 0, 3, 4)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.e2e.live_events_e2e_delay_in_secs.50-percentile, 0, 3, 4)",
+          "textEditor": false
+        }
+      ],
+      "title": "Live Events E2E Latencies",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "End to End latencies of backfill events published via CDC Publisher",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 13
+      },
+      "id": 18,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(clusters.$Cluster.$Node.cdc_publisher.e2e.backfill_events_e2e_delay_in_secs.99-percentile, 'backfill_events_e2e_p99'",
+          "textEditor": true
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(clusters.$Cluster.$Node.cdc_publisher.e2e.backfill_events_e2e_delay_in_secs.97-percentile, 'backfill_events_e2e_p75')5",
+          "textEditor": true
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(clusters.$Cluster.$Node.cdc_publisher.e2e.backfill_events_e2e_delay_in_secs.50-percentile, 'backfill_events_e2e_p50')",
+          "textEditor": true
+        }
+      ],
+      "title": "Backfill Events E2E Latencies",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "End to End latencies of backfill events published via CDC Publisher",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 13
+      },
+      "id": 33,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(clusters.$Cluster.$Node.cdc_publisher.e2e.heartbeat_events_e2e_delay_in_secs.99-percentile, 'backfill_events_e2e_p99'",
+          "textEditor": true
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(clusters.$Cluster.$Node.cdc_publisher.e2e.heartbeat_events_e2e_delay_in_secs.75-percentile, 'backfill_events_e2e_p75')",
+          "textEditor": true
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(clusters.$Cluster.$Node.cdc_publisher.e2e.heartbeat_events_e2e_delay_in_secs.50-percentile, 'backfill_events_e2e_p50')",
+          "textEditor": true
+        }
+      ],
+      "title": "Heartbeat Events E2E Latencies",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "0YA9wNESk"
+      },
+      "description": "Status that live streams were at any given time (0 means that there were no status changes in that time duration)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 21
+      },
+      "id": 42,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "refId": "A",
+          "target": "clusters.$Cluster.$Node.cdc_publisher.metadata_stream.live_stream_current_status.*.value"
+        }
+      ],
+      "title": "Live stream statuses",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 29
+      },
+      "id": 29,
+      "panels": [],
+      "title": "Time Continuity Enforcer",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "0YA9wNESk"
+      },
+      "description": "Time Continuity Enforcer first tries to complete any abruptly stopped work assignments from any previous run. This is an indicator of repeated work to be done, before we can move on to recent work assignments.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 30
+      },
+      "id": 51,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.time_continuity_enforcer.pre_existing_work_completion_time_in_millis.value, 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.time_continuity_enforcer.pre_existing_work_completed.count, 0, 3)",
+          "textEditor": false
+        }
+      ],
+      "title": "TCE Existing Work completion",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "0YA9wNESk"
+      },
+      "description": "Comparison between live stream and backfill events (indicates how much repeated work the system has to do)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 30
+      },
+      "id": 50,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.publisher.live_events_published.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": true
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.publisher.backfill_events_published.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": true
+        }
+      ],
+      "title": "Events Published (Live v/s Backfill)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "FXlI2ssSk"
+      },
+      "description": "This panel gives a comparison between the total timespan over which holes in the timeline are spread, v/s how much of them are we able to fill (both are gauge metrics). A continuous spread between the two indicates that we are not able to fill the holes",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 30
+      },
+      "id": 55,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.time_continuity_enforcer.holes_timespan.value, 0, 3)",
+          "textEditor": true
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.time_continuity_enforcer.holes_filled_timespan.value, 0, 3)",
+          "textEditor": true
+        }
+      ],
+      "title": "Timeline hole filling",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "0YA9wNESk"
+      },
+      "description": "Number of events scanned by live stream scanner",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 38
+      },
+      "id": 57,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.live_stream_scanner.live_data_events_scanned.value, 0, 2, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.live_stream_scanner.live_cp_events_scanned.value, 0, 2, 3)",
+          "textEditor": false
+        }
+      ],
+      "title": "Events Scanned (Live Stream Scanner)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "0YA9wNESk"
+      },
+      "description": "Number of tasks that Scanners are committing to the database",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 38
+      },
+      "id": 54,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.live_stream_scanner.tasks_committed_for_primary_timeline.value, 0, 2, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.secondary_stream_scanner.tasks_committed_for_secondary_timeline.count), '${interval}', 'sum'), 0, 2, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.delete_scanner.tasks_committed_for_delete_timeline.count), '${interval}', 'sum'), 0, 2, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "D",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.live_stream_scanner.primary_timelines_dropped.count), '${interval}', 'sum'), 0, 2, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "E",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.secondary_stream_scanner.secondary_timelines_dropped.count), '${interval}', 'sum'), 0, 2, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "F",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.delete_scanner.delete_timelines_dropped.count), '${interval}', 'sum'), 0, 2, 3)",
+          "textEditor": false
+        }
+      ],
+      "title": "Scanner timeline task commits",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "0YA9wNESk"
+      },
+      "description": "This panel tracks the failure counts, while committing tasks to the timeline (database)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 38
+      },
+      "id": 56,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.timeline_manager.primary_timeline_commit_failure.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.timeline_manager.iteration_failure.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.time_continuity_enforcer.holes.value, 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "E",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.timeline_manager.delete_timeline_commit_failure.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "F",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.timeline_manager.liveness_timeline_commit_failure.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "G",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.timeline_manager.secondary_timeline_commit_failure.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": false
+        }
+      ],
+      "title": "Timeline commit failures",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "0YA9wNESk"
+      },
+      "description": "Size of the TCE graph, and time taken to complete its various stages.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 46
+      },
+      "id": 52,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.time_continuity_enforcer.task_graph_creation_time_in_millis.value, 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.time_continuity_enforcer.task_graph_completion_time_in_millis.value, 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "0YA9wNESk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.time_continuity_enforcer.task_graph_size.value, 0, 3)",
+          "textEditor": false
+        }
+      ],
+      "title": "TCE Task Graph",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 54
+      },
+      "id": 10,
+      "panels": [],
+      "title": "Replay (Full & Incremental) Streams",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Number of fetch related API calls in the selected interval, and the count of their respective EOS messages.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 55
+      },
+      "id": 26,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.fetch_full_api_count.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.fetch_full_api_count.failed.count), '${interval}', 'sum'), 0, 3, 4)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.fetch_incremental_api_count.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "D",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.fetch_incremental_api_count.failed.count), '${interval}', 'sum'), 0, 3, 4)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "E",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.publisher.eos_events_published.state_SUCCESS.count), '${interval}', 'sum'), 0, 3, 4)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "F",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.publisher.eos_events_published.count), '${interval}', 'sum'), 0, 3, 4)",
+          "textEditor": false
+        }
+      ],
+      "title": "Fetch (Full/Incremental) API Calls & EOS",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Time spent by replay streams in each state (waiting, active, finishing)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 8,
+        "y": 55
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.stream_waiting_time.99-percentile, 0, 3, 4)"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "E",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.stream_waiting_time.75-percentile, 0, 3, 4)"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "F",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.stream_active_time.99-percentile, 0, 3, 4)"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.stream_active_time.75-percentile, 0, 3, 4)"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.stream_finishing_time.99-percentile, 0, 3, 4)"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "D",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.stream_finishing_time.75-percentile, 0, 3, 4)"
+        }
+      ],
+      "title": "Replay Stream State Durations",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Delete events that were generated, and those that were committed to SQLite database (and failures)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 55
+      },
+      "id": 58,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.delete_scanner.delete_events_persisted_to_sql_lite.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.delete_scanner.delete_events_failed_persisting_to_sql_lite.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.replay_delete_events_generated.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "D",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.dropped_replay_delete_events_count.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": false
+        }
+      ],
+      "title": "Delete Events (Scanned -> SQLite)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Number of replay and delete events generated",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 62
+      },
+      "id": 61,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.replay_upsert_events_generated.count), ''${interval}'', 'sum'), 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.dropped_replay_upsert_events_count.count), ''${interval}'', 'sum'), 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.replay_delete_events_generated.count), ''${interval}'', 'sum'), 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "D",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.dropped_replay_delete_events_count.count), ''${interval}'', 'sum'), 0, 3)",
+          "textEditor": false
+        }
+      ],
+      "title": "Replay & Delete Events Generated",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Number of replay and delete events published to DGA",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 8,
+        "y": 62
+      },
+      "id": 62,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.publisher.full_replay_events_published.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.publisher.inc_replay_events_published.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": false
+        }
+      ],
+      "title": "Replay & Delete Events Published",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 69
+      },
+      "id": 31,
+      "panels": [],
+      "title": "Replay Works",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Number of retried and reassigned replay works.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 70
+      },
+      "id": 25,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.replay_work_reassignment_count.count), '${interval}', 'sum'), 'Reassigned Replay works')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.restarted_replay_work_count.count), '${interval}', 'sum'), 'Replay works restarted at startup')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.delete_works_retried_count.count), '${interval}', 'sum'), 'Delete works retried')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.empty_replay_work_count.count), '${interval}', 'sum'), 'Empty Replay works ')",
+          "textEditor": false
+        }
+      ],
+      "title": "Replay works (Retry/Reassign/Empty)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "E2E latencies of replay works (& delete works)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 8,
+        "y": 70
+      },
+      "id": 43,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.delete_work_e2e_delay.99-percentile, 0, 3, 4)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.replay_work_e2e_delay.99-percentile, 0, 3, 4)",
+          "textEditor": false
+        }
+      ],
+      "title": "Replay/Delete Work E2E Latencies",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 70
+      },
+      "id": 46,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.replay_upsert_events_generated.count), ''${interval}'', 'sum'), 0, 3)"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.dropped_replay_upsert_events_count.count), '${interval}', 'sum'), 0, 3)",
+          "textEditor": true
+        }
+      ],
+      "title": "Replay upsert events generated and dropped",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Time taken by replay works in various stages of their lifecycle",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 77
+      },
+      "id": 44,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.replay_work_wait_time.99-percentile, 0, 3, 4)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.replay_work_queued_time.99-percentile, 0, 3, 4)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.replay_work_processing_time.*.99-percentile, 0, 3, 4, 5)",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "D",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.replay_work_iteration_delay.99-percentile, 0, 3, 4)",
+          "textEditor": false
+        }
+      ],
+      "title": "Replay Work Lifecycle durations (wait/queued/processing)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Time taken by delete works in various stages of their lifecycle",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 8,
+        "y": 77
+      },
+      "id": 45,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.delete_work_wait_time.99-percentile, 0, 3, 4)",
+          "textEditor": true
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.delete_work_queued_time.99-percentile, 0, 3, 4)",
+          "textEditor": true
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.delete_work_processing_time.*.99-percentile, 0, 3, 4, 5)",
+          "textEditor": true
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "D",
+          "target": "aliasByNode(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.delete_work_iteration_delay.99-percentile, 0, 3, 4)",
+          "textEditor": true
+        }
+      ],
+      "title": "Delete Work Lifecycle durations (wait/queued/processing)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Number of replay events lost, and full/incremental events published",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 77
+      },
+      "id": 47,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.replay_work_data_event_loss_count.count), '${interval}', 'sum'), 0, 3)"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.publisher.full_replay_events_published.count), '${interval}', 'sum'), 0, 3)"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.publisher.inc_replay_events_published.count), '${interval}', 'sum'), 0, 3)"
+        }
+      ],
+      "title": "Replay work events lost and published",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "${Datasource}"
+      },
+      "description": "Time spent by Replay works in each of their lifecycle status",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 84
+      },
+      "id": 48,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${Datasource}"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(smartSummarize(nonNegativeDerivative(clusters.$Cluster.$Node.cdc_publisher.metadata_stream.replay_work_status.*.count), '${interval}', 'sum'), 0, 3, 4)"
+        }
+      ],
+      "title": "Replay work status durations",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 35,
+  "style": "dark",
+  "tags": [
+    "callisto"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "graphite",
+          "uid": "${Datasource}"
+        },
+        "definition": "*",
+        "description": "CDM Node Name",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Node",
+        "multi": true,
+        "name": "Node",
+        "options": [],
+        "query": "*",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "AnomalyDB-prod-graphite",
+          "value": "AnomalyDB-prod-graphite"
+        },
+        "description": "Data source to be used for metrics",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "Datasource",
+        "options": [],
+        "query": "graphite",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "auto": true,
+        "auto_count": 30,
+        "auto_min": "5m",
+        "current": {
+          "selected": false,
+          "text": "auto",
+          "value": "$__auto_interval_interval"
+        },
+        "hide": 0,
+        "name": "interval",
+        "options": [
+          {
+            "selected": true,
+            "text": "auto",
+            "value": "$__auto_interval_interval"
+          },
+          {
+            "selected": false,
+            "text": "5m",
+            "value": "5m"
+          },
+          {
+            "selected": false,
+            "text": "10m",
+            "value": "10m"
+          },
+          {
+            "selected": false,
+            "text": "30m",
+            "value": "30m"
+          },
+          {
+            "selected": false,
+            "text": "1h",
+            "value": "1h"
+          },
+          {
+            "selected": false,
+            "text": "6h",
+            "value": "6h"
+          },
+          {
+            "selected": false,
+            "text": "12h",
+            "value": "12h"
+          },
+          {
+            "selected": false,
+            "text": "1d",
+            "value": "1d"
+          },
+          {
+            "selected": false,
+            "text": "7d",
+            "value": "7d"
+          },
+          {
+            "selected": false,
+            "text": "14d",
+            "value": "14d"
+          },
+          {
+            "selected": false,
+            "text": "30d",
+            "value": "30d"
+          }
+        ],
+        "query": "5m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
+        "refresh": 2,
+        "skipUrlSync": false,
+        "type": "interval"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Unassigned",
+          "value": "Unassigned"
+        },
+        "datasource": {
+          "type": "graphite",
+          "uid": "000000001"
+        },
+        "definition": "tags.cluster.*",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Customer",
+        "multi": false,
+        "name": "Customer",
+        "options": [],
+        "query": "tags.cluster.*",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": "*",
+        "current": {
+          "selected": false,
+          "text": "VRECF987C864C",
+          "value": "VRECF987C864C"
+        },
+        "datasource": {
+          "type": "graphite",
+          "uid": "000000001"
+        },
+        "definition": "tags.cluster.$Customer.*",
+        "hide": 0,
+        "includeAll": true,
+        "label": "ClusterTag",
+        "multi": false,
+        "name": "ClusterTag",
+        "options": [],
+        "query": "tags.cluster.$Customer.*",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "0f96a9cb-a543-4b3e-97ce-d5184e674807",
+          "value": "0f96a9cb-a543-4b3e-97ce-d5184e674807"
+        },
+        "datasource": {
+          "type": "graphite",
+          "uid": "000000001"
+        },
+        "definition": "tags.cluster.$Customer.$ClusterTag.*",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Cluster",
+        "multi": false,
+        "name": "Cluster",
+        "options": [],
+        "query": "tags.cluster.$Customer.$ClusterTag.*",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "CDC Publisher Debug",
+  "uid": "PO4iAjfVzb",
+  "version": 1,
+  "weekStart": ""
+}

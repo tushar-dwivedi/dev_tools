@@ -35,7 +35,7 @@ all
 rkcl exec all 'sudo rm -rf /var/log/cockroach_backup_tool/ ' && rkcl exec all 'rm -rf /mnt/*/internal/cassandra_snapshots/intermediate/' && rkcl exec all 'rm -rf /mnt/wwn-*/internal/cassandra_snapshots/sharded/' && rkcl exec all 'mkdir -p /var/log/cockroach_backup_tool/cdc_restore_tool'
 
 
-src=$(sudo jq '.cdc_store_path' /var/lib/cockroachdb/rubrik_cdc/cdc_store_path | tr -d \"); dest=$(sudo find /mnt/wwn-*/internal/cassandra_snapshots/ -type d -name "*BACK_UP_COCKROACH_GLOBAL-*" -print -quit); echo $src; sudo /opt/rubrik/src/go/bin/cdc_restore_tool --source_directory $src/cdc_data --destination_directory  $src/sharded --intermediate_directory $src/intermediate --restore_into_db sd_restore --low_watermark 1694044255000000000 --high_watermark 1694046897000000000 --peer_ips 10.0.39.237,10.0.38.104,10.0.38.72,10.0.34.94 --tables_to_restore files_perf_test_only,files_perf_test_only__static --perf low --debug
+src=$(sudo jq '.cdc_store_path' /var/lib/cockroachdb/rubrik_cdc/cdc_store_path | tr -d \"); dest=$(sudo find /mnt/wwn-*/internal/cassandra_snapshots/ -type d -name "*BACK_UP_COCKROACH_GLOBAL-*" -print -quit); echo $src; sudo /opt/rubrik/src/go/bin/cdc_restore_tool --source_directory $src/cdc_data --destination_directory  $src/sharded --intermediate_directory $src/intermediate --restore_into_db sd_restore --low_watermark 1694044255000000000 --high_watermark 1694046897000000000 --peer_ips 10.0.39.237,10.0.38.104,10.0.38.72,10.0.34.94 --tables_to_restore files_perf_test_only,files_perf_test_only__static --perf high --debug
 
 
 #######################################################
@@ -135,15 +135,15 @@ Now that we know for sure that all the events for a given key, are all on one no
 
 
 
-
-
-
-
- sudo bash -c "src=$(sudo jq '.cdc_store_path' /var/lib/cockroachdb/rubrik_cdc/cdc_store_path | tr -d \"); scp -r -i /opt/rubrik/deployment/ssh_keys/ubuntu.pem ubuntu@10.0.86.200:/home/ubuntu/tushar/1693281801-BACK_UP_COCKROACH_GLOBAL-9908 $src/"
-
+sudo bash -c "src=$(sudo jq '.cdc_store_path' /var/lib/cockroachdb/rubrik_cdc/cdc_store_path | tr -d \"); scp -r -i /opt/rubrik/deployment/ssh_keys/ubuntu.pem ubuntu@10.0.86.200:/home/ubuntu/tushar/1693281801-BACK_UP_COCKROACH_GLOBAL-9908 $src/"
 
 
 
 
 
 
+rkcl exec all 'sudo rm -rf /var/log/cockroach_backup_tool/ ' && rkcl exec all 'rm -rf /mnt/*/internal/cassandra_snapshots/intermediate/' && rkcl exec all 'rm -rf /mnt/wwn-*/internal/cassandra_snapshots/sharded/' && rkcl exec all 'mkdir -p /var/log/cockroach_backup_tool/cdc_restore_tool'
+
+
+
+/opt/rubrik/src/go/bin/cockroach_backup_tool restore --timestamp 1699578184 --restore_cdc_end_time 1699588903 --restore_cdc_data --tables_to_restore sd.files_perf_test_only

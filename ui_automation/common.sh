@@ -4,7 +4,7 @@ function get_bodega_details() {
     local choice
     local bodega_id
 
-    list_orders_cmd="docker exec -it $sd_dev_container_id /home/tushar/Documents/projects/sdmain/lab/bin/bodega list orders"
+    list_orders_cmd="docker exec -it $sd_dev_container_id /home/ubuntu/Documents/projects/sdmain/lab/bin/bodega list orders"
     # Your command to get the output (replace with your actual command)
 #    echo "list_orders_cmd: $list_orders_cmd" > /dev/stderr
     bodega_orders_details=$($list_orders_cmd)
@@ -50,7 +50,7 @@ if [[ "$bodega_order_id" == "stress" ]]; then
 fi
 
 echo "bodega_order_id: $bodega_order_id"
-docker exec -it "$sd_dev_container_id" bash -c "/home/tushar/Documents/projects/sdmain/lab/bin/bodega consume order $bodega_order_id"  | grep -i 'ipv4:' | awk -F': ' '{print $2 }' > $HOME/ips.txt
+docker exec -it "$sd_dev_container_id" bash -c "/home/ubuntu/Documents/projects/sdmain/lab/bin/bodega consume order $bodega_order_id"  | grep -i 'ipv4:' | awk -F': ' '{print $2 }' > $HOME/ips.txt
 #list_ips_cmd="docker exec -it $sd_dev_container_id bash -c \"/home/ubuntu/Documents/projects/sdmain/lab/bin/bodega consume order $bodega_order_id\"  | grep -i 'ipv4:' | awk -F': ' '{print $2 }' > $HOME/ips.txt"
 #echo "list_ips_cmd: $list_ips_cmd" > /dev/stderr
 #"$list_ips_cmd"

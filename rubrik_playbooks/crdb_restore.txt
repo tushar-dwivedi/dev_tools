@@ -1,0 +1,144 @@
+
+ cluster_uuid                         | node_id         | data_ip_address
+--------------------------------------+-----------------+-----------------
+ f7e0e9f6-ee1f-4290-a868-7432d5cd1d66 | RVMHM219S004050 |    10.30.10.154
+ f7e0e9f6-ee1f-4290-a868-7432d5cd1d66 | RVMHM219S004077 |    10.30.10.155
+ f7e0e9f6-ee1f-4290-a868-7432d5cd1d66 | RVMHM219S004178 |    10.30.10.157
+ f7e0e9f6-ee1f-4290-a868-7432d5cd1d66 | RVMHM219S004219 |    10.30.10.158
+
+Or directly using the cockroach_backup_tool:
+
+
+rkcl exec RVMHM219S004219 'dest=$(sudo find /mnt/wwn-*/internal/cassandra_snapshots/ -type d -name "*BACK_UP_COCKROACH_GLOBAL-*" -print -quit); sudo /opt/rubrik/src/go/bin/cockroach_backup_tool dump_csv --num_shards 4 --max_concurrency 4 --csv_dir $dest/../1711620764-BACK_UP_COCKROACH_GLOBAL-6445 --as_of_epoch_secs 1711620764 --shard_idxs 0'
+
+rkcl exec RVMHM219S004050 "dest=$(sudo find /mnt/wwn-*/internal/cassandra_snapshots/ -type d -name "*BACK_UP_COCKROACH_GLOBAL-*" -print -quit); sudo /opt/rubrik/src/go/bin/cockroach_backup_tool dump_csv --num_shards 4 --max_concurrency 4 --csv_dir $dest/../1711620764-BACK_UP_COCKROACH_GLOBAL-6445 --as_of_epoch_secs 1711620764 --shard_idxs 1"
+
+rkcl exec RVMHM219S004077 "dest=$(sudo find /mnt/wwn-*/internal/cassandra_snapshots/ -type d -name "*BACK_UP_COCKROACH_GLOBAL-*" -print -quit); sudo /opt/rubrik/src/go/bin/cockroach_backup_tool dump_csv --num_shards 4 --max_concurrency 4 --csv_dir $dest/../1711620764-BACK_UP_COCKROACH_GLOBAL-6445 --as_of_epoch_secs 1711620764 --shard_idxs 2"
+
+rkcl exec RVMHM219S004178 "dest=$(sudo find /mnt/wwn-*/internal/cassandra_snapshots/ -type d -name "*BACK_UP_COCKROACH_GLOBAL-*" -print -quit); sudo /opt/rubrik/src/go/bin/cockroach_backup_tool dump_csv --num_shards 4 --max_concurrency 4 --csv_dir $dest/../1711620764-BACK_UP_COCKROACH_GLOBAL-6445 --as_of_epoch_secs 1711620764 --shard_idxs 3"
+
+
+
+
+
+
+
+
+
+
+sudo /opt/rubrik/src/go/bin/cockroach_backup_tool restore --timestamp 1711620764 sd.absolute_path_translation,sd.app_blueprint,sd.app_cloud_machine_image,sd.archival_bucket_migration_map,sd.archival_file_checksum,sd.archival_file_entry,sd.archival_file_version,sd.archival_migrate_group_state,sd.archival_sharded_job_config,sd.archival_stale_file_entry,sd.archived_job_monitoring,sd.archived_replication_sharded_job_config,sd.auth_domain,sd.auth_domain_by_natural_id_2,sd.authorization_org,sd.authorization_org_by_auth_domain,sd.authorization_org_by_resource,sd.authorization_org_by_role,sd.aws_archival_location,sd.aws_compute_settings,sd.aws_customer_account,sd.aws_features,sd.aws_iam_user,sd.aws_rubrik_account,sd.azure_archival_location,sd.azure_compute_settings,sd.azure_customer_account,sd.azure_features,sd.azure_rubrik_account,sd.azure_rubrik_account_app,sd.bandwidth_stats,sd.blackout_window,sd.breakpoint,sd.bucket_map,sd.cdm_to_envoy_port_forwarding_rule,sd.cdp_history_month,sd.cdp_history_year,sd.cdp_replication_stream_source_state_history,sd.cdp_virtual_machine,sd.certificate,sd.certificate_request,sd.child_job_info,sd.child_stats_job_data,sd.cloud_compute,sd.cloud_compute_image,sd.cloud_instance_type,sd.cloud_native_source,sd.cloud_native_virtual_disk,sd.cloud_native_virtual_machine,sd.cluster_data_location,sd.cluster_events,sd.cluster_timezone,sd.compact_object_protection_log,sd.configuration_entry,sd.configuration_history,sd.connector_catalog,sd.csv_upload,sd.custom_report,sd.custom_report_file,sd.custom_report_subscription,sd.data_class_policy_config,sd.data_class_policy_job_metadata,sd.data_location,sd.db_log_snapshot,sd.dc_blob_store_group,sd.dc_blobstore_simhash,sd.deferred_ods_requests,sd.diff_group_spill,sd.distributed_barrier,sd.dlc_job_instance,sd.dummy_sharded_group_metadata,sd.email_send_status,sd.envoy_config,sd.envoy_to_cdm_port_forwarding_rule,sd.envoy_vm,sd.exchange_dag,sd.exchange_database,sd.exchange_server,sd.exclusion_pattern,sd.expiring_serialized_metadata,sd.failover_cluster_app,sd.failover_summary,sd.file_download,sd.files,sd.fileset,sd.fileset_by_host_id,sd.fileset_template,sd.floating_ip_locker,sd.floating_ip_map_entry,sd.glacier_archive_directory,sd.global_locks,sd.gps_authz,sd.gps_authz_permission,sd.group,sd.group_by_natural_id,sd.hdfs,sd.hdfs_template,sd.health_check_status,sd.health_monitor_policy,sd.held_snapshot,sd.historical_job_stats,sd.host,sd.host_audit_log_config,sd.host_by_agent_id,sd.host_configuration_entry,sd.host_failover_cluster,sd.host_rbs_management_info,sd.host_share,sd.host_state,sd.host_storage_array_volume,sd.host_volume,sd.hydrated_snappable,sd.hydrated_vmware_vm,sd.hyperv_cluster,sd.hyperv_mount,sd.hyperv_scvmm,sd.hyperv_server,sd.hyperv_virtual_disk,sd.hyperv_virtual_machine,sd.idempotent_operation_to_result,sd.immutable_archives_file_version,sd.iscsi_target,sd.job_action_time_series,sd.job_action_time_series_index,sd.job_auxiliary,sd.job_instance,sd.job_monitoring_count,sd.job_monitoring_info,sd.job_status,sd.key_rotation,sd.kmip_server,sd.kvsnapshot_file_instance_metadata,sd.ldap_user_to_groups_cache,sd.live_mount_ip_config,sd.malware_hunt_in_snapshot_updated,sd.malware_hunt_request,sd.managed_volume,sd.managed_volume_export,sd.mssql_availability_group,sd.mssql_availability_group_by_natural_id,sd.mssql_availability_group_to_database,sd.mssql_dag,sd.mssql_database,sd.mssql_database_batch,sd.mssql_database_by_group_database_id,sd.mssql_database_pre_41,sd.mssql_host_cleanup,sd.mssql_instance,sd.mssql_instance_to_database,sd.mssql_log_backup,sd.mssql_log_chain_page,sd.mssql_mount,sd.mssql_recoverable_chain,sd.mssql_secondary,sd.mssql_snappable_job_config,sd.nas_namespace,sd.nas_share,sd.nas_system,sd.nas_volume,sd.network_throttle,sd.network_throttle_spec,sd.node,sd.node_network,sd.node_to_mv_channel_map,sd.node_to_sla_mv_ingest_map,sd.notification_setting,sd.nutanix_cluster,sd.nutanix_mount,sd.nutanix_node,sd.nutanix_virtual_machine,sd.object_gc_vault_entry,sd.operation_queue,sd.oracle_db,sd.oracle_host,sd.oracle_log_deletion_metadata,sd.oracle_log_snapshot,sd.oracle_mount,sd.oracle_rac,sd.oracle_recoverable_chain,sd.oracle_snapshot_metadata,sd.orchestrator,sd.organization,sd.parallelized_scr_metadata,sd.password_hash,sd.pending_operation,sd.periodic_upgrade_prechecks,sd.polaris_managed_object,sd.polaris_remote_sla_domain,sd.polaris_replicate_coordinator,sd.precanned_report_index,sd.proxy_settings,sd.public_cloud_machine_image,sd.public_cloud_machine_instance,sd.read_write_lock,sd.recovered_object_id_mapping,sd.remote_cluster_job,sd.remote_snapshot1,sd.replication_job_state,sd.replication_location,sd.replication_orchestrator,sd.replication_pending_events,sd.replication_recovery_info,sd.replication_sharded_job_config,sd.report_data_source2,sd.resource_lambda_config,sd.role,sd.role_assignment,sd.role_authorization,sd.rsa_mfa_server,sd.saml_consumed_assertion,sd.saml_relay_state,sd.sap_hana_database,sd.sap_hana_recoverable_range,sd.sap_hana_system,sd.schema_version,sd.semaphore,sd.serialized_metadata,sd.sharded_chain_blob_store_group,sd.sharded_group_spill,sd.shard_map,sd.sla_domain,sd.sla_domain_to_snappable_per_node_cache,sd.sla_holder_to_sla_info,sd.sla_operation,sd.smb_domain,sd.smb_service,sd.smb_share,sd.smb_sid_to_uid_gid,sd.smtp_instance,sd.snapmirror_cloud,sd.snapmirror_cloud_objstore,sd.snapmirror_cloud_policy,sd.snapmirror_cloud_relationship,sd.snappable,sd.snappable_cloud_snapshots,sd.snappable_group,sd.snappable_operations_metadata,sd.snappable_recovery_spec,sd.snappable_stat,sd.snapshot,sd.snapshot_audit,sd.snapshot_indexing_metadata,sd.snapshot_integrity1,sd.snapshot_to_cloud_images,sd.snmp_mib_entry,sd.stat,sd.storage_array,sd.storage_array_volume,sd.storage_array_volume_group,sd.storm_instance,sd.storm_request,sd.stream_log_chain,sd.stream_logs,sd.stream_source_common,sd.subscription_info,sd.syslog_server,sd.tenant_host_config_ext,sd.tenant_network,sd.tenant_network_config,sd.tenant_quota,sd.tesseract_cluster,sd.tesseract_hierarchy_object,sd.tesseract_host,sd.tesseract_manifest,sd.tesseract_snappable,sd.test_alt_counter,sd.test_counter_hist,sd.test_counter_hist_new,sd.test_detached_counter,sd.test_hist_counter,sd.thrift_auth,sd.throttle,sd.throttling_setting,sd.tpr_action_groups,sd.tpr_request_details,sd.tpr_requests,sd.tracing_span,sd.traffic_flow_mgm_object,sd.traffic_flow_mgm_rule,sd.udf_database,sd.udf_database_group,sd.udf_database_instance,sd.udf_db,sd.udf_db_group,sd.udf_db_instance,sd.upgrade,sd.upload_group_state,sd.user,sd.user_audit_log_capture_config,sd.user_by_name,sd.user_by_natural_id,sd.user_defined_tag,sd.user_profile_2,sd.user_session_3,sd.vcd_vim_server,sd.virtual_disk_cdp_handle,sd.virtual_ip_assignment,sd.vmware_compute_cluster,sd.vmware_datacenter,sd.vmware_datastore,sd.vmware_datastore_cluster,sd.vmware_folder,sd.vmware_guest_credential,sd.vmware_host,sd.vmware_hotadd_proxy,sd.vmware_io_filter,sd.vmware_mount,sd.vmware_network,sd.vmware_network_by_host_id,sd.vmware_resource_pool,sd.vmware_snapshot,sd.vmware_snapshot_disk,sd.vmware_storage_policy,sd.vmware_tag,sd.vmware_tag_category,sd.vmware_vcd,sd.vmware_vcd_by_natural_id,sd.vmware_vcd_catalog,sd.vmware_vcd_org,sd.vmware_vcd_org_vdc,sd.vmware_vcd_provider_vdc,sd.vmware_vcd_vapp,sd.vmware_vcenter,sd.vmware_vcenter_by_natural_id,sd.vmware_virtual_app,sd.vmware_virtual_disk,sd.vmware_virtual_disk_by_uuid,sd.vmware_virtual_disk_snapshot_disk_index,sd.vmware_virtual_machine,sd.vmware_virtual_machine_snapshot_index,sd.volume_group,sd.volume_group_mount,sd.volume_groups_by_host_id,sd.windows_cluster,sd.windows_cluster_by_natural_id
+
+
+
+Needed to add sd.json permission step to the yml file:
+
+
+Needed to find --tables_to_restore from files
+
+
+Found the tables to be restored from the database dump:
+ls | grep 'sd\.' | cut -d '.' -f5 | grep -v '__static' | grep -v '__spills' | sed 's/^/sd./' | sort | uniq | paste -sd, -
+
+
+sudo /opt/rubrik/src/go/bin/cockroach_backup_tool restore --timestamp 1711620764 --tables_to_restore
+
+
+
+alter database sd rename to sd_backup;
+
+alter database sd_restore rename to sd;
+
+
+
+Find the tables that are missing in sd database (the ones that were blacklisted):
+
+SELECT table_name
+FROM [SHOW TABLES FROM sd_backup]
+EXCEPT
+SELECT table_name
+FROM [SHOW TABLES FROM sd];
+
+
+ls -ltrh /mnt/*/internal/cassandra_snapshots/
+
+
+
+
+Backup keeps failing with:
+
+
+
+
+
+root@:26257/defaultdb> select * from sd.__additive_schema_version limit 1;
+  token__id | id | current_version  
++-----------+----+-----------------+
+(0 rows)
+
+Time: 4.011399ms
+
+root@:26257/defaultdb> select * from sd_backup.__additive_schema_version limit 1;
+      token__id      |         id         | current_version  
++--------------------+--------------------+-----------------+
+  101229068488096613 | CURRENT_VERSION_ID |            1426  
+(1 row)
+
+Time: 5.288091ms
+
+root@:26257/defaultdb> insert into sd.__additive_schema_version (token__id, id, current_version) values(101229068488096613, CURRENT_VERSION_ID, 1426);
+
+
+
+
+root@:26257/defaultdb> select * from sd.__schema_version_state limit 1;
+  single_id | state | n_actions  
++-----------+-------+-----------+
+(0 rows)
+
+Time: 5.455049ms
+
+root@:26257/defaultdb> select * from sd_backup.__schema_version_state limit 1;
+  single_id | state | n_actions  
++-----------+-------+-----------+
+    true    | INIT  |         0  
+(1 row)
+
+Time: 4.38771ms
+
+root@:26257/defaultdb> insert into sd.__schema_version_state (single_id, state, n_actions) values(true, 'INIT', 0);
+INSERT 1
+
+Time: 4.929041ms
+
+
+
+
+advertised_seed_host=$(ip addr show dev bond0 | grep '\<inet\>' | awk '{ print $2 }' | cut -d'/' -f1)
+
+rkcl exec RVMHM219S004219 "sudo cockroach start --certs-dir /var/lib/rubrik/certs/cockroachdb --store /var/lib/cockroachdb --advertise-addr $advertised_seed_host --port 26257 --http-host localhost --http-port 26258 --cache 1536MiB --max-sql-memory 1536MiB --log-dir=/var/log/cockroachdb --logtostderr=NONE --background"
+
+rkcl exec RVMHM219S004219 "sudo cockroach init --certs-dir /var/lib/rubrik/certs/cockroachdb --port 26257"
+
+
+rkcl exec RVMHM219S004050 "cockroach start --certs-dir /var/lib/rubrik/certs/cockroachdb --store /var/lib/cockroachdb --advertise-addr 10.30.10.154 --port 26257 --http-host localhost --http-port 26258 --cache 1536MiB --max-sql-memory 1536MiB --join 10.30.10.158:26257 --log-dir=/var/log/cockroachdb --logtostderr=NONE --background"
+
+rkcl exec RVMHM219S004178 "cockroach start --certs-dir /var/lib/rubrik/certs/cockroachdb --store /var/lib/cockroachdb --advertise-addr 10.30.10.157 --port 26257 --http-host localhost --http-port 26258 --cache 1536MiB --max-sql-memory 1536MiB --join 10.30.10.158:26257 --log-dir=/var/log/cockroachdb --logtostderr=NONE --background"
+
+rkcl exec RVMHM219S004077 "cockroach start --certs-dir /var/lib/rubrik/certs/cockroachdb --store /var/lib/cockroachdb --advertise-addr 10.30.10.155 --port 26257 --http-host localhost --http-port 26258 --cache 1536MiB --max-sql-memory 1536MiB --join 10.30.10.158:26257 --log-dir=/var/log/cockroachdb --logtostderr=NONE --background"
+
+
+
+rkcockroach node status --host localhost:26257 --all
+
+
+sudo -i cockroach sql --host localhost:26257 -e "create database sd;"
+
+
+
+
+
+
+
+
+
+sudo /opt/rubrik/src/go/bin/cockroach_schema_manager fresh_install --json_schema /mnt/wwn-0x5000c500e3c57857/internal/cassandra_snapshots/1711620764-BACK_UP_COCKROACH_GLOBAL-6445/sd.json  --tables_to_install $(cat tables.txt)

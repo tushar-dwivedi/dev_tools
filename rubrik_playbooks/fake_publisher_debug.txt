@@ -1,0 +1,7 @@
+
+
+Start publisher with dlv:
+
+/snap/goland/281/plugins/go-plugin/lib/dlv/linux/dlv --listen=127.0.0.1:38105 --headless=true --api-version=2 --check-go-version=false --only-same-user=false exec  /usr/local/go/bin/go run ./callisto/cdc/publisher/cdc_data_publisher -- -logtostderr INFO --config /home/tushar/Documents/projects/sdmain/conf/cdc_data_publisher/config.json
+
+Connect to dlv:
