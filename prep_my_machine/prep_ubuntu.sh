@@ -73,7 +73,7 @@ sudo apt install -y scala
 sudo apt install -y openjdk-11-jdk
 sudo apt install -y python3.10-venv
 sudo apt install -y python3 python3-pip
-
+sudo apt-get install python3-tk python3-dev
 
 
 # Python packages for automation
