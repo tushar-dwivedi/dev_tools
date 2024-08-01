@@ -9,6 +9,12 @@ if ! command -v snap &> /dev/null; then
     sudo apt install -y snapd
 fi
 
+
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository ppa:jgmath2000/et
+sudo apt-get update
+sudo apt-get install et
+
 # Install development tools via snap
 echo "Installing development tools via snap..."
 
@@ -37,8 +43,9 @@ sudo snap install --classic pycharm-community       # PyCharm Community Edition
 # sudo snap install --classic webstorm              # WebStorm (JavaScript IDE)
 sudo snap install postman                           # Postman (API testing)
 
-# Productivity tools
+# Productivity/Communication tools
 sudo snap install slack                             # Slack (Team communication)
+sudo snap install zoom-client                       # Zoom
 sudo snap install todoist                           # Todoist (Task management)
 
 # SSH and Remote Access
