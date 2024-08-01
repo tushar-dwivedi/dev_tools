@@ -65,7 +65,7 @@ sudo snap install go                                # Go language
 sudo snap install go                                # Go language
 
 # Install Java JDK
-sudo snap install --classic openjdk                  # OpenJDK (Java Development Kit)
+sudo snap install --classic openjdk11               # OpenJDK (Java Development Kit)
 
 # Install Scala
 sudo snap install scala                             # Scala
