@@ -77,7 +77,7 @@ python3 -m venv ~/.venv
 source ~/.venv/bin/activate
 
 # Install Python packages
-pip install -r requirements.txt
+pip install -r requirement.txt
 
 echo "Development tools and Python packages installed successfully!"
 
