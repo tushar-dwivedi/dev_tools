@@ -18,7 +18,7 @@ sudo apt-get install tilix                          # Tilix (Advanced terminal e
 
 # Version control
 sudo snap install --classic gitkraken               # GitKraken (Git GUI)
-sudo snap install --classic git                     # Git (Command-line version)
+# sudo snap install --classic git                     # Git (Command-line version)
 
 # Docker and container management
 sudo snap install docker                            # Docker
@@ -48,7 +48,7 @@ sudo snap install remmina                           # Remmina (Remote desktop cl
 
 # Debugging and automation
 sudo snap install --classic insomnia                # Insomnia (REST client and debugging)
-sudo snap install --classic automation-tool         # Custom tool for automation (if available)
+#sudo snap install --classic automation-tool        # Custom tool for automation (if available)
 # sudo snap install --classic pprof-viewer          # pprof-viewer (Visualizing Go pprof data)
 
 # Desktop and window management
