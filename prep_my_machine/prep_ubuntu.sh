@@ -42,13 +42,14 @@ sudo snap install slack                             # Slack (Team communication)
 sudo snap install todoist                           # Todoist (Task management)
 
 # SSH and Remote Access
-sudo snap install --classic openssh                 # OpenSSH (SSH client)
+# sudo snap install --classic openssh               # OpenSSH (SSH client)
+sudo snap install ondra-snap-ssh-debug              # OpenSSH (SSH client)
 sudo snap install remmina                           # Remmina (Remote desktop client)
 
 # Debugging and automation
 sudo snap install --classic insomnia                # Insomnia (REST client and debugging)
 sudo snap install --classic automation-tool         # Custom tool for automation (if available)
-# sudo snap install --classic pprof-viewer            # pprof-viewer (Visualizing Go pprof data)
+# sudo snap install --classic pprof-viewer          # pprof-viewer (Visualizing Go pprof data)
 
 # Desktop and window management
 sudo apt install -y wmctrl                          # wmctrl (Window management command)
@@ -56,7 +57,6 @@ sudo apt install -y xdotool                         # xdotool (Simulate keyboard
 sudo apt install -y devilspie2                      # devilspie2 (Advanced window manipulation)
 
 # Programming languages and runtimes
-sudo snap install --classic python                  # Python
 sudo snap install --classic node                    # Node.js
 sudo snap install --classic go                      # Go language
 
