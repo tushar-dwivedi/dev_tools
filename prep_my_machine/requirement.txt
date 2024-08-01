@@ -1,0 +1,15 @@
+# Automation and UI testing packages
+pyautogui                 # For controlling the mouse and keyboard
+selenium                  # For automating web browser interactions
+pytest                    # For writing and running tests
+requests                  # For making HTTP requests
+beautifulsoup4            # For web scraping and parsing HTML
+pandas                    # For data manipulation and analysis
+numpy                     # For numerical operations
+schedule                  # For scheduling tasks
+pytest-xdist              # For parallel test execution
+loguru                    # For logging
+
+# Additional utilities
+colorama                  # For colored terminal text
+python-dotenv             # For managing environment variables
