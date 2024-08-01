@@ -55,8 +55,9 @@ tunnel_devvm(){
 
 vpn_r(){
 	sudo apt-get remove globalprotect;
+	sudo apt install libqt5webkit5
 	sudo dpkg -P globalprotect;
-	sudo dpkg -i '/home/tushar/Downloads/GlobalProtect_UI_deb-6.0.1.1-6.deb';
+	sudo dpkg -i '/home/tushardwivedi/Downloads/Global_Protect_and_vpn/GlobalProtect_UI_deb-6.0.1.1-6.deb';
 	systemctl --user daemon-reload;
 }
 
